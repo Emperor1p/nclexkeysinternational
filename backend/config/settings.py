@@ -37,35 +37,102 @@ SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app']
 
-# Cloudinary Configuration
-cloudinary.config(
-    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
-    secure=True
-)
+# Environment Variables Template (.env file)
+# Database
+DB_NAME = 'nclex'
+DB_HOST = 'mongodb+srv://wariz:dbWariz@nclex.jfmioqk.mongodb.net/?retryWrites=true&w=majority&appName=nclex'
+DB_USER = 'wariz'
+DB_PASSWORD = 'dbWariz'
+DB_AUTH_SOURCE = 'admin'
+DATABASE_URL = 'postgresql://postgres:bxAcBqbOfsjmjHZFBQRbszYUQGofOhTS@shinkansen.proxy.rlwy.net:40760/railway'
+
+# JWT
+JWT_SECRET_KEY = 'm8Ef15a6jVmwV13gKxFpSu32t8EhCiegP6jzByMHGBrWJOYyvi7M3DpNB2MfxpKVDlxfHARMWgrYT_8ASh0fkg'
+
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'drevianey@gmail.com'
+EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
+DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME = 'dvmse886w'
+CLOUDINARY_API_KEY = '489264838748466'
+CLOUDINARY_API_SECRET = 'qUYlv4AnJeqHCA6he_zH-qX_J9E'
+
+# SITE SETTINGS
+FRONTEND_URL = 'http://localhost:3000'
+SITE_URL = 'http://localhost:8000'
+
+# Optional: YouTube API key for better duration extraction
+YOUTUBE_API_KEY = 'your-youtube-api-key'
+
+# PAYMENT GATEWAY SETTINGS
+
+# PAYSTACK SETTINGS (Primary Gateway - Nigerian Market)
+PAYSTACK_PUBLIC_KEY = 'pk_test_89113c66822ee965d55040c96fe15d986bc4027e'
+PAYSTACK_SECRET_KEY = 'sk_test_cb15fc824410087d4c44feb154deebcc8dbbc31e'
+PAYSTACK_WEBHOOK_SECRET = 'your_webhook_secret_from_paystack_dashboard'
+PAYSTACK_SUBACCOUNT_CODE = ''
+PAYSTACK_SPLIT_CODE = ''
+
+# FLUTTERWAVE SETTINGS (Secondary Gateway - Multi-country)
+FLUTTERWAVE_PUBLIC_KEY = 'FLWPUBK_TEST-5fabb620c56266196d9b0137bea69763-X'
+FLUTTERWAVE_SECRET_KEY = 'FLWSECK_TEST-d51c473fb205c99e70d234fb7e66dfa8-X'
+FLUTTERWAVE_WEBHOOK_SECRET = '07eee1090b3f97904bf966e2f6f388f1954352b51ebeef505e6b95a366a4834d'
+FLUTTERWAVE_ENCRYPTION_KEY = 'FLWSECK_TEST4a0345d92dac'
+
+# DEVELOPMENT SETTINGS
+DEBUG = True
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
+
+# Redis (for caching and rate limiting)
+# REDIS_URL = 'redis://127.0.0.1:6379/1'
+
+# Allowed Hosts
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app']
+
+# CORS Allowed origins
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
+
+# Security
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 31536000
+
+# Celery Configuration - Using local memory instead of Redis
+CELERY_BROKER_URL = 'memory://'
+CELERY_RESULT_BACKEND = 'rpc://'
 
 # Payment Gateway Settings
 PAYMENT_GATEWAYS = {
     'paystack': {
-        'public_key': os.environ.get('PAYSTACK_PUBLIC_KEY', ''),
-        'secret_key': os.environ.get('PAYSTACK_SECRET_KEY', ''),
+        'public_key': 'pk_test_89113c66822ee965d55040c96fe15d986bc4027e',
+        'secret_key': 'sk_test_cb15fc824410087d4c44feb154deebcc8dbbc31e',
         'base_url': 'https://api.paystack.co',
-        'webhook_secret': os.environ.get('PAYSTACK_WEBHOOK_SECRET', ''),
-        # Optional: For revenue sharing with instructors
-        'subaccount_code': os.getenv('PAYSTACK_SUBACCOUNT_CODE', None),
-        'split_code': os.environ.get('PAYSTACK_SPLIT_CODE', None),
+        'webhook_secret': 'your_webhook_secret_from_paystack_dashboard',
+        'subaccount_code': '',
+        'split_code': '',
     },
     'flutterwave': {
-        'public_key': os.environ.get('FLUTTERWAVE_PUBLIC_KEY', ''),
-        'secret_key': os.environ.get('FLUTTERWAVE_SECRET_KEY', ''),
+        'public_key': 'FLWPUBK_TEST-5fabb620c56266196d9b0137bea69763-X',
+        'secret_key': 'FLWSECK_TEST-d51c473fb205c99e70d234fb7e66dfa8-X',
         'base_url': 'https://api.flutterwave.com/v3',
-        'webhook_secret': os.environ.get('FLUTTERWAVE_WEBHOOK_SECRET', ''),
-        'encryption_key': os.environ.get('FLUTTERWAVE_ENCRYPTION_KEY', ''),
+        'webhook_secret': '07eee1090b3f97904bf966e2f6f388f1954352b51ebeef505e6b95a366a4834d',
+        'encryption_key': 'FLWSECK_TEST4a0345d92dac',
     }
 }
+
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name='dvmse886w',
+    api_key='489264838748466',
+    api_secret='qUYlv4AnJeqHCA6he_zH-qX_J9E',
+    secure=True
+)
 
 # Payment configuration
 PAYMENT_SETTINGS = {
@@ -77,9 +144,6 @@ PAYMENT_SETTINGS = {
     'INSTRUCTOR_REVENUE_SHARE': Decimal('0.70'),  # 70% to instructor
     'PLATFORM_REVENUE_SHARE': Decimal('0.30'),  # 30% to platform
 }
-
-# Optional: YouTube API key for better duration extraction
-YOUTUBE_API_KEY = os.environ.get('YOUTUBE_API_KEY')
 
 # Video processing settings
 VIDEO_PROCESSING = {
@@ -117,7 +181,12 @@ NIGERIAN_BANK_CODES = {
 DEFAULT_CURRENCY = 'NGN'
 SUPPORTED_CURRENCIES = ['NGN', 'USD', 'GHS', 'KES']
 DEFAULT_PAYMENT_GATEWAY = 'paystack'
-SITE_URL = os.environ.get('SITE_URL', 'https://yourdomain.com')
+SITE_URL = 'http://localhost:8000'
+
+# Bank Account Information
+BANK_ACCOUNT_NUMBER = '2046498146'
+BANK_NAME = 'First Bank of Nigeria'
+BANK_ACCOUNT_NAME = 'NCLEX KEYS'
 
 # Course Creator Settings
 ALLOW_USER_COURSE_CREATION = True
@@ -203,45 +272,54 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # JWT Settings
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 JWT_ACCESS_TOKEN_LIFETIME = 60  # minutes
 JWT_REFRESH_TOKEN_LIFETIME = 7   # days
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = 'drevianey@gmail.com'
+EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
+DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
 
 # Frontend URL (for email links)
-FRONTEND_URL = os.environ.get('FRONTEND_URL')
+FRONTEND_URL = 'http://localhost:3000'
 
+# Database Settings for PostgreSQL
+# Database Settings - Temporary SQLite for development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Uncomment the PostgreSQL configuration when Railway is back online
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://postgres:bxAcBqbOfsjmjHZFBQRbszYUQGofOhTS@shinkansen.proxy.rlwy.net:40760/railway'
+#     )
+# }
+
+# MongoDB Configuration (commented out - using PostgreSQL instead)
 """
 # Database Settings for MongoDB (using djongo)
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': os.environ.get('DB_NAME'),
+        'NAME': 'nclex',
         'CLIENT': {
-            'host': os.environ.get('DB_HOST'),
-            'username': os.environ.get('DB_USER'),
-            'password': os.environ.get('DB_PASSWORD'),
-            'authSource': os.environ.get('DB_AUTH_SOURCE', 'admin'),
+            'host': 'mongodb+srv://wariz:dbWariz@nclex.jfmioqk.mongodb.net/?retryWrites=true&w=majority&appName=nclex',
+            'username': 'wariz',
+            'password': 'dbWariz',
+            'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1',
         }
     }
 }
 """
-
-# Database Settings for PostgreSQL
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
-}
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'
@@ -268,29 +346,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Cache Settings (for rate limiting)
-if os.environ.get("REDIS_URL"):
-    # Use Redis if environment variable is set
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': os.environ.get("REDIS_URL"),
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                # Optional: password, SSL, parser class, etc.
-            }
-        }
+# Cache Configuration - Temporarily disabled Redis
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
-    print("✅ Using Redis cache:", os.environ.get("REDIS_URL"))
-else:
-    # Fallback to built-in in-memory cache
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-            'LOCATION': 'unique',
-        }
-    }
-    print("⚠️ Using in-memory cache (Redis not configured)")
+}
+
+# Redis Configuration (commented out until Redis is installed)
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
 
 
 # GeoIP2 Settings (for location detection)
@@ -301,8 +374,8 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
 # Security Settings
-SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT').lower() == 'true'
-SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS'))
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -310,7 +383,7 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
 # CORS Settings (if using django-cors-headers)
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -349,8 +422,13 @@ RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = 'default'
 
 # Celery Settings (for background tasks)
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
+# Celery Configuration - Using local memory instead of Redis
+CELERY_BROKER_URL = 'memory://'
+CELERY_RESULT_BACKEND = 'rpc://'
+
+# Redis Configuration (commented out until Redis is installed)
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_TIMEZONE = 'UTC'
 
 CELERY_TASK_ROUTES = {
@@ -667,9 +745,9 @@ USE_TZ = True
 
 # Media files configuration for Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
+    'CLOUD_NAME': 'dvmse886w',
+    'API_KEY': '489264838748466',
+    'API_SECRET': 'qUYlv4AnJeqHCA6he_zH-qX_J9E'
 }
 
 # Use Cloudinary for media storage
