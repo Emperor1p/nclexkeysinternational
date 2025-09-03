@@ -37,7 +37,7 @@ SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app', 'testserver']
 
 # Environment Variables Template (.env file)
 # Database
@@ -46,7 +46,7 @@ DB_HOST = 'mongodb+srv://wariz:dbWariz@nclex.jfmioqk.mongodb.net/?retryWrites=tr
 DB_USER = 'wariz'
 DB_PASSWORD = 'dbWariz'
 DB_AUTH_SOURCE = 'admin'
-DATABASE_URL = 'postgresql://postgres:bxAcBqbOfsjmjHZFBQRbszYUQGofOhTS@shinkansen.proxy.rlwy.net:40760/railway'
+
 
 # JWT
 JWT_SECRET_KEY = 'm8Ef15a6jVmwV13gKxFpSu32t8EhCiegP6jzByMHGBrWJOYyvi7M3DpNB2MfxpKVDlxfHARMWgrYT_8ASh0fkg'
@@ -94,7 +94,7 @@ SECURE_HSTS_SECONDS = 0
 # REDIS_URL = 'redis://127.0.0.1:6379/1'
 
 # Allowed Hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app', 'testserver']
 
 # CORS Allowed origins
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
@@ -237,7 +237,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'common.debug_middleware.DebugUserMiddleware',
-    'common.middleware.SessionValidationMiddleware',
     'common.middleware.RateLimitMiddleware', 
     'common.middleware.SecurityHeadersMiddleware',  
     'common.middleware.RequestLoggingMiddleware',
@@ -287,12 +286,15 @@ DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
 # Frontend URL (for email links)
 FRONTEND_URL = 'http://localhost:3000'
 
-# Database Settings for PostgreSQL
-# Database Settings - Temporary SQLite for development
+# Database Settings for Supabase PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.toqebcakbusqieamzziw',
+        'PASSWORD': '/xapZ@Vn&c4!Cw/',
+        'HOST': 'aws-1-eu-north-1.pooler.supabase.com',
+        'PORT': '5432',
     }
 }
 
@@ -303,23 +305,7 @@ DATABASES = {
 #     )
 # }
 
-# MongoDB Configuration (commented out - using PostgreSQL instead)
-"""
-# Database Settings for MongoDB (using djongo)
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'nclex',
-        'CLIENT': {
-            'host': 'mongodb+srv://wariz:dbWariz@nclex.jfmioqk.mongodb.net/?retryWrites=true&w=majority&appName=nclex',
-            'username': 'wariz',
-            'password': 'dbWariz',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
-        }
-    }
-}
-"""
+
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'
@@ -381,6 +367,9 @@ SECURE_HSTS_PRELOAD = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
+
+# URL Settings
+APPEND_SLASH = False  # Set to False to prevent Django from adding trailing slashes
 
 # CORS Settings (if using django-cors-headers)
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
