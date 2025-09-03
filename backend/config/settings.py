@@ -100,16 +100,41 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app', '
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000', 
     'http://127.0.0.1:3000',
-    'http://192.168.222.151:3000',  # Your current frontend IP
-    'http://192.168.222.151:3001',  # Alternative port if needed
+    'http://192.168.222.151:3000',
+    'http://192.168.222.151:3001',
+    'http://192.168.222.151:3002'
 ]
 
-# Allow all local network origins (for development)
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http://192\.168\.\d+\.\d+:\d+$",  # Allow any 192.168.x.x IP
-    r"^http://10\.\d+\.\d+\.\d+:\d+$",   # Allow any 10.x.x.x IP
-    r"^http://172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+:\d+$",  # Allow any 172.16-31.x.x IP
+# Additional CORS settings for development
+CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# For development, allow any local network IP (more flexible)
+if DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http://192\.168\.\d+\.\d+:\d+$",  # Allow any 192.168.x.x:port
+        r"^http://10\.\d+\.\d+\.\d+:\d+$",   # Allow any 10.x.x.x:port
+        r"^http://172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+:\d+$",  # Allow 172.16-31.x.x:port
+    ]
 
 # Security
 SECURE_SSL_REDIRECT = False
@@ -384,38 +409,8 @@ X_FRAME_OPTIONS = 'DENY'
 APPEND_SLASH = False  # Set to False to prevent Django from adding trailing slashes
 
 # CORS Settings (if using django-cors-headers)
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
-    'http://127.0.0.1:3000',
-    'http://192.168.222.151:3000',  # Your current frontend IP
-    'http://192.168.222.151:3001',  # Alternative port if needed
-]
-
+# Note: CORS_ALLOWED_ORIGINS is defined above at line 99
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = False  # Only allow specified origins
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
-
-# Additional CORS settings for better compatibility
-CORS_EXPOSE_HEADERS = ['content-type', 'authorization']
-CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours
 
 # REST Framework Settings
 REST_FRAMEWORK = {
