@@ -94,7 +94,15 @@ SECURE_HSTS_SECONDS = 0
 # REDIS_URL = 'redis://127.0.0.1:6379/1'
 
 # Allowed Hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app', 'testserver']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    '192.168.222.151',
+    '192.168.222.151:8000',
+    'api.nclex.com', 
+    '.ngrok-free.app', 
+    'testserver'
+]
 
 # CORS Allowed origins
 CORS_ALLOWED_ORIGINS = [
@@ -321,7 +329,7 @@ EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
 DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
 
 # Frontend URL (for email links)
-FRONTEND_URL = 'http://localhost:3000'
+FRONTEND_URL = 'http://192.168.222.151:3000'
 
 # Database Settings for Supabase PostgreSQL
 DATABASES = {
