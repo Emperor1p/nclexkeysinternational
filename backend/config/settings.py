@@ -37,7 +37,7 @@ SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'api.nclex.com', '.ngrok-free.app', 'testserver']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.222.151', 'api.nclex.com', '.ngrok-free.app', 'testserver']
 
 # Environment Variables Template (.env file)
 # Database
@@ -72,9 +72,9 @@ YOUTUBE_API_KEY = 'your-youtube-api-key'
 
 # PAYMENT GATEWAY SETTINGS
 
-# PAYSTACK SETTINGS (Primary Gateway - Nigerian Market)
-PAYSTACK_PUBLIC_KEY = 'pk_test_89113c66822ee965d55040c96fe15d986bc4027e'
-PAYSTACK_SECRET_KEY = 'sk_test_cb15fc824410087d4c44feb154deebcc8dbbc31e'
+# PAYSTACK SETTINGS (Primary Gateway - Nigerian Market) - LIVE CREDENTIALS
+PAYSTACK_PUBLIC_KEY = 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19'
+PAYSTACK_SECRET_KEY = 'sk_live_36eb68b72a4a663e9dd4109431e7d4b0e66468d1'
 PAYSTACK_WEBHOOK_SECRET = 'your_webhook_secret_from_paystack_dashboard'
 PAYSTACK_SUBACCOUNT_CODE = ''
 PAYSTACK_SPLIT_CODE = ''
@@ -89,6 +89,9 @@ FLUTTERWAVE_ENCRYPTION_KEY = 'FLWSECK_TEST4a0345d92dac'
 DEBUG = True
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
+
+# Development Rate Limiting (disable for testing)
+DISABLE_RATE_LIMITING = False  # Set to False in production
 
 # Redis (for caching and rate limiting)
 # REDIS_URL = 'redis://127.0.0.1:6379/1'
@@ -108,13 +111,14 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000', 
     'http://127.0.0.1:3000',
+    'http://192.168.96.151:3000',  # Your actual network IP
     'http://192.168.222.151:3000',
     'http://192.168.222.151:3001',
     'http://192.168.222.151:3002'
 ]
 
 # Additional CORS settings for development
-CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
+CORS_ALLOW_ALL_ORIGINS = True  # Temporarily enabled for testing
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -142,6 +146,8 @@ if DEBUG:
         r"^http://192\.168\.\d+\.\d+:\d+$",  # Allow any 192.168.x.x:port
         r"^http://10\.\d+\.\d+\.\d+:\d+$",   # Allow any 10.x.x.x:port
         r"^http://172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+:\d+$",  # Allow 172.16-31.x.x:port
+        r"^http://localhost:\d+$",  # Allow any localhost port
+        r"^http://127\.0\.0\.1:\d+$",  # Allow any 127.0.0.1 port
     ]
 
 # Security
@@ -272,6 +278,7 @@ INSTALLED_APPS = [
     'chats',
     'payments',
     'adminpanel',
+    'messaging',
 ]
 
 MIDDLEWARE = [
@@ -282,7 +289,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'common.debug_middleware.DebugUserMiddleware',
-    'common.middleware.RateLimitMiddleware', 
+    # 'common.middleware.RateLimitMiddleware',  # Temporarily disabled for testing 
     'common.middleware.SecurityHeadersMiddleware',  
     'common.middleware.RequestLoggingMiddleware',
     'common.middleware.UserActivityMiddleware', 
@@ -331,15 +338,11 @@ DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
 # Frontend URL (for email links)
 FRONTEND_URL = 'http://192.168.222.151:3000'
 
-# Database Settings for Supabase PostgreSQL
+# Database Settings for Local SQLite
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.toqebcakbusqieamzziw',
-        'PASSWORD': '/xapZ@Vn&c4!Cw/',
-        'HOST': 'aws-1-eu-north-1.pooler.supabase.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -414,7 +417,7 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
 # URL Settings
-APPEND_SLASH = False  # Set to False to prevent Django from adding trailing slashes
+APPEND_SLASH = True  # Set to True for consistent URL handling
 
 # CORS Settings (if using django-cors-headers)
 # Note: CORS_ALLOWED_ORIGINS is defined above at line 99
