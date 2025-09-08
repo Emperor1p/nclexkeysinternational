@@ -525,9 +525,7 @@ export const paymentAPI = {
           payload.currency = params.currency || 'NGN'
         }
       } else if (params.payment_type === 'student_registration' && params.user_data) {
-        payload.email = params.user_data.email
-        payload.full_name = params.user_data.full_name
-        payload.phone_number = params.user_data.phone_number
+        payload.user_data = params.user_data
         payload.amount = params.amount || 5000 // Student registration fee
         payload.currency = params.currency || 'NGN'
       }
@@ -547,9 +545,7 @@ export const paymentAPI = {
           payload.currency = currency
         }
       } else if (paymentType === 'student_registration' && userData) {
-        payload.email = userData.email
-        payload.full_name = userData.full_name
-        payload.phone_number = userData.phone_number
+        payload.user_data = userData
         payload.amount = amount || 5000 // Student registration fee
         payload.currency = currency || 'NGN'
       }
