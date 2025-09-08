@@ -557,7 +557,7 @@ export const paymentAPI = {
     
     console.log('Initializing payment with payload:', payload)
     
-    return apiRequest(`/api/payments/initialize`, {
+    return apiRequest(`/api/payments/initialize/`, {
       method: "POST",
       body: JSON.stringify(payload),
     })
@@ -565,7 +565,7 @@ export const paymentAPI = {
 
   // Verify payment status
   verifyPayment: async (paymentId) => {
-    return apiRequest(`/api/payments/verify/${paymentId}`, {
+    return apiRequest(`/api/payments/verify/${paymentId}/`, {
       method: "POST",
     })
   },
