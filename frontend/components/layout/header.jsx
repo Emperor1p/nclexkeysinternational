@@ -9,7 +9,7 @@ export function Header() {
     <header className="flex items-center justify-between h-20 px-4 md:px-6 bg-white/80 backdrop-blur-sm shadow-sm fixed w-full z-50 top-0">
       <Link href="/" className="flex items-center gap-2 text-xl font-bold text-gray-800">
         <Stethoscope className="h-8 w-8 text-[#4F46E5]" />
-        NCLEX KEYS
+        Nclexkeys
       </Link>
       <nav className="hidden md:flex items-center gap-8 text-base font-medium">
         <Link href="/" className="text-gray-600 hover:text-[#4F46E5] transition-colors">

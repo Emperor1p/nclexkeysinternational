@@ -1,4 +1,4 @@
-# Vercel Deployment Guide for NCLEX Frontend
+# Vercel Deployment Guide for Nclexkeys Frontend
 
 ## Prerequisites
 
@@ -59,7 +59,7 @@ NEXT_PUBLIC_BACKEND_URL=https://nclex-backend.onrender.com
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_your_live_paystack_public_key_here
 NEXT_PUBLIC_VIDEO_STREAMING_URL=https://nclex-backend.onrender.com/media/videos
 NEXT_PUBLIC_APP_NAME=Nclexkeys
-NEXT_PUBLIC_APP_DESCRIPTION=Comprehensive NCLEX preparation platform
+NEXT_PUBLIC_APP_DESCRIPTION=Comprehensive Nclexkeys preparation platform
 NEXT_PUBLIC_APP_URL=https://nclexintl.vercel.app
 NEXT_PUBLIC_ENABLE_VIDEO_STREAMING=true
 NEXT_PUBLIC_ENABLE_PAYMENT=true
@@ -235,4 +235,4 @@ Once set up, Vercel will automatically deploy when you push to your main branch.
 
 - Vercel Documentation: [vercel.com/docs](https://vercel.com/docs)
 - Next.js Documentation: [nextjs.org/docs](https://nextjs.org/docs)
-- NCLEX Platform Support: nclexkeysintl.academy@gmail.com
+- Nclexkeys Platform Support: nclexkeysintl.academy@gmail.com

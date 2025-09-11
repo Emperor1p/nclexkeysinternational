@@ -53,10 +53,10 @@ export function HeroSection() {
         {/* Left Content Section */}
         <div className="space-y-6 text-center lg:text-left animate-fade-in">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 animate-slide-in-up">
-            Master the <span className="text-[#4F46E5] animate-pulse">NCLEX</span> with Expert Guidance
+            Master the <span className="text-[#4F46E5] animate-pulse">Nclexkeys</span> with Expert Guidance
           </h1>
           <p className="text-lg md:text-xl text-gray-700 animate-slide-in-up delay-100">
-            Join thousands of nursing students who have successfully passed their NCLEX exam with our comprehensive
+            Join thousands of nursing students who have successfully passed their Nclexkeys exam with our comprehensive
             virtual tutoring program.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4 animate-slide-in-up delay-200">
@@ -106,7 +106,7 @@ export function HeroSection() {
             <div className="absolute inset-8 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-full flex items-center justify-center shadow-2xl animate-pulse">
               <div className="text-center">
                 <GraduationCap className="h-16 w-16 mx-auto mb-4 text-[#4F46E5] animate-bounce" />
-                <h3 className="text-xl font-bold text-gray-800 mb-2 animate-fade-in">NCLEX Success</h3>
+                <h3 className="text-xl font-bold text-gray-800 mb-2 animate-fade-in">Nclexkeys Success</h3>
                 <p className="text-sm text-gray-600 animate-fade-in delay-500">Your Journey Starts Here</p>
               </div>
             </div>

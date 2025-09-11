@@ -6,27 +6,27 @@ import { Toaster } from "@/components/ui/toaster" // Assuming you have a Toaster
 
 export const metadata: Metadata = {
   title: {
-    default: "NCLEX Virtual School - Master Your Exam",
-    template: "%s | NCLEX Virtual School",
+    default: "Nclexkeys - Master Your Exam",
+    template: "%s | Nclexkeys",
   },
   description:
-    "Your trusted partner for NCLEX success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
-  keywords: ["NCLEX", "nursing", "tutoring", "exam prep", "virtual school", "nursing school", "NCLEX-RN", "NCLEX-PN"],
-  authors: [{ name: "NCLEX Virtual School Team" }],
-  creator: "NCLEX Virtual School",
-  publisher: "NCLEX Virtual School",
+    "Your trusted partner for Nclexkeys success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
+  keywords: ["Nclexkeys", "nursing", "tutoring", "exam prep", "virtual school", "nursing school", "Nclexkeys-RN", "Nclexkeys-PN"],
+  authors: [{ name: "Nclexkeys Team" }],
+  creator: "Nclexkeys",
+  publisher: "Nclexkeys",
   openGraph: {
-    title: "NCLEX Virtual School - Master Your Exam",
+    title: "Nclexkeys - Master Your Exam",
     description:
-      "Your trusted partner for NCLEX success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
-    url: "https://www.nclexvirtualschool.com", // Replace with your actual domain
-    siteName: "NCLEX Virtual School",
+      "Your trusted partner for Nclexkeys success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
+    url: "https://nclexintl.vercel.app", // Replace with your actual domain
+    siteName: "Nclexkeys",
     images: [
       {
         url: "/placeholder.svg?height=630&width=1200", // Replace with a relevant image for social sharing
         width: 1200,
         height: 630,
-        alt: "NCLEX Virtual School Banner",
+        alt: "Nclexkeys Banner",
       },
     ],
     locale: "en_US",
@@ -34,11 +34,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NCLEX Virtual School - Master Your Exam",
+    title: "Nclexkeys - Master Your Exam",
     description:
-      "Your trusted partner for NCLEX success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
+      "Your trusted partner for Nclexkeys success. Providing expert virtual tutoring and comprehensive resources for aspiring nurses.",
     images: ["/placeholder.svg?height=675&width=1200"], // Replace with a relevant image for Twitter
-    creator: "@NCLEXVirtual", // Replace with your Twitter handle
+    creator: "@Nclexkeys", // Replace with your Twitter handle
   },
   robots: {
     index: true,

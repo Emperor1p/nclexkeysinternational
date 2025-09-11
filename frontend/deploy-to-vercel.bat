@@ -1,8 +1,8 @@
 @echo off
-REM NCLEX Frontend Vercel Deployment Script for Windows
+REM Nclexkeys Frontend Vercel Deployment Script for Windows
 REM This script helps prepare and deploy the frontend to Vercel
 
-echo 🚀 NCLEX Frontend Vercel Deployment Script
+echo 🚀 Nclexkeys Frontend Vercel Deployment Script
 echo ==========================================
 
 REM Check if we're in the frontend directory

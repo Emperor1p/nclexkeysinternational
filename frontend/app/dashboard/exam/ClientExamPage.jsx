@@ -27,8 +27,8 @@ export default function ClientExamPage() {
   const nclexResources = [
     {
       id: "speedexam",
-      name: "SpeedExam NCLEX Practice",
-      description: "Comprehensive NCLEX practice tests with real-time scoring",
+      name: "SpeedExam Nclexkeys Practice",
+      description: "Comprehensive Nclexkeys practice tests with real-time scoring",
       url: "https://candidate.speedexam.net/openquiz.aspx?quiz=68A6BFA31A094327AA1ABD93DD8250DF",
       difficulty: "All Levels",
       questions: "1000+",
@@ -37,8 +37,8 @@ export default function ClientExamPage() {
     },
     {
       id: "uworld",
-      name: "UWorld NCLEX-RN",
-      description: "Premium NCLEX preparation with detailed rationales",
+      name: "UWorld Nclexkeys-RN",
+      description: "Premium Nclexkeys preparation with detailed rationales",
       url: "https://www.uworld.com/nclex-rn",
       difficulty: "Advanced",
       questions: "2000+",
@@ -47,8 +47,8 @@ export default function ClientExamPage() {
     },
     {
       id: "kaplan",
-      name: "Kaplan NCLEX Prep",
-      description: "Structured NCLEX preparation with adaptive learning",
+      name: "Kaplan Nclexkeys Prep",
+      description: "Structured Nclexkeys preparation with adaptive learning",
       url: "https://www.kaptest.com/nclex",
       difficulty: "Intermediate",
       questions: "1500+",
@@ -58,12 +58,12 @@ export default function ClientExamPage() {
     {
       id: "ncsbn",
       name: "NCSBN Learning Extension",
-      description: "Official NCLEX practice from the National Council",
+      description: "Official Nclexkeys practice from the National Council",
       url: "https://learningext.com/",
       difficulty: "Official",
       questions: "500+",
       rating: 4.9,
-      features: ["Official questions", "NCLEX format", "Reliable content"]
+      features: ["Official questions", "Nclexkeys format", "Reliable content"]
     }
   ]
 
@@ -86,10 +86,10 @@ export default function ClientExamPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            NCLEX Exam Preparation
+            Nclexkeys Exam Preparation
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Access premium NCLEX practice tests, past questions, and comprehensive study materials 
+            Access premium Nclexkeys practice tests, past questions, and comprehensive study materials 
             to prepare for your nursing licensure exam.
           </p>
         </div>
@@ -135,7 +135,7 @@ export default function ClientExamPage() {
             {/* External Resources */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                Premium NCLEX Practice Resources
+                Premium Nclexkeys Practice Resources
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {nclexResources.map((resource) => (
@@ -197,7 +197,7 @@ export default function ClientExamPage() {
               <CardHeader>
                 <CardTitle className="text-xl font-semibold flex items-center gap-2">
                   <BookOpen className="h-6 w-6 text-green-600" />
-                  NCLEX Study Tips
+                  Nclexkeys Study Tips
                 </CardTitle>
               </CardHeader>
               <CardContent>

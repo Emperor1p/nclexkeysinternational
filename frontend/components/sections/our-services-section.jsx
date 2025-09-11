@@ -4,14 +4,14 @@ import { ClipboardCheck, Languages, Users } from "lucide-react"
 export function OurServicesSection() {
   const services = [
     {
-      title: "NCLEX-RN Prep",
-      description: "Comprehensive preparation for the NCLEX-RN examination, covering all essential topics.",
+      title: "Nclexkeys-RN Prep",
+      description: "Comprehensive preparation for the Nclexkeys-RN examination, covering all essential topics.",
       icon: ClipboardCheck,
       delay: "delay-100",
     },
     {
-      title: "NCLEX-PN Prep",
-      description: "Tailored study programs for the NCLEX-LPN exam, focusing on practical nursing skills.",
+      title: "Nclexkeys-PN Prep",
+      description: "Tailored study programs for the Nclexkeys-LPN exam, focusing on practical nursing skills.",
       icon: ClipboardCheck,
       delay: "delay-200",
     },

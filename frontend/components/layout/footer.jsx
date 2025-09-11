@@ -8,10 +8,10 @@ export function Footer() {
         <div className="space-y-4">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-white">
             <Stethoscope className="h-8 w-8 text-white" />
-            NCLEX KEYS
+            Nclexkeys
           </Link>
           <p className="text-sm leading-relaxed">
-            Your trusted partner for NCLEX success. Providing expert tutoring and comprehensive resources.
+            Your trusted partner for Nclexkeys success. Providing expert tutoring and comprehensive resources.
           </p>
           <div className="flex gap-4">
             <a href="https://www.facebook.com/share/1FJJwajxh7/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
@@ -101,7 +101,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-gray-700 mt-12 pt-8 text-center text-sm text-gray-400">
-        &copy; {new Date().getFullYear()} NCLEX Prep. All rights reserved.
+        &copy; {new Date().getFullYear()} Nclexkeys. All rights reserved.
       </div>
     </footer>
   )
