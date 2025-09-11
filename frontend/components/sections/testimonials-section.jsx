@@ -8,7 +8,7 @@ export function TestimonialsSection() {
       name: "Aisha M.",
       location: "Lagos, Nigeria",
       quote:
-        "Nclexkeys Prep was instrumental in my success! The pre-recorded videos were clear and concise, and the practice questions truly prepared me for the exam. Highly recommend!",
+        "Nclexkeys was instrumental in my success! The pre-recorded videos were clear and concise, and the practice questions truly prepared me for the exam. Highly recommend!",
       rating: 5,
     },
     {
@@ -16,7 +16,7 @@ export function TestimonialsSection() {
       name: "Chidi O.",
       location: "Accra, Ghana",
       quote:
-        "The tutors are incredibly knowledgeable and supportive. I loved the flexibility of learning at my own pace. Passed my Nclexkeys on the first attempt thanks to this platform!",
+        "The tutors are incredibly knowledgeable and supportive. I loved the flexibility of learning at my own pace. Passed my NCLEX on the first attempt thanks to this platform!",
       rating: 5,
     },
     {

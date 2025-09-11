@@ -413,7 +413,7 @@ export default function RegisterClientPage() {
                   What you get:
                 </h4>
                 <ul className="text-sm text-gray-600 space-y-1 mb-3">
-                  <li>✅ Access to ALL Nclexkeys preparation courses</li>
+                  <li>✅ Access to ALL NCLEX preparation courses</li>
                   <li>✅ Comprehensive study materials</li>
                   <li>✅ Practice exams and assessments</li>
                   <li>✅ Progress tracking and analytics</li>

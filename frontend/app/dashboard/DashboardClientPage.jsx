@@ -496,7 +496,7 @@ export default function DashboardClientPage() {
                       <ClipboardCheck className="h-4 w-4 mr-2 text-green-600" /> 
                       <div className="flex flex-col items-start">
                         <span>Take Exam</span>
-                        <span className="text-xs text-green-600 font-normal">Nclexkeys practice tests</span>
+                        <span className="text-xs text-green-600 font-normal">NCLEX practice tests</span>
                       </div>
                     </Link>
                   </Button>
@@ -774,7 +774,7 @@ export default function DashboardClientPage() {
                   <Card className="border-2 border-dashed border-gray-300 hover:border-indigo-400 transition-colors">
                     <CardContent className="p-6 text-center">
                       <ClipboardCheck className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="font-semibold text-gray-900 mb-2">Nclexkeys-RN Practice</h3>
+                      <h3 className="font-semibold text-gray-900 mb-2">NCLEX-RN Practice</h3>
                       <p className="text-sm text-gray-600 mb-4">75 questions • 2 hours</p>
                       <Button className="w-full" onClick={() => handleExamStart("nclex-rn")}>
                         Start Exam
@@ -785,7 +785,7 @@ export default function DashboardClientPage() {
                   <Card className="border-2 border-dashed border-gray-300 hover:border-indigo-400 transition-colors">
                     <CardContent className="p-6 text-center">
                       <ClipboardCheck className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="font-semibold text-gray-900 mb-2">Nclexkeys-PN Practice</h3>
+                      <h3 className="font-semibold text-gray-900 mb-2">NCLEX-PN Practice</h3>
                       <p className="text-sm text-gray-600 mb-4">85 questions • 2.5 hours</p>
                       <Button className="w-full" onClick={() => handleExamStart("nclex-pn")}>
                         Start Exam

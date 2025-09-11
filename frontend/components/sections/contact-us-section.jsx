@@ -90,12 +90,6 @@ This message was sent from the Nclexkeys contact form.
             Have questions about our courses or need assistance? Fill out the form below, and we'll get back to you as
             soon as possible.
           </p>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-            <p className="text-sm text-blue-800">
-              <strong>Note:</strong> When you submit this form, your email client will open with a pre-filled message to <strong>nclexkeysintl.academy@gmail.com</strong>. 
-              Simply click send in your email client to complete your inquiry.
-            </p>
-          </div>
           <form ref={formRef} onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2 text-left">
               <Label htmlFor="name">Name</Label>

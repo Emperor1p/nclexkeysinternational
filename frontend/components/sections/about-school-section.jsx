@@ -136,7 +136,7 @@ export function AboutSchoolSection() {
             className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full mb-6 shadow-lg"
           >
             <GraduationCap className="h-5 w-5" />
-            <span className="font-semibold">Nclexkeys PREP ACADEMY</span>
+            <span className="font-semibold">Nclexkeys</span>
           </motion.div>
           
           <motion.h1 
@@ -147,7 +147,7 @@ export function AboutSchoolSection() {
           >
             About Our{" "}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Nclexkeys Tutoring School
+              Nclexkeys
             </span>
           </motion.h1>
           
@@ -157,7 +157,7 @@ export function AboutSchoolSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Welcome to Nclexkeys Prep, your dedicated partner in achieving success on the Nclexkeys examination. 
+            Welcome to Nclexkeys, your dedicated partner in achieving success on the NCLEX examination. 
             We provide a virtual learning environment designed to equip aspiring nurses with the knowledge, 
             strategies, and confidence needed to pass their exams.
           </motion.p>
@@ -239,10 +239,10 @@ export function AboutSchoolSection() {
             >
               <Target className="h-16 w-16 mx-auto mb-6 text-yellow-300" />
               <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Ace Your Nclexkeys?
+                Ready to Ace Your NCLEX?
               </h3>
               <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Join thousands of successful nurses who have passed their Nclexkeys with our proven methods 
+                Join thousands of successful nurses who have passed their NCLEX with our proven methods 
                 and dedicated support system.
               </p>
                                 <motion.div
