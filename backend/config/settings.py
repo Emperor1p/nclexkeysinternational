@@ -73,8 +73,8 @@ YOUTUBE_API_KEY = 'your-youtube-api-key'
 # PAYMENT GATEWAY SETTINGS
 
 # PAYSTACK SETTINGS (Primary Gateway - Nigerian Market) - LIVE CREDENTIALS
-PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY', 'pk_test_89113c66822ee965d55040c96fe15d986bc4027e')
-PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY', 'sk_test_cb15fc824410087d4c44feb154deebcc8dbbc31e')
+PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY', 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19')
+PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
 PAYSTACK_WEBHOOK_SECRET = os.getenv('PAYSTACK_WEBHOOK_SECRET', 'your_webhook_secret_from_paystack_dashboard')
 PAYSTACK_SUBACCOUNT_CODE = os.getenv('PAYSTACK_SUBACCOUNT_CODE', '')
 PAYSTACK_SPLIT_CODE = os.getenv('PAYSTACK_SPLIT_CODE', '')
