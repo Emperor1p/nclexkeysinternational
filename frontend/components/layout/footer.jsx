@@ -77,11 +77,6 @@ export function Footer() {
                 Terms of Service
               </Link>
             </li>
-            <li>
-              <Link href="/sitemap" className="hover:text-white transition-colors">
-                Sitemap - Ikorodu Lagos
-              </Link>
-            </li>
           </ul>
         </div>
 
