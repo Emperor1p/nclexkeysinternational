@@ -52,11 +52,6 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/courses" className="hover:text-white transition-colors">
-                All Courses
-              </Link>
-            </li>
-            <li>
               <Link href="/contact" className="hover:text-white transition-colors">
                 Contact
               </Link>
@@ -84,7 +79,7 @@ export function Footer() {
             </li>
             <li>
               <Link href="/sitemap" className="hover:text-white transition-colors">
-                Sitemap
+                Sitemap - Ikorodu Lagos
               </Link>
             </li>
           </ul>
