@@ -92,6 +92,23 @@ class EmailService:
         except Exception as e:
             logger.error(f"Failed to send welcome email: {str(e)}")
             return False
+    
+    @staticmethod
+    def _send_email(user, email_type, subject, html_message, plain_message):
+        """Internal method to send emails - used by AdminEmailService"""
+        try:
+            send_mail(
+                subject=subject,
+                message=plain_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                html_message=html_message
+            )
+            logger.info(f"Email sent successfully to {user.email}: {email_type}")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to send email to {user.email} ({email_type}): {str(e)}")
+            return False
 
 
 class SecurityUtils:
