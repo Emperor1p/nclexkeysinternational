@@ -46,7 +46,7 @@ Message:
 ${message}
 
 ---
-This message was sent from the NCLEX Keys contact form.
+This message was sent from the Nclexkeys contact form.
       `.trim()
 
       // Create mailto link with pre-filled content

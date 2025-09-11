@@ -227,8 +227,8 @@ export default function RegisterClientPage() {
           </CardTitle>
           <CardDescription>
             {selectedProgram 
-              ? `Join NCLEX Keys - ${selectedProgram.region} Program` 
-              : 'Join NCLEX Keys and get access to all courses with one payment'
+              ? `Join Nclexkeys - ${selectedProgram.region} Program` 
+              : 'Join Nclexkeys and get access to all courses'
             }
           </CardDescription>
           
@@ -425,7 +425,7 @@ export default function RegisterClientPage() {
                   {selectedProgram?.price || registrationFee.toLocaleString()} {selectedProgram?.currency || registrationCurrency}
                 </p>
                 <p className="text-xs text-gray-500">
-                  {selectedProgram ? `${selectedProgram.per} for full platform access` : 'One-time payment for full platform access'}
+                  {selectedProgram ? `${selectedProgram.per} for full platform access` : 'Full platform access'}
                 </p>
                 <p className="text-xs text-blue-600 mt-2">
                   💱 International cards will be converted to NGN at current exchange rates
@@ -441,14 +441,14 @@ export default function RegisterClientPage() {
                   </div>
                   
                   <p className="text-sm text-gray-600 mb-4">
-                    Complete this one-time payment to access the entire NCLEX Keys platform.
+                    Complete this payment to access the entire Nclexkeys platform.
                   </p>
                   
                   <div className="space-y-4">
                     <PaystackPaymentForm
                       course={{
                         id: selectedProgram?.id || 'student-registration',
-                        title: selectedProgram ? `${selectedProgram.region} Program` : 'NCLEX Keys Platform Access',
+                        title: selectedProgram ? `${selectedProgram.region} Program` : 'Nclexkeys Platform Access',
                         price: selectedProgram?.price || registrationFee
                       }}
                       amount={selectedProgram?.price || registrationFee}

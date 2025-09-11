@@ -133,7 +133,7 @@ export default function PaystackPaymentForm({
             </span>
           </div>
           <div className="text-sm text-gray-500 mt-2">
-            One-time payment for full platform access
+            Full platform access
           </div>
         </div>
 

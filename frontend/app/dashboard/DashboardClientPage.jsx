@@ -530,7 +530,7 @@ export default function DashboardClientPage() {
                     <Send className="h-4 w-4 mr-2 text-blue-600" /> 
                     <div className="flex flex-col items-start">
                       <span>Telegram Group</span>
-                      <span className="text-xs text-blue-600 font-normal">NCLEX Keys General Class</span>
+                      <span className="text-xs text-blue-600 font-normal">Nclexkeys General Class</span>
                     </div>
                   </Button>
                 </CardContent>
