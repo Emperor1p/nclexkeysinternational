@@ -38,9 +38,9 @@ if errorlevel 1 (
     echo ❌ Build failed. Please fix the errors before deploying.
     pause
     exit /b 1
+) else (
+    echo ✅ Build successful!
 )
-
-echo ✅ Build successful!
 
 REM Deploy to Vercel
 echo 🚀 Deploying to Vercel...

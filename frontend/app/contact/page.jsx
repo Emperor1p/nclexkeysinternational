@@ -33,7 +33,7 @@ export default function ContactPage() {
                   <CardTitle>Email Us</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">support@nclexkeys.com</p>
+                  <p className="text-gray-600">nclexkeysintl.academy@gmail.com</p>
                   <p className="text-sm text-gray-500 mt-2">We'll respond within 24 hours</p>
                 </CardContent>
               </Card>

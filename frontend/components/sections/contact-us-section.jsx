@@ -35,18 +35,50 @@ export function ContactUsSection() {
       return
     }
 
-    // Simulate sending message
-    console.log("Contact Form Submission (Simulated):")
-    console.log(`Name: ${name}`)
-    console.log(`Email: ${email}`)
-    console.log(`Subject: ${subject}`)
-    console.log(`Message: ${message}`)
+    try {
+      // Create email content
+      const emailBody = `
+Name: ${name}
+Email: ${email}
+Subject: ${subject}
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+Message:
+${message}
 
-    toast({ title: "Message Sent", description: "Your message has been sent successfully (simulated)!" })
-    formRef.current?.reset() // Clear the form on success
-    setIsPending(false)
+---
+This message was sent from the NCLEX Keys contact form.
+      `.trim()
+
+      // Create mailto link with pre-filled content
+      const mailtoLink = `mailto:nclexkeysintl.academy@gmail.com?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`
+      
+      // Open email client
+      window.location.href = mailtoLink
+      
+      // Log for debugging
+      console.log("Contact Form Submission:")
+      console.log(`Name: ${name}`)
+      console.log(`Email: ${email}`)
+      console.log(`Subject: ${subject}`)
+      console.log(`Message: ${message}`)
+      console.log(`Sending to: nclexkeysintl.academy@gmail.com`)
+
+      toast({ 
+        title: "Email Client Opened", 
+        description: "Your email client has been opened with the message pre-filled. Please send the email to complete your inquiry." 
+      })
+      
+      formRef.current?.reset() // Clear the form
+      setIsPending(false)
+    } catch (error) {
+      console.error("Error opening email client:", error)
+      toast({ 
+        title: "Error", 
+        description: "There was an error opening your email client. Please try again or contact us directly at nclexkeysintl.academy@gmail.com", 
+        variant: "destructive" 
+      })
+      setIsPending(false)
+    }
   }
 
   return (
@@ -58,6 +90,12 @@ export function ContactUsSection() {
             Have questions about our courses or need assistance? Fill out the form below, and we'll get back to you as
             soon as possible.
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+            <p className="text-sm text-blue-800">
+              <strong>Note:</strong> When you submit this form, your email client will open with a pre-filled message to <strong>nclexkeysintl.academy@gmail.com</strong>. 
+              Simply click send in your email client to complete your inquiry.
+            </p>
+          </div>
           <form ref={formRef} onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2 text-left">
               <Label htmlFor="name">Name</Label>

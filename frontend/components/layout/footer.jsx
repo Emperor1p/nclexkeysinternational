@@ -14,11 +14,11 @@ export function Footer() {
             Your trusted partner for NCLEX success. Providing expert tutoring and comprehensive resources.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.facebook.com/share/1FJJwajxh7/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Facebook className="h-6 w-6" />
               <span className="sr-only">Facebook</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://x.com/nclexkeys?t=4GfZzurcLrtZ0fzY4oL3AA&s=08" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Twitter className="h-6 w-6" />
               <span className="sr-only">Twitter</span>
             </a>
@@ -26,7 +26,7 @@ export function Footer() {
               <Instagram className="h-6 w-6" />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/groups/14597271" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Linkedin className="h-6 w-6" />
               <span className="sr-only">LinkedIn</span>
             </a>
@@ -96,7 +96,7 @@ export function Footer() {
             Ikorodu, Lagos, Nigeria
           </p>
           <p className="text-sm">Phone: +234 703 736 7480</p>
-          <p className="text-sm">Email: support@nclexkeys.com</p>
+          <p className="text-sm">Email: nclexkeysintl.academy@gmail.com</p>
         </div>
       </div>
 

@@ -70,15 +70,26 @@ export default function PaystackPaymentForm({
         user_data: userData
       })
 
+      console.log('Payment response received:', paymentResponse)
+      console.log('Payment response data:', paymentResponse.data)
+      
       if (paymentResponse.success) {
         // Store payment reference for later verification
         localStorage.setItem('pending_payment_reference', paymentResponse.data.reference)
         localStorage.setItem('pending_payment_type', paymentType)
-        
+
+        // Resolve possible variants for payment URL from backend/gateway
+        const resolvedPaymentUrl = paymentResponse?.data?.payment_url
+          || paymentResponse?.data?.authorization_url
+          || paymentResponse?.data?.data?.authorization_url
+          || paymentResponse?.data?.data?.payment_url
+
         // Redirect to Paystack payment page
-        if (paymentResponse.data.payment_url) {
-          window.location.href = paymentResponse.data.payment_url
+        if (resolvedPaymentUrl) {
+          console.log('Redirecting to payment URL:', resolvedPaymentUrl)
+          window.location.href = resolvedPaymentUrl
         } else {
+          console.error('Payment URL missing from response:', paymentResponse)
           throw new Error('Payment URL not received')
         }
       } else {

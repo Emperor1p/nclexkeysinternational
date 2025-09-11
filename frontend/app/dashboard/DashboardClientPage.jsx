@@ -39,7 +39,9 @@ import {
   Plus,
   Filter,
   Search,
-  Globe
+  Globe,
+  MessageCircle,
+  Send
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { toast } from "@/hooks/use-toast"
@@ -507,6 +509,28 @@ export default function DashboardClientPage() {
                     <div className="flex flex-col items-start">
                       <span>SpeedExam Practice</span>
                       <span className="text-xs text-blue-600 font-normal">Direct access to practice tests</span>
+                    </div>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start bg-green-50 border-green-200 hover:bg-green-100"
+                    onClick={() => window.open('https://chat.whatsapp.com/ElcEioKKFbcH0DLccfjyaH?mode=ems_copy_t', '_blank')}
+                  >
+                    <MessageCircle className="h-4 w-4 mr-2 text-green-600" /> 
+                    <div className="flex flex-col items-start">
+                      <span>WhatsApp Group</span>
+                      <span className="text-xs text-green-600 font-normal">Join our community chat</span>
+                    </div>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start bg-blue-50 border-blue-200 hover:bg-blue-100"
+                    onClick={() => window.open('https://t.me/+pfkI-HSjx0UzMGQ0', '_blank')}
+                  >
+                    <Send className="h-4 w-4 mr-2 text-blue-600" /> 
+                    <div className="flex flex-col items-start">
+                      <span>Telegram Group</span>
+                      <span className="text-xs text-blue-600 font-normal">NCLEX Keys General Class</span>
                     </div>
                   </Button>
                 </CardContent>
