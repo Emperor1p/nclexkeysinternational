@@ -161,8 +161,8 @@ CELERY_RESULT_BACKEND = 'rpc://'
 # Payment Gateway Settings
 PAYMENT_GATEWAYS = {
     'paystack': {
-        'public_key': 'pk_test_89113c66822ee965d55040c96fe15d986bc4027e',
-        'secret_key': 'sk_test_cb15fc824410087d4c44feb154deebcc8dbbc31e',
+        'public_key': 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
+        'secret_key': 'sk_live_your_live_paystack_secret_key_here',
         'base_url': 'https://api.paystack.co',
         'webhook_secret': 'your_webhook_secret_from_paystack_dashboard',
         'subaccount_code': '',
