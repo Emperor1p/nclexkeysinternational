@@ -57,7 +57,7 @@ export function HeroSection() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 animate-slide-in-up delay-100">
             Join thousands of nursing students who have successfully passed their NCLEX exam with our comprehensive
-            virtual tutoring program.
+            virtual tutoring program. <strong>Student registration only - payment required.</strong>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4 animate-slide-in-up delay-200">
             <Button

@@ -32,90 +32,43 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x'
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.222.151', 'api.nclex.com', '.ngrok-free.app', 'testserver']
-
-# Environment Variables Template (.env file)
-# Database
-DB_NAME = 'nclex'
-DB_HOST = 'mongodb+srv://wariz:dbWariz@nclex.jfmioqk.mongodb.net/?retryWrites=true&w=majority&appName=nclex'
-DB_USER = 'wariz'
-DB_PASSWORD = 'dbWariz'
-DB_AUTH_SOURCE = 'admin'
-
-
-# JWT
-JWT_SECRET_KEY = 'm8Ef15a6jVmwV13gKxFpSu32t8EhCiegP6jzByMHGBrWJOYyvi7M3DpNB2MfxpKVDlxfHARMWgrYT_8ASh0fkg'
-
-# Email
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'drevianey@gmail.com'
-EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
-DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1").split(",")
 
 # Cloudinary
-CLOUDINARY_CLOUD_NAME = 'dvmse886w'
-CLOUDINARY_API_KEY = '489264838748466'
-CLOUDINARY_API_SECRET = 'qUYlv4AnJeqHCA6he_zH-qX_J9E'
-
-# SITE SETTINGS
-FRONTEND_URL = 'http://localhost:3000'
-SITE_URL = 'http://localhost:8000'
-
-# Optional: YouTube API key for better duration extraction
-YOUTUBE_API_KEY = 'your-youtube-api-key'
-
-# PAYMENT GATEWAY SETTINGS
+CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
+CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY')
+CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')
 
 # PAYSTACK SETTINGS (Primary Gateway - Nigerian Market) - LIVE CREDENTIALS
-PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY', 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19')
-PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
-PAYSTACK_WEBHOOK_SECRET = os.getenv('PAYSTACK_WEBHOOK_SECRET', 'your_webhook_secret_from_paystack_dashboard')
-PAYSTACK_SUBACCOUNT_CODE = os.getenv('PAYSTACK_SUBACCOUNT_CODE', '')
-PAYSTACK_SPLIT_CODE = os.getenv('PAYSTACK_SPLIT_CODE', '')
+PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
+PAYSTACK_WEBHOOK_SECRET = os.getenv('PAYSTACK_WEBHOOK_SECRET')
+SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x'
 
 # FLUTTERWAVE SETTINGS (Secondary Gateway - Multi-country)
-FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY', 'FLWPUBK_TEST-5fabb620c56266196d9b0137bea69763-X')
-FLUTTERWAVE_SECRET_KEY = os.getenv('FLUTTERWAVE_SECRET_KEY', 'FLWSECK_TEST-d51c473fb205c99e70d234fb7e66dfa8-X')
-FLUTTERWAVE_WEBHOOK_SECRET = os.getenv('FLUTTERWAVE_WEBHOOK_SECRET', '07eee1090b3f97904bf966e2f6f388f1954352b51ebeef505e6b95a366a4834d')
-FLUTTERWAVE_ENCRYPTION_KEY = os.getenv('FLUTTERWAVE_ENCRYPTION_KEY', 'FLWSECK_TEST4a0345d92dac')
+FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY')
+FLUTTERWAVE_SECRET_KEY = os.getenv('FLUTTERWAVE_SECRET_KEY')
+FLUTTERWAVE_WEBHOOK_SECRET = os.getenv('FLUTTERWAVE_WEBHOOK_SECRET')
+FLUTTERWAVE_ENCRYPTION_KEY = os.getenv('FLUTTERWAVE_ENCRYPTION_KEY')
 
 # DEVELOPMENT SETTINGS
-DEBUG = True
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
 
 # Development Rate Limiting (disable for testing)
 DISABLE_RATE_LIMITING = False  # Set to False in production
 
+# CORS Allowed origins
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
 # Redis (for caching and rate limiting)
 # REDIS_URL = 'redis://127.0.0.1:6379/1'
-
-# Allowed Hosts
-ALLOWED_HOSTS = [
-    'localhost', 
-    '127.0.0.1', 
-    '192.168.222.151',
-    '192.168.222.151:8000',
-    'api.nclex.com', 
-    '.ngrok-free.app', 
-    'testserver'
-]
-
-# CORS Allowed origins
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
-    'http://127.0.0.1:3000',
-    'http://192.168.96.151:3000',  # Your actual network IP
-    'http://192.168.222.151:3000',
-    'http://192.168.222.151:3001',
-    'http://192.168.222.151:3002'
-]
 
 # Additional CORS settings for development
 CORS_ALLOW_ALL_ORIGINS = True  # Temporarily enabled for testing
@@ -154,6 +107,7 @@ if DEBUG:
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 31536000
 
+# Celery Configuration - Using local memory
 # Celery Configuration - Using local memory instead of Redis
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'
@@ -161,18 +115,18 @@ CELERY_RESULT_BACKEND = 'rpc://'
 # Payment Gateway Settings
 PAYMENT_GATEWAYS = {
     'paystack': {
-        'public_key': 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
-        'secret_key': 'sk_live_your_live_paystack_secret_key_here',
+        'public_key': os.getenv('PAYSTACK_PUBLIC_KEY'),
+        'secret_key': os.getenv('PAYSTACK_SECRET_KEY'),
         'base_url': 'https://api.paystack.co',
-        'webhook_secret': 'your_webhook_secret_from_paystack_dashboard',
+        'webhook_secret': os.getenv('PAYSTACK_WEBHOOK_SECRET'),
         'subaccount_code': '',
         'split_code': '',
     },
     'flutterwave': {
-        'public_key': 'FLWPUBK_TEST-5fabb620c56266196d9b0137bea69763-X',
-        'secret_key': 'FLWSECK_TEST-d51c473fb205c99e70d234fb7e66dfa8-X',
+        'public_key': os.getenv('FLUTTERWAVE_PUBLIC_KEY'),
+        'secret_key': os.getenv('FLUTTERWAVE_SECRET_KEY'),
         'base_url': 'https://api.flutterwave.com/v3',
-        'webhook_secret': '07eee1090b3f97904bf966e2f6f388f1954352b51ebeef505e6b95a366a4834d',
+        'webhook_secret': os.getenv('FLUTTERWAVE_WEBHOOK_SECRET'),
         'encryption_key': 'FLWSECK_TEST4a0345d92dac',
     }
 }
@@ -327,33 +281,25 @@ JWT_ACCESS_TOKEN_LIFETIME = 60  # minutes
 JWT_REFRESH_TOKEN_LIFETIME = 7   # days
 
 # Email Settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'drevianey@gmail.com'
-EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
-DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'NCLEX <noreply@yourdomain.com>')
 
 # Frontend URL (for email links)
-FRONTEND_URL = 'http://192.168.222.151:3000'
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
-# Database Settings for Local SQLite
+# DATABASE (PostgreSQL on Render)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
-
-# Uncomment the PostgreSQL configuration when Railway is back online
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default='postgresql://postgres:bxAcBqbOfsjmjHZFBQRbszYUQGofOhTS@shinkansen.proxy.rlwy.net:40760/railway'
-#     )
-# }
-
-
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'
@@ -388,18 +334,6 @@ CACHES = {
     }
 }
 
-# Redis Configuration (commented out until Redis is installed)
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://127.0.0.1:6379/1',
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#     }
-# }
-
-
 # GeoIP2 Settings (for location detection)
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 
@@ -418,10 +352,6 @@ X_FRAME_OPTIONS = 'DENY'
 
 # URL Settings
 APPEND_SLASH = True  # Set to True for consistent URL handling
-
-# CORS Settings (if using django-cors-headers)
-# Note: CORS_ALLOWED_ORIGINS is defined above at line 99
-CORS_ALLOW_CREDENTIALS = True
 
 # REST Framework Settings
 REST_FRAMEWORK = {
@@ -458,13 +388,9 @@ RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = 'default'
 
 # Celery Settings (for background tasks)
-# Celery Configuration - Using local memory instead of Redis
+# Celery Configuration - Using local memory
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'
-
-# Redis Configuration (commented out until Redis is installed)
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_TIMEZONE = 'UTC'
 
 CELERY_TASK_ROUTES = {
@@ -728,7 +654,6 @@ CELERY_BEAT_SCHEDULE = {
 
 
 # Logging Configuration
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 
 if not os.path.exists(LOG_DIR):
@@ -781,9 +706,9 @@ USE_TZ = True
 
 # Media files configuration for Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dvmse886w',
-    'API_KEY': '489264838748466',
-    'API_SECRET': 'qUYlv4AnJeqHCA6he_zH-qX_J9E'
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
 # Use Cloudinary for media storage
@@ -805,10 +730,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC & MEDIA
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
