@@ -59,6 +59,8 @@ export default function PaystackPaymentForm({
         userData
       })
 
+      console.log('API_BASE_URL:', process.env.NEXT_PUBLIC_API_BASE_URL)
+      console.log('Paystack Public Key:', process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY)
 
       // Initialize payment with backend
       const paymentResponse = await paymentAPI.initializePayment({
@@ -98,8 +100,27 @@ export default function PaystackPaymentForm({
 
     } catch (error) {
       console.error('Payment error:', error)
-      setError(error.message || 'Payment failed. Please try again.')
-      onError(error)
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      })
+      
+      // Provide more specific error messages
+      let errorMessage = 'Payment failed. Please try again.'
+      
+      if (error.message.includes('Network error')) {
+        errorMessage = 'Network connection error. Please check your internet connection and try again.'
+      } else if (error.message.includes('401')) {
+        errorMessage = 'Authentication error. Please refresh the page and try again.'
+      } else if (error.message.includes('500')) {
+        errorMessage = 'Server error. Please try again in a few moments.'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
+      setError(errorMessage)
+      onError({ message: errorMessage, originalError: error })
     } finally {
       setIsProcessing(false)
     }

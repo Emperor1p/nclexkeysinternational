@@ -187,7 +187,26 @@ export async function apiRequest(url, options = {}) {
     return handleResponse(response)
   } catch (error) {
     console.error("Network or unexpected error:", error)
-    return { success: false, error: { message: "Network error or unexpected issue." } }
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      url: fullUrl,
+      options: options
+    })
+    
+    // Provide more specific error messages
+    let errorMessage = "Network error or unexpected issue."
+    
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      errorMessage = "Unable to connect to server. Please check your internet connection."
+    } else if (error.message.includes('CORS')) {
+      errorMessage = "Cross-origin request blocked. Please contact support."
+    } else if (error.message) {
+      errorMessage = error.message
+    }
+    
+    return { success: false, error: { message: errorMessage, originalError: error } }
   }
 }
 
