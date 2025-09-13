@@ -1,8 +1,8 @@
 @echo off
-REM NCLEX Frontend Vercel Deployment Script for Windows
+REM Nclexkeys Frontend Vercel Deployment Script for Windows
 REM This script helps prepare and deploy the frontend to Vercel
 
-echo 🚀 NCLEX Frontend Vercel Deployment Script
+echo 🚀 Nclexkeys Frontend Vercel Deployment Script
 echo ==========================================
 
 REM Check if we're in the frontend directory
@@ -38,9 +38,9 @@ if errorlevel 1 (
     echo ❌ Build failed. Please fix the errors before deploying.
     pause
     exit /b 1
+) else (
+    echo ✅ Build successful!
 )
-
-echo ✅ Build successful!
 
 REM Deploy to Vercel
 echo 🚀 Deploying to Vercel...

@@ -471,8 +471,8 @@ def test_student_registration(request):
                     'display_name': 'Paystack',
                     'is_active': True,
                     'config': {
-                        'public_key': 'pk_test_...',
-                        'secret_key': 'sk_test_...'
+                        'public_key': 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
+                        'secret_key': 'sk_live_your_live_paystack_secret_key_here'
                     }
                 }
             )

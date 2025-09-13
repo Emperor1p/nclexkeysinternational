@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# NCLEX Frontend Vercel Deployment Script
+# Nclexkeys Frontend Vercel Deployment Script
 # This script helps prepare and deploy the frontend to Vercel
 
-echo "🚀 NCLEX Frontend Vercel Deployment Script"
+echo "🚀 Nclexkeys Frontend Vercel Deployment Script"
 echo "=========================================="
 
 # Check if we're in the frontend directory

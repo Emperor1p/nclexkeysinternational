@@ -8,17 +8,17 @@ export function Footer() {
         <div className="space-y-4">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-white">
             <Stethoscope className="h-8 w-8 text-white" />
-            NCLEX KEYS
+            Nclexkeys
           </Link>
           <p className="text-sm leading-relaxed">
-            Your trusted partner for NCLEX success. Providing expert tutoring and comprehensive resources.
+            Your trusted partner for Nclexkeys success. Providing expert tutoring and comprehensive resources.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.facebook.com/share/1FJJwajxh7/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Facebook className="h-6 w-6" />
               <span className="sr-only">Facebook</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://x.com/nclexkeys?t=4GfZzurcLrtZ0fzY4oL3AA&s=08" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Twitter className="h-6 w-6" />
               <span className="sr-only">Twitter</span>
             </a>
@@ -26,7 +26,7 @@ export function Footer() {
               <Instagram className="h-6 w-6" />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/groups/14597271" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <Linkedin className="h-6 w-6" />
               <span className="sr-only">LinkedIn</span>
             </a>
@@ -49,11 +49,6 @@ export function Footer() {
             <li>
               <Link href="/services" className="hover:text-white transition-colors">
                 Our Services
-              </Link>
-            </li>
-            <li>
-              <Link href="/courses" className="hover:text-white transition-colors">
-                All Courses
               </Link>
             </li>
             <li>
@@ -82,11 +77,6 @@ export function Footer() {
                 Terms of Service
               </Link>
             </li>
-            <li>
-              <Link href="/sitemap" className="hover:text-white transition-colors">
-                Sitemap
-              </Link>
-            </li>
           </ul>
         </div>
 
@@ -96,12 +86,12 @@ export function Footer() {
             Ikorodu, Lagos, Nigeria
           </p>
           <p className="text-sm">Phone: +234 703 736 7480</p>
-          <p className="text-sm">Email: support@nclexkeys.com</p>
+          <p className="text-sm">Email: nclexkeysintl.academy@gmail.com</p>
         </div>
       </div>
 
       <div className="border-t border-gray-700 mt-12 pt-8 text-center text-sm text-gray-400">
-        &copy; {new Date().getFullYear()} NCLEX Prep. All rights reserved.
+        &copy; {new Date().getFullYear()} Nclexkeys. All rights reserved.
       </div>
     </footer>
   )

@@ -8,7 +8,7 @@ export function TestimonialsSection() {
       name: "Aisha M.",
       location: "Lagos, Nigeria",
       quote:
-        "NCLEX Prep was instrumental in my success! The pre-recorded videos were clear and concise, and the practice questions truly prepared me for the exam. Highly recommend!",
+        "Nclexkeys was instrumental in my success! The pre-recorded videos were clear and concise, and the practice questions truly prepared me for the exam. Highly recommend!",
       rating: 5,
     },
     {

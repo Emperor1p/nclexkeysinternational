@@ -1,4 +1,4 @@
-# Vercel Deployment Guide for NCLEX Frontend
+# Vercel Deployment Guide for Nclexkeys Frontend
 
 ## Prerequisites
 
@@ -54,21 +54,25 @@ In your Vercel dashboard, go to your project settings and add these environment 
 ### Required Environment Variables
 
 ```
-NEXT_PUBLIC_API_BASE_URL=https://your-backend-name.onrender.com
-NEXT_PUBLIC_BACKEND_URL=https://your-backend-name.onrender.com
-NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19
-NEXT_PUBLIC_VIDEO_STREAMING_URL=https://your-backend-name.onrender.com/media/videos
-NEXT_PUBLIC_APP_NAME=NCLEX Virtual School
-NEXT_PUBLIC_APP_DESCRIPTION=Comprehensive NCLEX preparation platform
-NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
+NEXT_PUBLIC_API_BASE_URL=https://nclex-backend.onrender.com
+NEXT_PUBLIC_BACKEND_URL=https://nclex-backend.onrender.com
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_your_live_paystack_public_key_here
+NEXT_PUBLIC_VIDEO_STREAMING_URL=https://nclex-backend.onrender.com/media/videos
+NEXT_PUBLIC_APP_NAME=Nclexkeys
+NEXT_PUBLIC_APP_DESCRIPTION=Comprehensive Nclexkeys preparation platform
+NEXT_PUBLIC_APP_URL=https://nclexintl.vercel.app
 NEXT_PUBLIC_ENABLE_VIDEO_STREAMING=true
 NEXT_PUBLIC_ENABLE_PAYMENT=true
 NEXT_PUBLIC_ENABLE_CHAT=true
 NEXT_PUBLIC_ENABLE_NOTIFICATIONS=true
 NEXT_PUBLIC_TWITTER_HANDLE=@nclexkeys
-NEXT_PUBLIC_SUPPORT_EMAIL=support@nclexkeys.com
+NEXT_PUBLIC_SUPPORT_EMAIL=nclexkeysintl.academy@gmail.com
 NEXT_PUBLIC_SUPPORT_PHONE=+234-xxx-xxx-xxxx
 NODE_ENV=production
+
+# Additional Required Variables
+NEXT_PUBLIC_APP_VERSION=1.0.0
+NEXT_PUBLIC_BUILD_TIME=2024-01-01T00:00:00Z
 ```
 
 ### Optional Environment Variables
@@ -82,13 +86,40 @@ NEXT_PUBLIC_CDN_URL=your-cdn-url
 
 ## Step 4: Update Backend CORS Settings
 
-Make sure your Django backend allows requests from your Vercel domain:
+Make sure your Django backend allows requests from your Vercel domain. Update your production settings:
+
+### For Production Backend (settings_production.py)
 
 ```python
-# In your Django settings
+# Add your Vercel domain to CORS_ALLOWED_ORIGINS
 CORS_ALLOWED_ORIGINS = [
     "https://your-domain.vercel.app",
     "https://your-project-name.vercel.app",
+    # Add your custom domain if you have one
+    "https://your-custom-domain.com",
+]
+
+# Or use environment variable
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get('FRONTEND_URL', 'https://your-domain.vercel.app'),
+]
+```
+
+### Environment Variable for Backend
+
+Add this to your backend environment variables:
+```
+FRONTEND_URL=https://your-domain.vercel.app
+```
+
+### For Development Backend (settings.py)
+
+If testing locally, temporarily add:
+```python
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000', 
+    'http://127.0.0.1:3000',
+    'https://your-domain.vercel.app',  # Add your Vercel domain
 ]
 ```
 
@@ -101,12 +132,64 @@ CORS_ALLOWED_ORIGINS = [
 
 ## Step 6: Verify Deployment
 
+### Initial Verification
+
 1. Visit your deployed URL
-2. Test key functionality:
-   - User registration/login
-   - Course browsing
-   - Payment integration
-   - Video streaming
+2. Check that the site loads without errors
+3. Verify all static assets (CSS, JS, images) load correctly
+
+### Functional Testing
+
+Test these key features:
+
+#### Authentication
+- [ ] User registration works
+- [ ] Email verification works
+- [ ] Login/logout works
+- [ ] Password reset works
+
+#### Course Features
+- [ ] Course browsing works
+- [ ] Course enrollment works
+- [ ] Video streaming works
+- [ ] Progress tracking works
+
+#### Payment Integration
+- [ ] Payment form loads correctly
+- [ ] Paystack integration works
+- [ ] Payment success/failure handling works
+- [ ] Webhook verification works
+
+#### Additional Features
+- [ ] Chat/messaging works
+- [ ] Notifications work
+- [ ] Mobile responsiveness works
+- [ ] Performance is acceptable
+
+### Debugging Common Issues
+
+#### Build Errors
+```bash
+# Check build logs in Vercel dashboard
+# Common issues:
+# - Missing environment variables
+# - TypeScript errors
+# - Import path issues
+```
+
+#### API Connection Issues
+```bash
+# Check browser console for CORS errors
+# Verify NEXT_PUBLIC_API_BASE_URL is correct
+# Check backend CORS settings
+```
+
+#### Payment Issues
+```bash
+# Check Paystack public key is correct
+# Verify webhook URLs point to backend
+# Check payment response in browser console
+```
 
 ## Troubleshooting
 
@@ -152,4 +235,4 @@ Once set up, Vercel will automatically deploy when you push to your main branch.
 
 - Vercel Documentation: [vercel.com/docs](https://vercel.com/docs)
 - Next.js Documentation: [nextjs.org/docs](https://nextjs.org/docs)
-- NCLEX Platform Support: support@nclexkeys.com
+- Nclexkeys Platform Support: nclexkeysintl.academy@gmail.com

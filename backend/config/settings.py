@@ -50,8 +50,7 @@ CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')
 PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
 PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
 PAYSTACK_WEBHOOK_SECRET = os.getenv('PAYSTACK_WEBHOOK_SECRET')
-PAYSTACK_SUBACCOUNT_CODE = os.getenv('PAYSTACK_SUBACCOUNT_CODE', '')
-PAYSTACK_SPLIT_CODE = os.getenv('PAYSTACK_SPLIT_CODE', '')
+SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x'
 
 # FLUTTERWAVE SETTINGS (Secondary Gateway - Multi-country)
 FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY')
@@ -68,6 +67,8 @@ DISABLE_RATE_LIMITING = False  # Set to False in production
 
 # CORS Allowed origins
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
+# Redis (for caching and rate limiting)
+# REDIS_URL = 'redis://127.0.0.1:6379/1'
 
 # Additional CORS settings for development
 CORS_ALLOW_ALL_ORIGINS = True  # Temporarily enabled for testing
@@ -92,11 +93,22 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+# For development, allow any local network IP (more flexible)
+if DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http://192\.168\.\d+\.\d+:\d+$",  # Allow any 192.168.x.x:port
+        r"^http://10\.\d+\.\d+\.\d+:\d+$",   # Allow any 10.x.x.x:port
+        r"^http://172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+:\d+$",  # Allow 172.16-31.x.x:port
+        r"^http://localhost:\d+$",  # Allow any localhost port
+        r"^http://127\.0\.0\.1:\d+$",  # Allow any 127.0.0.1 port
+    ]
+
 # Security
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 31536000
 
 # Celery Configuration - Using local memory
+# Celery Configuration - Using local memory instead of Redis
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'
 
@@ -118,6 +130,14 @@ PAYMENT_GATEWAYS = {
         'encryption_key': 'FLWSECK_TEST4a0345d92dac',
     }
 }
+
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name='dvmse886w',
+    api_key='489264838748466',
+    api_secret='qUYlv4AnJeqHCA6he_zH-qX_J9E',
+    secure=True
+)
 
 # Payment configuration
 PAYMENT_SETTINGS = {
@@ -238,22 +258,20 @@ ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-ASGI_APPLICATION = "config.asgi.application"
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

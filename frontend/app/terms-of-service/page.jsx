@@ -89,7 +89,7 @@ export default function TermsOfServicePage() {
               </p>
               <div className="bg-gray-50 p-6 rounded-lg">
                 <p className="text-gray-600">
-                  <strong>Email:</strong> legal@nclexkeys.com<br />
+                  <strong>Email:</strong> nclexkeysintl.academy@gmail.com<br />
                   <strong>Address:</strong> NCLEX Keys, Ikorodu, Lagos, Nigeria<br />
                   <strong>Phone:</strong> +234 703 736 7480
                 </p>

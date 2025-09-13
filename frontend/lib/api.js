@@ -2,7 +2,7 @@
 
 // IMPORTANT: Ensure this URL points to your running backend API.
 // If your backend is deployed, update NEXT_PUBLIC_API_BASE_URL in your Vercel project settings
-const API_BASE_URL = "http://localhost:8000";  // Force localhost for testing
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://nclex-backend.onrender.com";
 console.log('API_BASE_URL initialized as:', API_BASE_URL);
 const INSTRUCTOR_API_BASE_URL = `${API_BASE_URL}/api/admin`
 const STUDENT_API_BASE_URL = `${API_BASE_URL}/api/courses`
@@ -507,29 +507,53 @@ export async function checkPaymentStatus(reference) {
 // --- PAYMENT API ENDPOINTS ---
 export const paymentAPI = {
   // Initialize payment for a course or student registration
-  initializePayment: async (courseId, gateway = 'paystack', paymentType = 'course_enrollment', userData = null, amount = null, currency = 'NGN') => {
-    const payload = { 
-      gateway,
-      payment_type: paymentType
-    }
+  initializePayment: async (params) => {
+    // Handle both object parameter and individual parameters for backward compatibility
+    let payload = {}
     
-    if (paymentType === 'course_enrollment') {
-      payload.course_id = courseId
-      if (amount) {
-        payload.amount = amount
-        payload.currency = currency
+    if (typeof params === 'object' && params !== null) {
+      // New object-based API
+      payload = {
+        gateway: params.gateway || 'paystack',
+        payment_type: params.payment_type || 'course_enrollment'
       }
-    } else if (paymentType === 'student_registration' && userData) {
-      payload.email = userData.email
-      payload.full_name = userData.full_name
-      payload.phone_number = userData.phone_number
-      payload.amount = amount || 5000 // Student registration fee
-      payload.currency = currency || 'NGN'
+      
+      if (params.payment_type === 'course_enrollment' && params.course_id) {
+        payload.course_id = params.course_id
+        if (params.amount) {
+          payload.amount = params.amount
+          payload.currency = params.currency || 'NGN'
+        }
+      } else if (params.payment_type === 'student_registration' && params.user_data) {
+        payload.user_data = params.user_data
+        payload.amount = params.amount || 5000 // Student registration fee
+        payload.currency = params.currency || 'NGN'
+      }
+    } else {
+      // Legacy individual parameter API
+      const [courseId, gateway = 'paystack', paymentType = 'course_enrollment', userData = null, amount = null, currency = 'NGN'] = arguments
+      
+      payload = { 
+        gateway,
+        payment_type: paymentType
+      }
+      
+      if (paymentType === 'course_enrollment') {
+        payload.course_id = courseId
+        if (amount) {
+          payload.amount = amount
+          payload.currency = currency
+        }
+      } else if (paymentType === 'student_registration' && userData) {
+        payload.user_data = userData
+        payload.amount = amount || 5000 // Student registration fee
+        payload.currency = currency || 'NGN'
+      }
     }
     
     console.log('Initializing payment with payload:', payload)
     
-    return apiRequest(`/api/payments/initialize`, {
+    return apiRequest(`/api/payments/initialize/`, {
       method: "POST",
       body: JSON.stringify(payload),
     })
@@ -537,7 +561,7 @@ export const paymentAPI = {
 
   // Verify payment status
   verifyPayment: async (paymentId) => {
-    return apiRequest(`/api/payments/verify/${paymentId}`, {
+    return apiRequest(`/api/payments/verify/${paymentId}/`, {
       method: "POST",
     })
   },

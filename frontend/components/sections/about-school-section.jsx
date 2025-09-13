@@ -55,7 +55,7 @@ const features = [
   {
     icon: BookOpen,
     title: "DAILY UWORLD QUESTIONS",
-    description: "Practice with high-quality NCLEX-style questions daily",
+    description: "Practice with high-quality Nclexkeys-style questions daily",
     color: "from-teal-500 to-cyan-500"
   },
   {
@@ -136,7 +136,7 @@ export function AboutSchoolSection() {
             className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full mb-6 shadow-lg"
           >
             <GraduationCap className="h-5 w-5" />
-            <span className="font-semibold">NCLEX PREP ACADEMY</span>
+            <span className="font-semibold">Nclexkeys</span>
           </motion.div>
           
           <motion.h1 
@@ -147,7 +147,7 @@ export function AboutSchoolSection() {
           >
             About Our{" "}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              NCLEX Tutoring School
+              Nclexkeys
             </span>
           </motion.h1>
           
@@ -157,7 +157,7 @@ export function AboutSchoolSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Welcome to NCLEX Prep, your dedicated partner in achieving success on the NCLEX examination. 
+            Welcome to Nclexkeys, your dedicated partner in achieving success on the NCLEX examination. 
             We provide a virtual learning environment designed to equip aspiring nurses with the knowledge, 
             strategies, and confidence needed to pass their exams.
           </motion.p>

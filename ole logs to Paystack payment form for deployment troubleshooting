@@ -1,0 +1,35 @@
+warning: in the working copy of 'frontend/components/paystack-payment-form.jsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/frontend/components/paystack-payment-form.jsx b/frontend/components/paystack-payment-form.jsx[m
+[1mindex 1c1edb1..2c439c3 100644[m
+[1m--- a/frontend/components/paystack-payment-form.jsx[m
+[1m+++ b/frontend/components/paystack-payment-form.jsx[m
+[36m@@ -70,15 +70,26 @@[m [mexport default function PaystackPaymentForm({[m
+         user_data: userData[m
+       })[m
+ [m
+[32m+[m[32m      console.log('Payment response received:', paymentResponse)[m
+[32m+[m[32m      console.log('Payment response data:', paymentResponse.data)[m
+[32m+[m[41m      [m
+       if (paymentResponse.success) {[m
+         // Store payment reference for later verification[m
+         localStorage.setItem('pending_payment_reference', paymentResponse.data.reference)[m
+         localStorage.setItem('pending_payment_type', paymentType)[m
+[31m-        [m
+[32m+[m
+[32m+[m[32m        // Resolve possible variants for payment URL from backend/gateway[m
+[32m+[m[32m        const resolvedPaymentUrl = paymentResponse?.data?.payment_url[m
+[32m+[m[32m          || paymentResponse?.data?.authorization_url[m
+[32m+[m[32m          || paymentResponse?.data?.data?.authorization_url[m
+[32m+[m[32m          || paymentResponse?.data?.data?.payment_url[m
+[32m+[m
+         // Redirect to Paystack payment page[m
+[31m-        if (paymentResponse.data.payment_url) {[m
+[31m-          window.location.href = paymentResponse.data.payment_url[m
+[32m+[m[32m        if (resolvedPaymentUrl) {[m
+[32m+[m[32m          console.log('Redirecting to payment URL:', resolvedPaymentUrl)[m
+[32m+[m[32m          window.location.href = resolvedPaymentUrl[m
+         } else {[m
+[32m+[m[32m          console.error('Payment URL missing from response:', paymentResponse)[m
+           throw new Error('Payment URL not received')[m
+         }[m
+       } else {[m

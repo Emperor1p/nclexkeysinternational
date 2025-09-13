@@ -145,7 +145,7 @@ export default function VerifyEmailClientPage() {
           <p className="text-sm text-gray-500">
             Need help?{' '}
             <a 
-              href="mailto:support@nclexvirtualschool.com" 
+              href="mailto:nclexkeysintl.academy@gmail.com" 
               className="text-blue-600 hover:text-blue-800 underline"
             >
               Contact Support
