@@ -664,7 +664,7 @@ def delete_course(request, course_id):
 
                 # Delete the course
                 course.delete()
-                
+
                 # Course is being permanently deleted
                 # Notify instructor about permanent deletion
                 AdminEmailService.notify_instructor_course_deleted(course_title, course_creator, request.user)

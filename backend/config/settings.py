@@ -66,7 +66,7 @@ SECURE_HSTS_SECONDS = 0
 DISABLE_RATE_LIMITING = False  # Set to False in production
 
 # CORS Allowed origins
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000,https://nclexintl.vercel.app").split(",")
 # Redis (for caching and rate limiting)
 # REDIS_URL = 'redis://127.0.0.1:6379/1'
 
@@ -102,6 +102,12 @@ if DEBUG:
         r"^http://localhost:\d+$",  # Allow any localhost port
         r"^http://127\.0\.0\.1:\d+$",  # Allow any 127.0.0.1 port
     ]
+
+# Always allow Vercel domains (both production and preview)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",  # Allow any Vercel subdomain
+    r"^https://nclexintl\.vercel\.app$",  # Allow specific production domain
+]
 
 # Security
 SECURE_SSL_REDIRECT = False

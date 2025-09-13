@@ -191,7 +191,7 @@ export async function apiRequest(url, options = {}) {
       message: error.message,
       stack: error.stack,
       name: error.name,
-      url: fullUrl,
+      url: `${API_BASE_URL}${endpoint}`,
       options: options
     })
     
