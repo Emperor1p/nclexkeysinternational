@@ -107,7 +107,7 @@ if DEBUG:
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.vercel\.app$",  # Allow any Vercel subdomain
     r"^https://nclexintl\.vercel\.app$",  # Allow specific production domain
-]
+    ]
 
 # Security
 SECURE_SSL_REDIRECT = False
