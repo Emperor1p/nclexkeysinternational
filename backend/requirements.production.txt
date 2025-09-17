@@ -30,6 +30,7 @@ django-anymail==10.2
 redis>=4.5.2,<5.0.0
 django-redis==5.4.0
 celery[redis]==5.3.4
+django-celery-beat==2.8.1
 
 # Environment & Configuration
 python-dotenv==1.1.1
