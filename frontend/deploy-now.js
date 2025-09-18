@@ -29,3 +29,5 @@ try {
   console.error('❌ Error during deployment:', error.message);
   console.log('💡 Alternative: Go to Vercel dashboard and manually trigger deployment');
 }
+
+
