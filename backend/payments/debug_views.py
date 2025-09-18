@@ -137,3 +137,68 @@ def create_test_gateway(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def setup_payment_system(request):
+    """
+    Setup complete payment system including migrations
+    POST /api/payments/setup-system/
+    """
+    try:
+        from django.core.management import call_command
+        from django.db import connection
+        from io import StringIO
+        import sys
+        
+        # Capture output
+        old_stdout = sys.stdout
+        sys.stdout = captured_output = StringIO()
+        
+        try:
+            # Run migrations
+            call_command('migrate', 'payments', verbosity=0)
+            
+            # Setup payment gateway
+            call_command('setup_payment_gateway', verbosity=0)
+            
+            # Get output
+            output = captured_output.getvalue()
+            
+            # Check if tables exist now
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    SELECT EXISTS (
+                        SELECT FROM information_schema.tables 
+                        WHERE table_name = 'payment_gateways'
+                    );
+                """)
+                gateways_table_exists = cursor.fetchone()[0]
+                
+                cursor.execute("""
+                    SELECT EXISTS (
+                        SELECT FROM information_schema.tables 
+                        WHERE table_name = 'payments'
+                    );
+                """)
+                payments_table_exists = cursor.fetchone()[0]
+            
+            return Response({
+                'success': True,
+                'message': 'Payment system setup completed',
+                'output': output,
+                'tables_created': {
+                    'payment_gateways': gateways_table_exists,
+                    'payments': payments_table_exists
+                }
+            })
+            
+        finally:
+            sys.stdout = old_stdout
+        
+    except Exception as e:
+        logger.error(f"Setup payment system error: {str(e)}")
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
