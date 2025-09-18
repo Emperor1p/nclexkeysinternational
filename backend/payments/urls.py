@@ -11,6 +11,7 @@ urlpatterns = [
     path('create-test-gateway/', debug_views.create_test_gateway, name='create_test_gateway'),
     path('setup-system/', debug_views.setup_payment_system, name='setup_payment_system'),
     path('create-tables/', debug_views.create_payment_tables, name='create_payment_tables'),
+    path('quick-fix-tables/', debug_views.quick_fix_payment_tables, name='quick_fix_payment_tables'),
     path('initialize/', payment_views.initialize_payment, name='initialize_payment'),
     path('verify/<str:reference>/', payment_views.verify_payment, name='verify_payment'),
     path('overview/', payment_views.admin_payment_overview, name='admin_payment_overview'),
