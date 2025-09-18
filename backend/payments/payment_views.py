@@ -184,22 +184,34 @@ def initialize_payment(request):
         # Get or create payment gateway
         try:
             gateway = PaymentGateway.objects.get(name=gateway_name, is_active=True)
+            logger.info(f"Found existing gateway: {gateway.id}")
         except PaymentGateway.DoesNotExist:
+            logger.info("No payment gateway found, creating default Paystack gateway")
             # Create default Paystack gateway if none exists
-            gateway = PaymentGateway.objects.create(
-                name='paystack',
-                display_name='Paystack',
-                is_active=True,
-                is_default=True,
-                public_key=getattr(settings, 'PAYSTACK_PUBLIC_KEY', ''),
-                secret_key=getattr(settings, 'PAYSTACK_SECRET_KEY', ''),
-                webhook_secret=getattr(settings, 'PAYSTACK_WEBHOOK_SECRET', ''),
-                supported_currencies=['NGN', 'USD', 'GHS', 'KES'],
-                transaction_fee_percentage=0.0150,  # 1.5%
-                transaction_fee_cap=2000.00,  # 2000 NGN cap
-                supports_transfers=True,
-                minimum_transfer_amount=1000.00
-            )
+            try:
+                gateway = PaymentGateway.objects.create(
+                    name='paystack',
+                    display_name='Paystack',
+                    is_active=True,
+                    is_default=True,
+                    public_key=getattr(settings, 'PAYSTACK_PUBLIC_KEY', 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19'),
+                    secret_key=getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here'),
+                    webhook_secret=getattr(settings, 'PAYSTACK_WEBHOOK_SECRET', ''),
+                    supported_currencies=['NGN', 'USD', 'GHS', 'KES'],
+                    transaction_fee_percentage=0.0150,  # 1.5%
+                    transaction_fee_cap=2000.00,  # 2000 NGN cap
+                    supports_transfers=True,
+                    minimum_transfer_amount=1000.00
+                )
+                logger.info(f"Created new gateway: {gateway.id}")
+            except Exception as gateway_error:
+                logger.error(f"Failed to create payment gateway: {str(gateway_error)}")
+                return Response({
+                    'success': False,
+                    'error': {
+                        'message': 'Payment gateway configuration error. Please contact support.'
+                    }
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         # Create payment record for student registration
         payment = Payment.objects.create(
