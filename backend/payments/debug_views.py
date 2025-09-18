@@ -202,3 +202,53 @@ def setup_payment_system(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_payment_tables(request):
+    """
+    Create payment tables using raw SQL
+    POST /api/payments/create-tables/
+    """
+    try:
+        from django.db import connection
+        import os
+        
+        # Read SQL file
+        sql_file_path = os.path.join(
+            os.path.dirname(__file__), 
+            '..', 'sql', 'create_payment_tables.sql'
+        )
+        
+        with open(sql_file_path, 'r') as f:
+            sql_content = f.read()
+        
+        # Execute SQL
+        with connection.cursor() as cursor:
+            cursor.execute(sql_content)
+        
+        # Verify tables exist
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_name IN ('payment_gateways', 'payments')
+                ORDER BY table_name;
+            """)
+            tables = cursor.fetchall()
+            
+            cursor.execute("SELECT COUNT(*) FROM payment_gateways;")
+            gateway_count = cursor.fetchone()[0]
+        
+        return Response({
+            'success': True,
+            'message': 'Payment tables created successfully',
+            'tables_created': [table[0] for table in tables],
+            'gateway_count': gateway_count
+        })
+        
+    except Exception as e:
+        logger.error(f"Create payment tables error: {str(e)}")
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
