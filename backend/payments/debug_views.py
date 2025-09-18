@@ -76,10 +76,11 @@ def debug_payment_system(request):
                                 supported_currencies JSONB DEFAULT '[]',
                                 transaction_fee_percentage DECIMAL(5,4) DEFAULT 0.0150,
                                 transaction_fee_cap DECIMAL(10,2),
-                                supports_transfers BOOLEAN DEFAULT FALSE,
-                                minimum_transfer_amount DECIMAL(10,2) DEFAULT 1000.00,
                                 created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-                                updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+                                updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                                supports_transfers BOOLEAN DEFAULT FALSE,
+                                transfer_secret_key VARCHAR(500),
+                                minimum_transfer_amount DECIMAL(10,2) DEFAULT 1000.00
                             );
                         """)
                         debug_info['auto_fix_gateways'] = '✅ Created'
