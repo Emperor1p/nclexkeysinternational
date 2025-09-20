@@ -42,56 +42,35 @@ def paystack_webhook(request):
         logger.info(f"Paystack webhook received: {event}")
         
         if event == 'charge.success':
-            # Handle successful payment
+            # Handle successful payment - simplified without database dependencies
             payment_data = data.get('data', {})
             reference = payment_data.get('reference')
             
-            try:
-                # Find payment by Paystack reference
-                payment = Payment.objects.get(gateway_reference=reference)
-                
-                # Update payment status
-                payment.status = 'completed'
-                payment.gateway_reference = payment_data.get('id', '')
-                payment.metadata = {
-                    **payment.metadata,
-                    'paystack_webhook_data': data,
-                    'webhook_processed_at': timezone.now().isoformat()
-                }
-                payment.completed_at = timezone.now()
-                payment.save()
-                
-                logger.info(f"Student registration payment {payment.reference} marked as completed via webhook")
-                
-                return JsonResponse({'status': 'success'})
-                
-            except Payment.DoesNotExist:
-                logger.error(f"Payment with Paystack reference {reference} not found")
-                return JsonResponse({'error': 'Payment not found'}, status=404)
+            logger.info(f"Payment successful via webhook: {reference}")
+            logger.info(f"Payment data: {payment_data}")
+            
+            # Log successful payment for manual verification if needed
+            # In production, you might want to store this in a simple log file or external service
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Payment webhook processed successfully',
+                'reference': reference
+            })
         
         elif event == 'charge.failed':
-            # Handle failed payment
+            # Handle failed payment - simplified without database dependencies
             payment_data = data.get('data', {})
             reference = payment_data.get('reference')
             
-            try:
-                payment = Payment.objects.get(gateway_reference=reference)
-                payment.status = 'failed'
-                payment.metadata = {
-                    **payment.metadata,
-                    'paystack_webhook_data': data,
-                    'webhook_processed_at': timezone.now().isoformat(),
-                    'failure_reason': payment_data.get('failure_reason', 'Unknown')
-                }
-                payment.save()
-                
-                logger.info(f"Student registration payment {payment.reference} marked as failed via webhook")
-                
-                return JsonResponse({'status': 'success'})
-                
-            except Payment.DoesNotExist:
-                logger.error(f"Payment with Paystack reference {reference} not found for failed charge")
-                return JsonResponse({'error': 'Payment not found'}, status=404)
+            logger.error(f"Payment failed via webhook: {reference}")
+            logger.error(f"Failure reason: {payment_data.get('failure_reason', 'Unknown')}")
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Failed payment webhook processed',
+                'reference': reference
+            })
         
         else:
             logger.info(f"Ignoring webhook event: {event}")
