@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.auth_urls')),  # Fixed: Proper API prefix
+    path('api/instructor/', include('users.instructor_auth_urls')),  # Instructor auth
     path('', include('users.urls')),  # Keep for other user URLs
     path('', include('courses.urls')),
     path('api/payments/', include('payments.urls')),
