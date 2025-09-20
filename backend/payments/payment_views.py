@@ -325,8 +325,9 @@ def initialize_payment(request):
                 payload["channels"] = ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"]
             
             # Make request to Paystack
+            secret_key = gateway.secret_key if gateway else getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
             headers = {
-                "Authorization": f"Bearer {gateway.secret_key}",
+                "Authorization": f"Bearer {secret_key}",
                 "Content-Type": "application/json"
             }
             
@@ -343,6 +344,8 @@ def initialize_payment(request):
                 if hasattr(payment, 'pk') and payment.pk and payment.gateway:
                     payment.save()
                     logger.info("Payment updated with gateway reference")
+                else:
+                    logger.info("Payment reference updated (temporary object, not saved to database)")
                 
                 logger.info(f"Payment initialized successfully: {payment.reference} for {email}")
                 
