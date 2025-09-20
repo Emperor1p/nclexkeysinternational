@@ -332,6 +332,7 @@ def quick_fix_payment_tables(request):
                         public_key VARCHAR(255),
                         secret_key VARCHAR(255),
                         webhook_secret VARCHAR(255),
+                        transfer_secret_key VARCHAR(255),
                         supported_currencies JSONB DEFAULT '[]',
                         transaction_fee_percentage DECIMAL(5,4) DEFAULT 0.0150,
                         transaction_fee_cap DECIMAL(10,2),
@@ -467,6 +468,7 @@ def create_payment_tables(request):
                         public_key VARCHAR(255),
                         secret_key VARCHAR(255),
                         webhook_secret VARCHAR(255),
+                        transfer_secret_key VARCHAR(255),
                         supported_currencies JSONB DEFAULT '[]',
                         transaction_fee_percentage DECIMAL(5,4) DEFAULT 0.0150,
                         transaction_fee_cap DECIMAL(10,2),
@@ -596,4 +598,80 @@ def create_payment_tables(request):
             'success': False,
             'error': str(e),
             'message': 'Failed to create payment tables'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def fix_database_schema(request):
+    """
+    Fix database schema issues by recreating tables with correct structure
+    GET /api/payments/fix-schema/
+    """
+    try:
+        from django.db import connection
+        
+        results = []
+        
+        # Step 1: Drop and recreate payment_gateways table
+        try:
+            with connection.cursor() as cursor:
+                # Drop existing table to fix schema issues
+                cursor.execute("DROP TABLE IF EXISTS payment_gateways CASCADE;")
+                
+                # Create table with complete schema
+                cursor.execute("""
+                    CREATE TABLE payment_gateways (
+                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        name VARCHAR(50) UNIQUE NOT NULL,
+                        display_name VARCHAR(100) NOT NULL,
+                        is_active BOOLEAN DEFAULT TRUE,
+                        is_default BOOLEAN DEFAULT FALSE,
+                        public_key VARCHAR(255),
+                        secret_key VARCHAR(255),
+                        webhook_secret VARCHAR(255),
+                        transfer_secret_key VARCHAR(255),
+                        supported_currencies JSONB DEFAULT '[]',
+                        transaction_fee_percentage DECIMAL(5,4) DEFAULT 0.0150,
+                        transaction_fee_cap DECIMAL(10,2),
+                        supports_transfers BOOLEAN DEFAULT FALSE,
+                        minimum_transfer_amount DECIMAL(10,2) DEFAULT 1000.00,
+                        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+                    );
+                """)
+                results.append("✅ payment_gateways table recreated with correct schema")
+                
+                # Insert default Paystack gateway
+                cursor.execute("""
+                    INSERT INTO payment_gateways (
+                        name, display_name, is_active, is_default,
+                        public_key, secret_key, webhook_secret, transfer_secret_key,
+                        supported_currencies, transaction_fee_percentage, transaction_fee_cap,
+                        supports_transfers, minimum_transfer_amount
+                    ) VALUES (
+                        'paystack', 'Paystack', TRUE, TRUE,
+                        'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
+                        'sk_live_your_live_paystack_secret_key_here',
+                        '', '',
+                        '["NGN", "USD", "GHS", "KES"]',
+                        0.0150, 2000.00,
+                        TRUE, 1000.00
+                    ) ON CONFLICT (name) DO NOTHING;
+                """)
+                results.append("✅ Default Paystack gateway inserted")
+                
+        except Exception as e:
+            results.append(f"❌ payment_gateways table error: {str(e)}")
+        
+        return Response({
+            'success': True,
+            'message': 'Database schema fixed successfully',
+            'results': results
+        })
+        
+    except Exception as e:
+        logger.error(f"Fix schema error: {str(e)}")
+        return Response({
+            'success': False,
+            'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
