@@ -264,17 +264,19 @@ def initialize_payment(request):
                     'description': 'NCLEX Keys Platform Access - Full Course Access'
                 }
             )
+            logger.info("Payment record created successfully in database")
         except Exception as payment_error:
             logger.error(f"Payment creation error: {str(payment_error)}")
             # If payment creation fails due to database issues, create a temporary payment object
-            if "transfer_secret_key" in str(payment_error):
+            if "transfer_secret_key" in str(payment_error) or "foreign key constraint" in str(payment_error):
                 logger.info("Creating temporary payment object for processing")
+                # Create a temporary payment object without saving to database
                 payment = Payment(
                     user=None,
                     course_id=None,
                     amount=amount,
                     currency=currency,
-                    gateway=gateway,
+                    gateway=None,  # Don't set gateway to avoid foreign key issues
                     reference=f"REG-{uuid.uuid4().hex[:8].upper()}",
                     status='pending',
                     payment_method=payment_type,
@@ -337,9 +339,10 @@ def initialize_payment(request):
                 
                 # Update payment with Paystack reference
                 payment.gateway_reference = response_data['data']['reference']
-                # Only save if payment is not temporary
-                if hasattr(payment, 'pk') and payment.pk:
+                # Only save if payment is not temporary and has a valid gateway
+                if hasattr(payment, 'pk') and payment.pk and payment.gateway:
                     payment.save()
+                    logger.info("Payment updated with gateway reference")
                 
                 logger.info(f"Payment initialized successfully: {payment.reference} for {email}")
                 
