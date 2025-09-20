@@ -185,114 +185,12 @@ def initialize_payment(request):
         amount = 30000  # 30,000 NGN for full platform access
         currency = 'NGN'
         
-        # Get or create payment gateway
-        try:
-            gateway = PaymentGateway.objects.get(name=gateway_name, is_active=True)
-            logger.info(f"Found existing gateway: {gateway.id}")
-        except PaymentGateway.DoesNotExist:
-            logger.info("No payment gateway found, creating default Paystack gateway")
-        except Exception as db_error:
-            logger.error(f"Database error when fetching gateway: {str(db_error)}")
-            # If there's a database schema issue, create a temporary gateway object
-            if "transfer_secret_key" in str(db_error):
-                logger.info("Detected schema issue, creating temporary gateway")
-                gateway = PaymentGateway(
-                    name='paystack',
-                    display_name='Paystack',
-                    is_active=True,
-                    is_default=True,
-                    public_key=getattr(settings, 'PAYSTACK_PUBLIC_KEY', 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19'),
-                    secret_key=getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here'),
-                    webhook_secret=getattr(settings, 'PAYSTACK_WEBHOOK_SECRET', ''),
-                    supported_currencies=['NGN', 'USD', 'GHS', 'KES'],
-                    transaction_fee_percentage=0.0150,
-                    transaction_fee_cap=2000.00,
-                    supports_transfers=True,
-                    minimum_transfer_amount=1000.00
-                )
-                # Don't save to database, just use for payment processing
-                logger.info("Using temporary gateway for payment processing")
-            else:
-                raise db_error
+        # Simple payment processing - no database dependencies
+        logger.info("Processing payment without database dependencies")
         
-        # Only try to create gateway if we haven't created a temporary one
-        if 'gateway' not in locals():
-            logger.info("No payment gateway found, creating default Paystack gateway")
-            # Create default Paystack gateway if none exists
-            try:
-                gateway = PaymentGateway.objects.create(
-                    name='paystack',
-                    display_name='Paystack',
-                    is_active=True,
-                    is_default=True,
-                    public_key=getattr(settings, 'PAYSTACK_PUBLIC_KEY', 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19'),
-                    secret_key=getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here'),
-                    webhook_secret=getattr(settings, 'PAYSTACK_WEBHOOK_SECRET', ''),
-                    supported_currencies=['NGN', 'USD', 'GHS', 'KES'],
-                    transaction_fee_percentage=0.0150,  # 1.5%
-                    transaction_fee_cap=2000.00,  # 2000 NGN cap
-                    supports_transfers=True,
-                    minimum_transfer_amount=1000.00
-                )
-                logger.info(f"Created new gateway: {gateway.id}")
-            except Exception as gateway_error:
-                logger.error(f"Failed to create payment gateway: {str(gateway_error)}")
-                return Response({
-                    'success': False,
-                    'error': {
-                        'message': 'Payment gateway configuration error. Please contact support.'
-                    }
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-        # Create payment record for student registration
-        try:
-            payment = Payment.objects.create(
-                user=None,  # Will be linked after user creation
-                course_id=None,  # No specific course for registration
-                amount=amount,
-                currency=currency,
-                gateway=gateway,
-                reference=f"REG-{uuid.uuid4().hex[:8].upper()}",
-                status='pending',
-                payment_method=payment_type,
-                customer_email=email,
-                customer_name=full_name,
-                customer_phone=user_data.get('phone_number', ''),
-                metadata={
-                    'payment_type': payment_type,
-                    'user_data': user_data,
-                    'description': 'NCLEX Keys Platform Access - Full Course Access'
-                }
-            )
-            logger.info("Payment record created successfully in database")
-        except Exception as payment_error:
-            logger.error(f"Payment creation error: {str(payment_error)}")
-            # If payment creation fails due to database issues, create a temporary payment object
-            if "transfer_secret_key" in str(payment_error) or "foreign key constraint" in str(payment_error):
-                logger.info("Creating temporary payment object for processing")
-                # Create a temporary payment object without saving to database
-                payment = Payment(
-                    user=None,
-                    course_id=None,
-                    amount=amount,
-                    currency=currency,
-                    gateway=None,  # Don't set gateway to avoid foreign key issues
-                    reference=f"REG-{uuid.uuid4().hex[:8].upper()}",
-                    status='pending',
-                    payment_method=payment_type,
-                    customer_email=email,
-                    customer_name=full_name,
-                    customer_phone=user_data.get('phone_number', ''),
-                    metadata={
-                        'payment_type': payment_type,
-                        'user_data': user_data,
-                        'description': 'NCLEX Keys Platform Access - Full Course Access'
-                    }
-                )
-                # Don't save to database, just use for payment processing
-                logger.info("Using temporary payment object for processing")
-            else:
-                raise payment_error
+        # Generate unique reference
+        payment_reference = f"REG-{uuid.uuid4().hex[:8].upper()}"
+        logger.info(f"Generated payment reference: {payment_reference}")
         
         # Generate payment URL using Paystack API
         try:
@@ -306,13 +204,13 @@ def initialize_payment(request):
                 "email": email,
                 "amount": int(amount * 100),  # Paystack expects amount in kobo (smallest currency unit)
                 "currency": currency,
-                "reference": payment.reference,
-                "callback_url": f"{getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')}/payment-status/{payment.reference}/",
+                "reference": payment_reference,
+                "callback_url": f"{getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')}/payment-status/{payment_reference}/",
                 "metadata": {
-                    "payment_id": str(payment.id),
                     "payment_type": payment_type,
-                    "description": "NCLEX Keys Platform Access",
-                    "user_data": user_data
+                    "customer_name": full_name,
+                    "customer_phone": user_data.get('phone_number', ''),
+                    "description": "NCLEX Keys Platform Access - Full Course Access"
                 }
             }
             
@@ -324,8 +222,8 @@ def initialize_payment(request):
                 # Default channels for Paystack
                 payload["channels"] = ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"]
             
-            # Make request to Paystack
-            secret_key = gateway.secret_key if gateway else getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
+            # Make request to Paystack - use direct secret key from settings
+            secret_key = getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
             headers = {
                 "Authorization": f"Bearer {secret_key}",
                 "Content-Type": "application/json"
@@ -338,22 +236,13 @@ def initialize_payment(request):
                 # Payment URL from Paystack
                 payment_url = response_data['data']['authorization_url']
                 
-                # Update payment with Paystack reference
-                payment.gateway_reference = response_data['data']['reference']
-                # Only save if payment is not temporary and has a valid gateway
-                if hasattr(payment, 'pk') and payment.pk and payment.gateway:
-                    payment.save()
-                    logger.info("Payment updated with gateway reference")
-                else:
-                    logger.info("Payment reference updated (temporary object, not saved to database)")
-                
-                logger.info(f"Payment initialized successfully: {payment.reference} for {email}")
+                logger.info(f"Payment initialized successfully: {payment_reference} for {email}")
                 
                 return Response({
                     'success': True,
                     'data': {
                         'payment_url': payment_url,
-                        'reference': payment.reference,
+                        'reference': payment_reference,
                         'amount': float(amount),
                         'currency': currency,
                         'gateway': gateway_name,
