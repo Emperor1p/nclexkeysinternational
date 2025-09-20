@@ -156,8 +156,12 @@ def initialize_payment(request):
         amount = request.data.get('amount')
         currency = request.data.get('currency', 'NGN')
         
-        # Get user data for student registration
+        # Get user data for student registration - handle both formats
         user_data = request.data.get('user_data', {})
+        
+        # Extract email and full_name from either user_data object or direct fields
+        email = user_data.get('email') or request.data.get('email')
+        full_name = user_data.get('full_name') or request.data.get('full_name')
         
         # Only allow student registration payments
         if payment_type != 'student_registration':
@@ -169,7 +173,7 @@ def initialize_payment(request):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         # Validate required user data
-        if not user_data.get('email') or not user_data.get('full_name'):
+        if not email or not full_name:
             return Response({
                 'success': False,
                 'error': {
@@ -223,8 +227,8 @@ def initialize_payment(request):
             reference=f"REG-{uuid.uuid4().hex[:8].upper()}",
             status='pending',
             payment_method=payment_type,
-            customer_email=user_data.get('email', ''),
-            customer_name=user_data.get('full_name', ''),
+            customer_email=email,
+            customer_name=full_name,
             customer_phone=user_data.get('phone_number', ''),
             metadata={
                 'payment_type': payment_type,
@@ -242,7 +246,7 @@ def initialize_payment(request):
             
             # Prepare payload for Paystack
             payload = {
-                "email": user_data.get('email', ''),
+                "email": email,
                 "amount": int(amount * 100),  # Paystack expects amount in kobo (smallest currency unit)
                 "currency": currency,
                 "reference": payment.reference,
@@ -280,7 +284,7 @@ def initialize_payment(request):
                 payment.gateway_reference = response_data['data']['reference']
                 payment.save()
                 
-                logger.info(f"Payment initialized successfully: {payment.reference} for {user_data.get('email')}")
+                logger.info(f"Payment initialized successfully: {payment.reference} for {email}")
                 
                 return Response({
                     'success': True,
