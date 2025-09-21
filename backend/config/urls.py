@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from users import setup_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +28,7 @@ urlpatterns = [
     path('api/messaging/', include('messaging.urls')),
     # Add webhook URLs directly to avoid double api prefix
     path('api/payments/webhooks/', include('payments.webhook_urls')),
+    # Database setup endpoints
+    path('api/setup/database/', setup_views.setup_database, name='setup_database'),
+    path('api/setup/status/', setup_views.check_database_status, name='check_database_status'),
 ]
