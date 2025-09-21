@@ -199,15 +199,6 @@ export default function ClientLoginPage() {
               </p>
             )}
             {rateLimitError && <RateLimitMessage error={rateLimitError} onRetry={handleRetry} />}
-            
-            {/* Default Instructor Credentials Info */}
-            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-xs text-blue-700 font-medium mb-1">Instructor Access:</p>
-              <p className="text-xs text-blue-600">
-                Email: instructor@nclexkeys.com<br/>
-                Password: instructor123
-              </p>
-            </div>
 
             <p className="mt-4 text-center text-sm text-muted-foreground">
               New student?{" "}
