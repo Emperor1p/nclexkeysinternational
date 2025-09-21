@@ -3,11 +3,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-export const metadata = {
-  title: "Instructor Login - NCLEX Virtual School",
-  description: "Login to access your instructor dashboard.",
-}
-
 export default function InstructorPage() {
   const router = useRouter()
 
