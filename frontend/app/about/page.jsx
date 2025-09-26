@@ -6,11 +6,11 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             About <span className="text-blue-600">NCLEX Keys International</span>
-          </h1>
+            </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Your dedicated partner in achieving NCLEX success through personalized learning, 
-            expert guidance, and proven strategies.
-          </p>
+              Your dedicated partner in achieving NCLEX success through personalized learning, 
+              expert guidance, and proven strategies.
+            </p>
         </div>
 
         {/* Meet Our Tutor Section */}
