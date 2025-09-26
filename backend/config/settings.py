@@ -37,7 +37,16 @@ SECRET_KEY = 'django-insecure-if8j+=!jy#771sta3@19&m-xyu)p6#*4zb@kh$v0u-jt35(a6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.222.151', 'api.nclex.com', '.ngrok-free.app', 'testserver']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    '192.168.222.151', 
+    'api.nclex.com', 
+    '.ngrok-free.app', 
+    'testserver',
+    'ec2-13-50-116-201.eu-north-1.compute.amazonaws.com',
+    '13.50.116.201'
+]
 
 # Environment Variables Template (.env file)
 # Database
@@ -114,7 +123,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.96.151:3000',  # Your actual network IP
     'http://192.168.222.151:3000',
     'http://192.168.222.151:3001',
-    'http://192.168.222.151:3002'
+    'http://192.168.222.151:3002',
+    'https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com',
+    'https://nclexkeysfrontend.s3-website.eu-north-1.amazonaws.com',
 ]
 
 # Additional CORS settings for development
@@ -336,22 +347,23 @@ EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
 DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
 
 # Frontend URL (for email links)
-FRONTEND_URL = 'http://192.168.222.151:3000'
+FRONTEND_URL = 'https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com'
 
 # Database Settings for Local SQLite
+# DATABASE (PostgreSQL on AWS RDS)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nclexkeysdb',
+        'USER': 'nclexkeysdb',
+        'PASSWORD': 'nclexkeysinternational',
+        'HOST': 'database-1.c9i8gmcwmltt.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
-
-# Uncomment the PostgreSQL configuration when Railway is back online
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default='postgresql://postgres:bxAcBqbOfsjmjHZFBQRbszYUQGofOhTS@shinkansen.proxy.rlwy.net:40760/railway'
-#     )
-# }
 
 
 

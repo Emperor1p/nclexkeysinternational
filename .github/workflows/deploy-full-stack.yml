@@ -36,18 +36,25 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          echo "Starting backend deployment..."
+          echo "🚀 Starting backend deployment..."
           cd /home/ubuntu/nclexkey/backend
-          echo "Pulling latest code..."
+          echo "📥 Pulling latest code..."
           git pull origin main
-          echo "Activating virtual environment..."
+          echo "📦 Activating virtual environment..."
           source venv/bin/activate
-          echo "Installing dependencies..."
+          echo "📥 Installing dependencies..."
           pip install -r requirements.txt
-          echo "Running migrations..."
+          echo "🗄️  Installing PostgreSQL client..."
+          pip install psycopg2-binary
+          echo "🔍 Testing database connection..."
+          python test_postgres_connection.py
+          echo "📋 Running migrations..."
+          python manage.py makemigrations
           python manage.py migrate
-          echo "Collecting static files..."
+          echo "📁 Collecting static files..."
           python manage.py collectstatic --noinput
+          echo "🧪 Testing Django application..."
+          python manage.py check --deploy
           echo "Restarting services..."
           sudo systemctl restart gunicorn
           sudo systemctl restart nginx
