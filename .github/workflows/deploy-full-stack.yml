@@ -41,8 +41,10 @@ jobs:
         EC2_HOST: ${{ secrets.EC2_HOST }}
     
     - name: Deploy to EC2
-      if: secrets.EC2_HOST != ''
+      if: env.EC2_HOST != ''
       uses: appleboy/ssh-action@v1.0.0
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
