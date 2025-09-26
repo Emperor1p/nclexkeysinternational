@@ -2,7 +2,7 @@
 
 // IMPORTANT: Ensure this URL points to your running backend API.
 // If your backend is deployed, update NEXT_PUBLIC_API_BASE_URL in your Vercel project settings
-const API_BASE_URL = "http://localhost:8000";  // Force localhost for testing
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://nclex-backend.onrender.com";
 console.log('API_BASE_URL initialized as:', API_BASE_URL);
 const INSTRUCTOR_API_BASE_URL = `${API_BASE_URL}/api/admin`
 const STUDENT_API_BASE_URL = `${API_BASE_URL}/api/courses`
@@ -187,7 +187,26 @@ export async function apiRequest(url, options = {}) {
     return handleResponse(response)
   } catch (error) {
     console.error("Network or unexpected error:", error)
-    return { success: false, error: { message: "Network error or unexpected issue." } }
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      url: `${API_BASE_URL}${endpoint}`,
+      options: options
+    })
+    
+    // Provide more specific error messages
+    let errorMessage = "Network error or unexpected issue."
+    
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      errorMessage = "Unable to connect to server. Please check your internet connection."
+    } else if (error.message.includes('CORS')) {
+      errorMessage = "Cross-origin request blocked. Please contact support."
+    } else if (error.message) {
+      errorMessage = error.message
+    }
+    
+    return { success: false, error: { message: errorMessage, originalError: error } }
   }
 }
 
@@ -397,6 +416,11 @@ export async function updateUserProfile(updates) {
   })
 }
 
+// 19b. Update User Profile (alias for compatibility)
+export async function updateProfile(updates) {
+  return updateUserProfile(updates)
+}
+
 // 20. Update User Profile (PATCH)
 export async function patchUserProfile(updates) {
   return apiRequest(`/api/auth/users/me/update/`, {
@@ -502,29 +526,57 @@ export async function checkPaymentStatus(reference) {
 // --- PAYMENT API ENDPOINTS ---
 export const paymentAPI = {
   // Initialize payment for a course or student registration
-  initializePayment: async (courseId, gateway = 'paystack', paymentType = 'course_enrollment', userData = null, amount = null, currency = 'NGN') => {
-    const payload = { 
-      gateway,
-      payment_type: paymentType
-    }
+  initializePayment: async (params) => {
+    // Handle both object parameter and individual parameters for backward compatibility
+    let payload = {}
     
-    if (paymentType === 'course_enrollment') {
-      payload.course_id = courseId
-      if (amount) {
-        payload.amount = amount
-        payload.currency = currency
+    if (typeof params === 'object' && params !== null) {
+      // New object-based API
+      payload = {
+        gateway: params.gateway || 'paystack',
+        payment_type: params.payment_type || 'course_enrollment'
       }
-    } else if (paymentType === 'student_registration' && userData) {
-      payload.email = userData.email
-      payload.full_name = userData.full_name
-      payload.phone_number = userData.phone_number
-      payload.amount = amount || 5000 // Student registration fee
-      payload.currency = currency || 'NGN'
+      
+      if (params.payment_type === 'course_enrollment' && params.course_id) {
+        payload.course_id = params.course_id
+        if (params.amount) {
+          payload.amount = params.amount
+          payload.currency = params.currency || 'NGN'
+        }
+      } else if (params.payment_type === 'student_registration' && params.user_data) {
+        // For student registration, extract required fields from user_data
+        payload.email = params.user_data.email
+        payload.full_name = params.user_data.full_name || params.user_data.first_name + ' ' + params.user_data.last_name
+        payload.amount = params.amount || 5000 // Student registration fee
+        payload.currency = params.currency || 'NGN'
+      }
+    } else {
+      // Legacy individual parameter API
+      const [courseId, gateway = 'paystack', paymentType = 'course_enrollment', userData = null, amount = null, currency = 'NGN'] = arguments
+      
+      payload = { 
+        gateway,
+        payment_type: paymentType
+      }
+      
+      if (paymentType === 'course_enrollment') {
+        payload.course_id = courseId
+        if (amount) {
+          payload.amount = amount
+          payload.currency = currency
+        }
+      } else if (paymentType === 'student_registration' && userData) {
+        // For student registration, extract required fields from userData
+        payload.email = userData.email
+        payload.full_name = userData.full_name || userData.first_name + ' ' + userData.last_name
+        payload.amount = amount || 5000 // Student registration fee
+        payload.currency = currency || 'NGN'
+      }
     }
     
     console.log('Initializing payment with payload:', payload)
     
-    return apiRequest(`/api/payments/initialize`, {
+    return apiRequest(`/api/payments/initialize/`, {
       method: "POST",
       body: JSON.stringify(payload),
     })
@@ -532,7 +584,7 @@ export const paymentAPI = {
 
   // Verify payment status
   verifyPayment: async (paymentId) => {
-    return apiRequest(`/api/payments/verify/${paymentId}`, {
+    return apiRequest(`/api/payments/verify/${paymentId}/`, {
       method: "POST",
     })
   },

@@ -1,12 +1,18 @@
 # payments/urls.py
 from django.urls import path
-from . import payment_views
+from . import payment_views, debug_views
 
 app_name = 'payments'
 
 urlpatterns = [
     path('simple-test/', payment_views.simple_test, name='simple_test'),
     path('debug/', payment_views.debug_payment_endpoint, name='debug_payment_endpoint'),
+    path('debug-system/', debug_views.debug_payment_system, name='debug_payment_system'),
+    path('create-test-gateway/', debug_views.create_test_gateway, name='create_test_gateway'),
+    path('setup-system/', debug_views.setup_payment_system, name='setup_payment_system'),
+    path('create-tables/', debug_views.create_payment_tables, name='create_payment_tables'),
+    path('quick-fix-tables/', debug_views.quick_fix_payment_tables, name='quick_fix_payment_tables'),
+    path('fix-schema/', debug_views.fix_database_schema, name='fix_database_schema'),
     path('initialize/', payment_views.initialize_payment, name='initialize_payment'),
     path('verify/<str:reference>/', payment_views.verify_payment, name='verify_payment'),
     path('overview/', payment_views.admin_payment_overview, name='admin_payment_overview'),

@@ -199,7 +199,7 @@ export default function ClientLoginPage() {
               </p>
             )}
             {rateLimitError && <RateLimitMessage error={rateLimitError} onRetry={handleRetry} />}
-            
+
             <p className="mt-4 text-center text-sm text-muted-foreground">
               New student?{" "}
               <Link href="/register" className="text-primary hover:underline font-medium">

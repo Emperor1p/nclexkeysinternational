@@ -35,18 +35,50 @@ export function ContactUsSection() {
       return
     }
 
-    // Simulate sending message
-    console.log("Contact Form Submission (Simulated):")
-    console.log(`Name: ${name}`)
-    console.log(`Email: ${email}`)
-    console.log(`Subject: ${subject}`)
-    console.log(`Message: ${message}`)
+    try {
+      // Create email content
+      const emailBody = `
+Name: ${name}
+Email: ${email}
+Subject: ${subject}
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+Message:
+${message}
 
-    toast({ title: "Message Sent", description: "Your message has been sent successfully (simulated)!" })
-    formRef.current?.reset() // Clear the form on success
-    setIsPending(false)
+---
+This message was sent from the Nclexkeys contact form.
+      `.trim()
+
+      // Create mailto link with pre-filled content
+      const mailtoLink = `mailto:nclexkeysintl.academy@gmail.com?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`
+      
+      // Open email client
+      window.location.href = mailtoLink
+      
+      // Log for debugging
+      console.log("Contact Form Submission:")
+      console.log(`Name: ${name}`)
+      console.log(`Email: ${email}`)
+      console.log(`Subject: ${subject}`)
+      console.log(`Message: ${message}`)
+      console.log(`Sending to: nclexkeysintl.academy@gmail.com`)
+
+      toast({ 
+        title: "Email Client Opened", 
+        description: "Your email client has been opened with the message pre-filled. Please send the email to complete your inquiry." 
+      })
+      
+      formRef.current?.reset() // Clear the form
+      setIsPending(false)
+    } catch (error) {
+      console.error("Error opening email client:", error)
+      toast({ 
+        title: "Error", 
+        description: "There was an error opening your email client. Please try again or contact us directly at nclexkeysintl.academy@gmail.com", 
+        variant: "destructive" 
+      })
+      setIsPending(false)
+    }
   }
 
   return (

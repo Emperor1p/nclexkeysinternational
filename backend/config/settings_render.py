@@ -31,18 +31,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-# Database - Use Render's PostgreSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'nclex_production'),
-        'USER': os.environ.get('DB_USER', 'nclex_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
-    }
-}
-
 # If DATABASE_URL is provided by Render, use it
 if 'DATABASE_URL' in os.environ:
     import dj_database_url

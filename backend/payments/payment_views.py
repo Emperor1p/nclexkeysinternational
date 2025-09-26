@@ -156,8 +156,12 @@ def initialize_payment(request):
         amount = request.data.get('amount')
         currency = request.data.get('currency', 'NGN')
         
-        # Get user data for student registration
+        # Get user data for student registration - handle both formats
         user_data = request.data.get('user_data', {})
+        
+        # Extract email and full_name from either user_data object or direct fields
+        email = user_data.get('email') or request.data.get('email')
+        full_name = user_data.get('full_name') or request.data.get('full_name')
         
         # Only allow student registration payments
         if payment_type != 'student_registration':
@@ -169,7 +173,7 @@ def initialize_payment(request):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         # Validate required user data
-        if not user_data.get('email') or not user_data.get('full_name'):
+        if not email or not full_name:
             return Response({
                 'success': False,
                 'error': {
@@ -181,45 +185,12 @@ def initialize_payment(request):
         amount = 30000  # 30,000 NGN for full platform access
         currency = 'NGN'
         
-        # Get or create payment gateway
-        try:
-            gateway = PaymentGateway.objects.get(name=gateway_name, is_active=True)
-        except PaymentGateway.DoesNotExist:
-            # Create default Paystack gateway if none exists
-            gateway = PaymentGateway.objects.create(
-                name='paystack',
-                display_name='Paystack',
-                is_active=True,
-                is_default=True,
-                public_key=getattr(settings, 'PAYSTACK_PUBLIC_KEY', ''),
-                secret_key=getattr(settings, 'PAYSTACK_SECRET_KEY', ''),
-                webhook_secret=getattr(settings, 'PAYSTACK_WEBHOOK_SECRET', ''),
-                supported_currencies=['NGN', 'USD', 'GHS', 'KES'],
-                transaction_fee_percentage=0.0150,  # 1.5%
-                transaction_fee_cap=2000.00,  # 2000 NGN cap
-                supports_transfers=True,
-                minimum_transfer_amount=1000.00
-            )
+        # Simple payment processing - no database dependencies
+        logger.info("Processing payment without database dependencies")
         
-        # Create payment record for student registration
-        payment = Payment.objects.create(
-            user=None,  # Will be linked after user creation
-            course_id=None,  # No specific course for registration
-            amount=amount,
-            currency=currency,
-            gateway=gateway,
-            reference=f"REG-{uuid.uuid4().hex[:8].upper()}",
-            status='pending',
-            payment_method=payment_type,
-            customer_email=user_data.get('email', ''),
-            customer_name=user_data.get('full_name', ''),
-            customer_phone=user_data.get('phone_number', ''),
-            metadata={
-                'payment_type': payment_type,
-                'user_data': user_data,
-                'description': 'NCLEX Keys Platform Access - Full Course Access'
-            }
-        )
+        # Generate unique reference
+        payment_reference = f"REG-{uuid.uuid4().hex[:8].upper()}"
+        logger.info(f"Generated payment reference: {payment_reference}")
         
         # Generate payment URL using Paystack API
         try:
@@ -230,16 +201,16 @@ def initialize_payment(request):
             
             # Prepare payload for Paystack
             payload = {
-                "email": user_data.get('email', ''),
+                "email": email,
                 "amount": int(amount * 100),  # Paystack expects amount in kobo (smallest currency unit)
                 "currency": currency,
-                "reference": payment.reference,
-                "callback_url": f"{getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')}/payment-status/{payment.reference}/",
+                "reference": payment_reference,
+                "callback_url": f"{getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')}/payment-status/{payment_reference}/",
                 "metadata": {
-                    "payment_id": str(payment.id),
                     "payment_type": payment_type,
-                    "description": "NCLEX Keys Platform Access",
-                    "user_data": user_data
+                    "customer_name": full_name,
+                    "customer_phone": user_data.get('phone_number', ''),
+                    "description": "NCLEX Keys Platform Access - Full Course Access"
                 }
             }
             
@@ -251,9 +222,10 @@ def initialize_payment(request):
                 # Default channels for Paystack
                 payload["channels"] = ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"]
             
-            # Make request to Paystack
+            # Make request to Paystack - use direct secret key from settings
+            secret_key = getattr(settings, 'PAYSTACK_SECRET_KEY', 'sk_live_your_live_paystack_secret_key_here')
             headers = {
-                "Authorization": f"Bearer {gateway.secret_key}",
+                "Authorization": f"Bearer {secret_key}",
                 "Content-Type": "application/json"
             }
             
@@ -264,17 +236,13 @@ def initialize_payment(request):
                 # Payment URL from Paystack
                 payment_url = response_data['data']['authorization_url']
                 
-                # Update payment with Paystack reference
-                payment.gateway_reference = response_data['data']['reference']
-                payment.save()
-                
-                logger.info(f"Payment initialized successfully: {payment.reference} for {user_data.get('email')}")
+                logger.info(f"Payment initialized successfully: {payment_reference} for {email}")
                 
                 return Response({
                     'success': True,
                     'data': {
                         'payment_url': payment_url,
-                        'reference': payment.reference,
+                        'reference': payment_reference,
                         'amount': float(amount),
                         'currency': currency,
                         'gateway': gateway_name,
@@ -471,8 +439,8 @@ def test_student_registration(request):
                     'display_name': 'Paystack',
                     'is_active': True,
                     'config': {
-                        'public_key': 'pk_test_...',
-                        'secret_key': 'sk_test_...'
+                        'public_key': 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
+                        'secret_key': 'sk_live_your_live_paystack_secret_key_here'
                     }
                 }
             )

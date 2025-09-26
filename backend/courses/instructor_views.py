@@ -619,8 +619,10 @@ def delete_course(request, course_id):
                     }
                 }, status=status.HTTP_200_OK)
             else:
-                # Safe to hard delete
-                course.delete()
+                # Safe to hard delete - store data before deletion
+                course_creator = course.created_by
+                course_id = course.id
+                course_thumbnail = course.thumbnail
                 
                 # Clean up video from Cloudinary
                 if video_public_id:
@@ -631,17 +633,17 @@ def delete_course(request, course_id):
                         logger.error(f"Failed to delete video from Cloudinary: {str(video_error)}")
                 
                 # Clean up thumbnail from Cloudinary
-                if course.thumbnail:
+                if course_thumbnail:
                     try:
                         # Extract public_id from thumbnail URL
                         thumbnail_public_id = None
                         
-                        if hasattr(course.thumbnail, 'public_id'):
-                            thumbnail_public_id = course.thumbnail.public_id
-                        elif course.thumbnail.url:
+                        if hasattr(course_thumbnail, 'public_id'):
+                            thumbnail_public_id = course_thumbnail.public_id
+                        elif course_thumbnail.url:
                             # Extract from URL if needed
                             import re
-                            url_match = re.search(r'/([^/]+)\.(jpg|jpeg|png|gif|webp)$', course.thumbnail.url)
+                            url_match = re.search(r'/([^/]+)\.(jpg|jpeg|png|gif|webp)$', course_thumbnail.url)
                             if url_match:
                                 thumbnail_public_id = f"courses/thumbnails/{url_match.group(1)}"
                         
@@ -655,16 +657,19 @@ def delete_course(request, course_id):
                 # Clean up any auto-generated thumbnails for this course
                 try:
                     # Delete by tag (more reliable for auto-generated thumbnails)
-                    api.delete_resources_by_tag(f"course_id_{course.id}")
-                    logger.info(f"Auto-generated thumbnails deleted for course: {course.id}")
+                    api.delete_resources_by_tag(f"course_id_{course_id}")
+                    logger.info(f"Auto-generated thumbnails deleted for course: {course_id}")
                 except Exception as tag_error:
                     logger.error(f"Failed to delete tagged resources: {str(tag_error)}")
 
+                # Delete the course
+                course.delete()
+
                 # Course is being permanently deleted
                 # Notify instructor about permanent deletion
-                AdminEmailService.notify_instructor_course_deleted(course_title, course.created_by, request.user)
+                AdminEmailService.notify_instructor_course_deleted(course_title, course_creator, request.user)
                 # Notify platform admins about deletion
-                AdminEmailService.notify_platform_admins_course_deleted(course_title, course.created_by, request.user)
+                AdminEmailService.notify_platform_admins_course_deleted(course_title, course_creator, request.user)
 
                 logger.info(f"Course deleted: {course_title} by admin {request.user.email}")
                 
