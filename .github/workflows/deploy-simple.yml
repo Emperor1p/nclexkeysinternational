@@ -1,0 +1,53 @@
+name: Simple Deploy to AWS
+
+on:
+  push:
+    branches: [ main, production-ready ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deploy Backend to EC2
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          echo "🚀 Starting backend deployment..."
+          cd /home/ubuntu/nclexkey/backend
+          echo "📥 Pulling latest code..."
+          git pull origin main
+          echo "🔧 Activating virtual environment..."
+          source venv/bin/activate
+          echo "📦 Installing dependencies..."
+          pip install -r requirements.txt
+          echo "🗄️ Running database migrations..."
+          python manage.py migrate
+          echo "📁 Collecting static files..."
+          python manage.py collectstatic --noinput
+          echo "🔄 Restarting services..."
+          sudo systemctl restart gunicorn
+          sudo systemctl restart nginx
+          echo "✅ Backend deployment completed!"
+    
+    - name: Deploy Frontend to S3
+      run: |
+        echo "🚀 Starting frontend deployment..."
+        cd frontend
+        echo "📦 Installing Node.js dependencies..."
+        npm install
+        echo "🔨 Building frontend..."
+        npm run build
+        echo "☁️ Configuring AWS..."
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set default.region eu-north-1
+        echo "📤 Deploying to S3..."
+        aws s3 sync out/ s3://nclexkeysfrontend --delete
+        echo "✅ Frontend deployment completed!"
