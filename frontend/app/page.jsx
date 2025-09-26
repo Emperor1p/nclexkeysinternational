@@ -10,6 +10,8 @@ export default function HomePage() {
             Professional NCLEX preparation courses designed to help you pass your exam with confidence.
             <br />
             <span className="text-sm text-blue-600 font-semibold">🚀 Automatic deployment is now active!</span>
+            <br />
+            <span className="text-sm text-green-600 font-semibold">🔗 Frontend connected to live backend!</span>
           </p>
           <div className="space-x-4">
             <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">

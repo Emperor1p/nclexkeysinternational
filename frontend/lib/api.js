@@ -1,9 +1,10 @@
 "use client"
 
 // IMPORTANT: Ensure this URL points to your running backend API.
-// If your backend is deployed, update NEXT_PUBLIC_API_BASE_URL in your Vercel project settings
-const API_BASE_URL = "http://localhost:8000";  // Force localhost for testing
-console.log('API_BASE_URL initialized as:', API_BASE_URL);
+// Production backend URL for deployed application
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000";
+console.log('🚀 Frontend connecting to backend at:', API_BASE_URL);
+console.log('🌐 Environment:', process.env.NODE_ENV);
 const INSTRUCTOR_API_BASE_URL = `${API_BASE_URL}/api/admin`
 const STUDENT_API_BASE_URL = `${API_BASE_URL}/api/courses`
 

@@ -6,6 +6,11 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
   distDir: 'out',
   
+  // Environment variables for production
+  env: {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000',
+  },
+  
   // Image optimization for static export
   images: {
     unoptimized: true, // Required for static export
