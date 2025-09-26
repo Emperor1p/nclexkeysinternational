@@ -1,4 +1,5 @@
 import { AboutSchoolSection } from "@/components/sections/about-school-section"
+import { BoardOfDirectorsSection } from "@/components/sections/board-of-directors-section"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 
@@ -28,6 +29,9 @@ export default function AboutPage() {
 
         {/* Enhanced About Section */}
         <AboutSchoolSection />
+
+        {/* Board of Directors Section */}
+        <BoardOfDirectorsSection />
 
         {/* Mission Statement */}
         <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">

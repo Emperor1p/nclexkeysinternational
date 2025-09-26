@@ -298,14 +298,26 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'NCLEX <noreply@yourdo
 # Frontend URL (for email links)
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
-# DATABASE (PostgreSQL on Render)
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True,
-    )
-}
+# DATABASE (PostgreSQL on AWS RDS)
+# Import database configuration
+try:
+    from database_config import RDS_DATABASE_CONFIG, DATABASE_URL
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
+    }
+except ImportError:
+    # Fallback to environment variables
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL", "postgresql://nclexkeysdb:nclexkeysinternational@database-1.c9i8gmcwmltt.eu-north-1.rds.amazonaws.com:5432/nclexkeysdb"),
+            conn_max_age=600,
+            ssl_require=True,
+        )
+    }
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'

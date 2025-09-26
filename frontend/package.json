@@ -1,12 +1,14 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
+  "name": "nclex-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "export": "next build && next export",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -40,9 +42,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "critters": "^0.0.23",
     "date-fns": "^3.6.0",
-    "embla-carousel-react": "8.5.1",
+    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
     "hls.js": "^1.6.9",
     "input-otp": "1.4.1",
