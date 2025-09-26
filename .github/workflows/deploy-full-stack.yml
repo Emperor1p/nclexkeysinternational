@@ -96,9 +96,10 @@ jobs:
         cd frontend
         aws s3 sync out/ s3://nclexkeysfrontend --delete
         echo "Frontend deployed to S3 successfully!"
+        echo "🌐 Frontend is now live at: https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com"
     
-    - name: Invalidate CloudFront (Optional)
-      if: secrets.CLOUDFRONT_DISTRIBUTION_ID != ''
+    - name: Invalidate CloudFront Cache
       run: |
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-        echo "CloudFront cache invalidated!"
+        echo "Invalidating CloudFront cache..."
+        aws cloudfront create-invalidation --distribution-id E378LQ3H4KFM78 --paths "/*"
+        echo "✅ CloudFront cache invalidated successfully!"
