@@ -1,6 +1,4 @@
 # PowerShell script to get SSH key content for GitHub secrets
-# Run this script to display your SSH key content
-
 Write-Host "🔑 Getting SSH Key Content for GitHub Secrets..." -ForegroundColor Green
 Write-Host ""
 
@@ -10,9 +8,9 @@ if (Test-Path $keyPath) {
     Write-Host "✅ Found SSH key file: $keyPath" -ForegroundColor Green
     Write-Host ""
     Write-Host "📋 SSH Key Content (copy this for EC2_SSH_KEY secret):" -ForegroundColor Yellow
-    Write-Host "=" * 60 -ForegroundColor Gray
+    Write-Host ("=" * 60) -ForegroundColor Gray
     Get-Content $keyPath
-    Write-Host "=" * 60 -ForegroundColor Gray
+    Write-Host ("=" * 60) -ForegroundColor Gray
     Write-Host ""
     Write-Host "📝 Instructions:" -ForegroundColor Cyan
     Write-Host "1. Copy the entire content above (including BEGIN and END lines)" -ForegroundColor White
