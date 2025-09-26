@@ -108,7 +108,7 @@ export default function AboutPage() {
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative">
                   <img
-                    src="/images/board/lawal-boluwatife-joseph.jpg"
+                    src="/User1.jpg"
                     alt="Lawal Boluwatife Joseph - Board Member"
                     className="w-full h-64 object-cover"
                   />
