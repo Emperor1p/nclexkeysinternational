@@ -1,16 +1,49 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Optimize for AWS S3 deployment
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'out',
+  
+  // Image optimization for static export
   images: {
-    domains: ['localhost', 'res.cloudinary.com', 'images.unsplash.com'],
+    unoptimized: true, // Required for static export
+    domains: [
+      'localhost', 
+      'res.cloudinary.com', 
+      'images.unsplash.com',
+      process.env.NEXT_PUBLIC_CDN_URL?.replace('https://', '').replace('http://', ''),
+      process.env.NEXT_PUBLIC_API_BASE_URL?.replace('https://', '').replace('http://', ''),
+    ].filter(Boolean),
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:8000/api/:path*',
-      },
-    ]
+  
+  // Note: Security headers are configured at the S3/CloudFront level
+  // since they don't work with static export
+  
+  // Webpack optimization for smaller bundle
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
+      };
+    }
+    
+    return config;
   },
+  
+  // Production optimizations
+  compress: true,
+  poweredByHeader: false,
 }
 
 export default nextConfig
