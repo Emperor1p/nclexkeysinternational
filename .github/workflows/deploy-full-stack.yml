@@ -36,14 +36,22 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          echo "Starting backend deployment..."
           cd /home/ubuntu/nclexkey/backend
+          echo "Pulling latest code..."
           git pull origin main
+          echo "Activating virtual environment..."
           source venv/bin/activate
+          echo "Installing dependencies..."
           pip install -r requirements.txt
+          echo "Running migrations..."
           python manage.py migrate
+          echo "Collecting static files..."
           python manage.py collectstatic --noinput
+          echo "Restarting services..."
           sudo systemctl restart gunicorn
           sudo systemctl restart nginx
+          echo "Backend deployment completed successfully!"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -80,4 +88,10 @@ jobs:
       run: |
         cd frontend
         aws s3 sync out/ s3://nclexkeysfrontend --delete
+        echo "Frontend deployed to S3 successfully!"
+    
+    - name: Invalidate CloudFront (Optional)
+      if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+      run: |
         aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        echo "CloudFront cache invalidated!"
