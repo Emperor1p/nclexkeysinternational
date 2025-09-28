@@ -10,8 +10,10 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Stethoscope, Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function LoginPage() {
+  const { login, user } = useAuth()
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -36,27 +38,22 @@ export default function LoginPage() {
     setError("")
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const result = await login(formData.email, formData.password)
       
-      // For demo purposes, accept any email/password
-      if (formData.email && formData.password) {
-        // Store user session
-        localStorage.setItem('user', JSON.stringify({
-          email: formData.email,
-          name: formData.email.split('@')[0],
-          loginTime: new Date().toISOString()
-        }))
-        
-        // Redirect to dashboard or programs page
-        const selectedCourse = localStorage.getItem('selectedCourse')
-        if (selectedCourse) {
-          router.push('/register') // Go to register with selected course
+      if (result.success) {
+        // Redirect based on user role
+        if (result.user.role === 'instructor') {
+          router.push('/admin')
         } else {
-          router.push('/programs') // Go to programs page
+          const selectedCourse = localStorage.getItem('selectedCourse')
+          if (selectedCourse) {
+            router.push('/register') // Go to register with selected course
+          } else {
+            router.push('/dashboard') // Go to student dashboard
+          }
         }
       } else {
-        setError("Please fill in all fields")
+        setError(result.error || "Login failed. Please try again.")
       }
     } catch (err) {
       setError("Login failed. Please try again.")
