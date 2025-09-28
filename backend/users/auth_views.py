@@ -43,7 +43,8 @@ def register(request):
         password = request.data.get('password')
         full_name = request.data.get('fullName') or request.data.get('full_name')
         phone_number = request.data.get('phoneNumber') or request.data.get('phone_number')
-        payment_reference = request.data.get('paymentReference') or request.data.get('payment_reference')
+        payment_status = request.data.get('payment_status')
+        registration_code = request.data.get('registration_code')
         
         if not all([email, password, full_name]):
             return Response({
@@ -62,35 +63,38 @@ def register(request):
                 }
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        # Verify payment before creating user
-        if not payment_reference:
+        # Validate payment status and registration code
+        if payment_status == "no":
             return Response({
                 'success': False,
                 'error': {
-                    'message': 'Payment reference is required for student registration.'
+                    'message': 'Payment is required to register. Please contact admin to make payment first.'
                 }
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        # Check if payment exists and is completed
-        try:
-            from payments.models import Payment
-            payment = Payment.objects.get(reference=payment_reference)
-            
-            if payment.status != 'completed':
+        if payment_status == "yes":
+            if not registration_code:
                 return Response({
                     'success': False,
                     'error': {
-                        'message': 'Payment not completed. Please complete payment first.'
+                        'message': 'Registration code is required when payment is completed.'
                     }
                 }, status=status.HTTP_400_BAD_REQUEST)
-                
-        except Payment.DoesNotExist:
-            return Response({
-                'success': False,
-                'error': {
-                    'message': 'Invalid payment reference. Please complete payment first.'
-                }
-            }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Validate registration code
+            from registration_codes.models import RegistrationCode
+            result = RegistrationCode.validate_code(registration_code)
+            
+            if not result['valid']:
+                return Response({
+                    'success': False,
+                    'error': {
+                        'message': result['error']
+                    }
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Mark code as used
+            registration_code_obj = result['code']
         
         # Create student user
         user = User.objects.create(
@@ -104,9 +108,9 @@ def register(request):
         user.set_password(password)
         user.save()
         
-        # Link payment to user
-        payment.user = user
-        payment.save()
+        # Mark registration code as used by this user
+        if payment_status == "yes" and registration_code_obj:
+            registration_code_obj.mark_as_used(user)
         
         # Generate JWT token
         token = generate_jwt_token(user)

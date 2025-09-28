@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Stethoscope, Eye, EyeOff, ArrowLeft, Loader2, User, Mail, Phone, Lock } from "lucide-react"
+import { Stethoscope, Eye, EyeOff, ArrowLeft, Loader2, User, Mail, Phone, Lock, CreditCard, CheckCircle } from "lucide-react"
 import { motion } from "framer-motion"
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -20,7 +21,9 @@ export default function RegisterPage() {
     email: "",
     phone: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    paymentStatus: "",
+    registrationCode: ""
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -32,6 +35,20 @@ export default function RegisterPage() {
     e.preventDefault()
     setIsLoading(true)
     setError("")
+
+    // Validate payment status
+    if (formData.paymentStatus === "no") {
+      setError("Payment is required to register. Please contact admin to make payment first.")
+      setIsLoading(false)
+      return
+    }
+
+    // Validate registration code if payment is yes
+    if (formData.paymentStatus === "yes" && !formData.registrationCode.trim()) {
+      setError("Registration code is required when payment is completed.")
+      setIsLoading(false)
+      return
+    }
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -48,20 +65,22 @@ export default function RegisterPage() {
     }
 
     try {
-      // Register user with backend
+      // Register user with backend including payment verification
       const result = await register({
         email: formData.email,
         password: formData.password,
         first_name: formData.firstName,
         last_name: formData.lastName,
-        phone: formData.phone
+        phone: formData.phone,
+        payment_status: formData.paymentStatus,
+        registration_code: formData.registrationCode
       })
       
       if (result.success) {
         // Redirect to dashboard
         router.push('/dashboard')
       } else {
-        setError(result.error || "Registration failed. Please try again.")
+        setError(result.error || "Registration failed. Please check your registration code or try again.")
       }
     } catch (err) {
       setError("Registration failed. Please try again.")
@@ -198,6 +217,68 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Payment Status Selection */}
+              <div className="space-y-2">
+                <Label className="text-gray-700 font-medium flex items-center">
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Have you made payment?
+                </Label>
+                <Select 
+                  value={formData.paymentStatus} 
+                  onValueChange={(value) => setFormData({...formData, paymentStatus: value})}
+                >
+                  <SelectTrigger className="h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+                    <SelectValue placeholder="Select payment status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">Yes, I have paid</SelectItem>
+                    <SelectItem value="no">No, I haven't paid</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Registration Code (only show if payment is yes) */}
+              {formData.paymentStatus === "yes" && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="space-y-2"
+                >
+                  <Label htmlFor="registrationCode" className="text-gray-700 font-medium flex items-center">
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Registration Code
+                  </Label>
+                  <Input
+                    id="registrationCode"
+                    type="text"
+                    placeholder="Enter your registration code"
+                    value={formData.registrationCode}
+                    onChange={(e) => setFormData({...formData, registrationCode: e.target.value})}
+                    className="h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                    required
+                  />
+                  <p className="text-sm text-gray-600">
+                    Enter the unique code provided by admin after payment
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Show message if no payment */}
+              {formData.paymentStatus === "no" && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="bg-yellow-50 border border-yellow-200 rounded-lg p-4"
+                >
+                  <p className="text-yellow-800 text-sm">
+                    <strong>Payment Required:</strong> Please contact admin to make payment before registration. 
+                    You can reach admin through WhatsApp by clicking "Enroll" on the Programs page.
+                  </p>
+                </motion.div>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-gray-700 font-medium flex items-center">
                   <Lock className="h-4 w-4 mr-2" />
@@ -251,7 +332,7 @@ export default function RegisterPage() {
               <Button 
                 type="submit" 
                 className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                disabled={isLoading}
+                disabled={isLoading || formData.paymentStatus === "no"}
               >
                 {isLoading ? (
                   <>

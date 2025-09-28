@@ -293,6 +293,7 @@ INSTALLED_APPS = [
     'progress',
     'chats',
     'payments',
+    'registration_codes',
     'adminpanel',
     'messaging',
 ]

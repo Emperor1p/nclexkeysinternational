@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('courses.urls')),
     path('api/payments/', include('payments.urls')),
     path('api/messaging/', include('messaging.urls')),
+    path('api/registration-codes/', include('registration_codes.urls')),
     # Add webhook URLs directly to avoid double api prefix
     path('api/payments/webhooks/', include('payments.webhook_urls')),
 ]

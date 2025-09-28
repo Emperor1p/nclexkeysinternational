@@ -202,10 +202,14 @@ export function OurCoursesSection() {
                 Change Selection
               </Button>
               <Button 
-                asChild
+                onClick={() => {
+                  const whatsappMessage = `Hi! I'm interested in enrolling in the ${selectedCourse?.region} program (${selectedCourse?.currency} ${selectedCourse?.price.toLocaleString()}). Please provide me with payment details and registration code.`
+                  const whatsappUrl = `https://wa.me/2348034567890?text=${encodeURIComponent(whatsappMessage)}`
+                  window.open(whatsappUrl, '_blank')
+                }}
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href="/login">Enroll Now</Link>
+                Enroll Now
               </Button>
             </div>
           </div>
