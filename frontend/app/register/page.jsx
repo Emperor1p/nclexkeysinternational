@@ -31,11 +31,16 @@ export default function RegisterPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check if user came from programs page with selected course
+    // Always start with step 1 (registration form) when accessing register page directly
+    // Only skip to course selection if user came from programs page with a selected course
     const course = localStorage.getItem('selectedCourse')
     if (course) {
       setSelectedCourse(JSON.parse(course))
       setStep(2) // Skip to course selection step
+    } else {
+      // Clear any existing data and start fresh
+      localStorage.removeItem('tempUserData')
+      setStep(1) // Always start with registration form
     }
   }, [])
 
@@ -245,6 +250,23 @@ export default function RegisterPage() {
                 </Alert>
               </motion.div>
             )}
+
+            {/* Debug: Show current step */}
+            <div className="mb-4 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm">
+              <strong>Debug:</strong> Current step: {step} | Selected course: {selectedCourse ? selectedCourse.region : 'None'}
+              <Button 
+                onClick={() => {
+                  setStep(1)
+                  setSelectedCourse(null)
+                  localStorage.removeItem('selectedCourse')
+                  localStorage.removeItem('tempUserData')
+                }}
+                className="ml-4 text-xs"
+                variant="outline"
+              >
+                Reset to Step 1
+              </Button>
+            </div>
 
             {/* Step 1: Registration Form */}
             {step === 1 && (
