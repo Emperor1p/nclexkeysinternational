@@ -9,10 +9,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Stethoscope, Eye, EyeOff, ArrowLeft, Loader2, CheckCircle, CreditCard, Shield } from "lucide-react"
+import { Stethoscope, Eye, EyeOff, ArrowLeft, Loader2, CheckCircle, CreditCard, Shield, User, Mail, Phone, Lock } from "lucide-react"
 import { motion } from "framer-motion"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function RegisterPage() {
+  const { register } = useAuth()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -42,9 +44,9 @@ export default function RegisterPage() {
     if (currency === "NGN") {
       return `${price.toLocaleString()} NGN`
     } else if (currency === "USD") {
-      return `${price} US DOLLARS`
+      return `$${price} USD`
     } else if (currency === "GBP") {
-      return `${price} POUNDS`
+      return `£${price} GBP`
     }
     return `${price} ${currency}`
   }
@@ -61,12 +63,16 @@ export default function RegisterPage() {
       return
     }
 
+    // Validate password strength
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long")
+      setIsLoading(false)
+      return
+    }
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // Store user data
-      localStorage.setItem('user', JSON.stringify({
+      // Store user data temporarily
+      localStorage.setItem('tempUserData', JSON.stringify({
         ...formData,
         registrationTime: new Date().toISOString()
       }))
@@ -93,16 +99,19 @@ export default function RegisterPage() {
       // Import Paystack service
       const paystackService = (await import('@/lib/paystack')).default
       
+      // Get user data
+      const userData = JSON.parse(localStorage.getItem('tempUserData') || '{}')
+      
       // Prepare payment data
       const paymentData = {
-        amount: selectedCourse.price,
+        amount: selectedCourse.price * 100, // Convert to kobo/cents
         currency: selectedCourse.currency,
         userData: {
-          email: formData.email,
-          full_name: `${formData.firstName} ${formData.lastName}`,
-          phone_number: formData.phone,
-          first_name: formData.firstName,
-          last_name: formData.lastName
+          email: userData.email,
+          full_name: `${userData.firstName} ${userData.lastName}`,
+          phone_number: userData.phone,
+          first_name: userData.firstName,
+          last_name: userData.lastName
         },
         paymentMethod: 'card'
       }
@@ -111,24 +120,36 @@ export default function RegisterPage() {
       const result = await paystackService.processPayment(paymentData)
       
       if (result.success) {
-        // Store payment info
-        localStorage.setItem('payment', JSON.stringify({
-          course: selectedCourse,
-          amount: selectedCourse.price,
-          currency: selectedCourse.currency,
-          reference: result.reference,
-          status: 'processing',
-          paymentTime: new Date().toISOString()
-        }))
+        // Register user with backend after successful payment
+        const registrationResult = await register({
+          email: userData.email,
+          password: userData.password,
+          first_name: userData.firstName,
+          last_name: userData.lastName,
+          phone: userData.phone,
+          course: selectedCourse
+        })
         
-        // Store user data
-        localStorage.setItem('user', JSON.stringify({
-          ...formData,
-          registrationTime: new Date().toISOString()
-        }))
-        
-        // Redirect to success page
-        router.push('/payment-success')
+        if (registrationResult.success) {
+          // Store payment info
+          localStorage.setItem('payment', JSON.stringify({
+            course: selectedCourse,
+            amount: selectedCourse.price,
+            currency: selectedCourse.currency,
+            reference: result.reference,
+            status: 'completed',
+            paymentTime: new Date().toISOString()
+          }))
+          
+          // Clear temporary data
+          localStorage.removeItem('tempUserData')
+          localStorage.removeItem('selectedCourse')
+          
+          // Redirect to success page
+          router.push('/payment-success')
+        } else {
+          setError(registrationResult.error || "Registration failed. Please try again.")
+        }
       } else {
         setError("Payment initialization failed. Please try again.")
       }
@@ -142,6 +163,7 @@ export default function RegisterPage() {
 
   const goBackToPrograms = () => {
     localStorage.removeItem('selectedCourse')
+    localStorage.removeItem('tempUserData')
     router.push('/programs')
   }
 
@@ -236,7 +258,8 @@ export default function RegisterPage() {
               >
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-gray-700 font-medium">
+                    <Label htmlFor="firstName" className="text-gray-700 font-medium flex items-center">
+                      <User className="h-4 w-4 mr-2" />
                       First Name
                     </Label>
                     <Input
@@ -250,7 +273,8 @@ export default function RegisterPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-gray-700 font-medium">
+                    <Label htmlFor="lastName" className="text-gray-700 font-medium flex items-center">
+                      <User className="h-4 w-4 mr-2" />
                       Last Name
                     </Label>
                     <Input
@@ -266,7 +290,8 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700 font-medium">
+                  <Label htmlFor="email" className="text-gray-700 font-medium flex items-center">
+                    <Mail className="h-4 w-4 mr-2" />
                     Email Address
                   </Label>
                   <Input
@@ -281,7 +306,8 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-gray-700 font-medium">
+                  <Label htmlFor="phone" className="text-gray-700 font-medium flex items-center">
+                    <Phone className="h-4 w-4 mr-2" />
                     Phone Number
                   </Label>
                   <Input
@@ -296,7 +322,8 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-gray-700 font-medium">
+                  <Label htmlFor="password" className="text-gray-700 font-medium flex items-center">
+                    <Lock className="h-4 w-4 mr-2" />
                     Password
                   </Label>
                   <div className="relative">
@@ -320,7 +347,8 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">
+                  <Label htmlFor="confirmPassword" className="text-gray-700 font-medium flex items-center">
+                    <Lock className="h-4 w-4 mr-2" />
                     Confirm Password
                   </Label>
                   <div className="relative">

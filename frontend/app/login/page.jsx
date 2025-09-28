@@ -205,25 +205,10 @@ export default function LoginPage() {
               </motion.div>
             </form>
 
-            {/* Default Admin Credentials */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg"
-            >
-              <h4 className="text-sm font-semibold text-blue-800 mb-2">🔐 Default Admin Access</h4>
-              <div className="text-xs text-blue-700 space-y-1">
-                <p><strong>Admin:</strong> admin@nclexkeys.com / admin123456 (Full system access)</p>
-                <p><strong>Instructor:</strong> instructor@nclexkeys.com / instructor123456 (Course management)</p>
-                <p className="text-blue-600 mt-2">💡 Admin has full access, Instructor manages courses only</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
               className="mt-8 text-center"
             >
               <p className="text-gray-600 mb-4">
