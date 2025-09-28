@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export function HeroSection() {
   return (
-    <section className="relative w-full py-24 md:py-32 lg:py-40 pt-32 md:pt-40 lg:pt-48 overflow-hidden">
+    <section className="relative w-full py-24 md:py-32 lg:py-40 pt-32 md:pt-40 lg:pt-48 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating Particles */}
