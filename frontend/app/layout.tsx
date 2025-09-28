@@ -1,12 +1,21 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'NCLEX Keys International',
-  description: 'Professional NCLEX preparation courses',
+  description: 'Professional NCLEX preparation courses designed to help you pass your exam with confidence.',
+  keywords: 'NCLEX, nursing, exam preparation, RN, registered nurse, nursing courses',
+  authors: [{ name: 'NCLEX Keys International' }],
+  openGraph: {
+    title: 'NCLEX Keys International',
+    description: 'Professional NCLEX preparation courses designed to help you pass your exam with confidence.',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
@@ -16,7 +25,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
