@@ -218,6 +218,12 @@ export default function LoginPage() {
                 </Link>
               </p>
               
+              <p className="text-gray-600 mb-4">
+                <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800 font-semibold hover:underline">
+                  Forgot your password?
+                </Link>
+              </p>
+              
               <div className="flex items-center justify-center gap-4">
                 <Link 
                   href="/programs" 

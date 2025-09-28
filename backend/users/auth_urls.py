@@ -16,6 +16,14 @@ urlpatterns = [
     # User Management
     path('instructors/', auth_views.get_instructors, name='get_instructors'),
     
+    # Email Verification
+    path('verify-email/', auth_views.verify_email, name='verify_email'),
+    path('resend-verification/', auth_views.resend_verification, name='resend_verification'),
+    
+    # Password Reset
+    path('forgot-password/', auth_views.forgot_password, name='forgot_password'),
+    path('reset-password/', auth_views.reset_password, name='reset_password'),
+    
     # Development endpoints
     path('test-rate-limiting/', auth_views.test_rate_limiting, name='test_rate_limiting'),
     path('clear-rate-limit/', auth_views.clear_rate_limit_cache, name='clear_rate_limit_cache'),

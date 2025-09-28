@@ -348,12 +348,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'drevianey@gmail.com'
-EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
-DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
+EMAIL_HOST_USER = 'nclexkeysintl.academy@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your-app-password')
+DEFAULT_FROM_EMAIL = 'NCLEX Keys International <nclexkeysintl.academy@gmail.com>'
 
 # Frontend URL (for email links)
-FRONTEND_URL = 'https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com'
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://nclex-cx5hhtc91-peters-projects-db86b6fd.vercel.app')
 
 # Database Settings for Local SQLite
 # DATABASE (PostgreSQL on AWS RDS)

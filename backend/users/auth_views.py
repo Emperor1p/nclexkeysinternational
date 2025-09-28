@@ -112,6 +112,11 @@ def register(request):
         if payment_status == "yes" and registration_code_obj:
             registration_code_obj.mark_as_used(user)
         
+        # Create email verification
+        from .email_verification import EmailVerification
+        email_verification = EmailVerification.create_verification(user)
+        email_verification.send_verification_email()
+        
         # Generate JWT token
         token = generate_jwt_token(user)
         
@@ -428,4 +433,204 @@ def get_instructors(request):
             'error': {
                 'message': 'Failed to fetch instructors.'
             }
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def verify_email(request):
+    """Verify user email with token"""
+    try:
+        token = request.data.get('token')
+        
+        if not token:
+            return Response({
+                'success': False,
+                'error': 'Verification token is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        from .email_verification import EmailVerification
+        
+        try:
+            verification = EmailVerification.objects.get(token=token)
+        except EmailVerification.DoesNotExist:
+            return Response({
+                'success': False,
+                'error': 'Invalid verification token'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not verification.is_valid():
+            return Response({
+                'success': False,
+                'error': 'Verification token is expired or already used'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Mark email as verified
+        verification.is_verified = True
+        verification.verified_at = timezone.now()
+        verification.save()
+        
+        # Update user email verification status
+        user = verification.user
+        user.is_email_verified = True
+        user.save()
+        
+        return Response({
+            'success': True,
+            'message': 'Email verified successfully',
+            'user': {
+                'id': str(user.id),
+                'email': user.email,
+                'full_name': user.full_name,
+                'is_email_verified': user.is_email_verified
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Email verification error: {e}")
+        return Response({
+            'success': False,
+            'error': 'Email verification failed'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def resend_verification(request):
+    """Resend email verification"""
+    try:
+        email = request.data.get('email')
+        
+        if not email:
+            return Response({
+                'success': False,
+                'error': 'Email is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({
+                'success': False,
+                'error': 'User with this email does not exist'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        if user.is_email_verified:
+            return Response({
+                'success': False,
+                'error': 'Email is already verified'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        from .email_verification import EmailVerification
+        
+        # Create new verification
+        email_verification = EmailVerification.create_verification(user)
+        email_verification.send_verification_email()
+        
+        return Response({
+            'success': True,
+            'message': 'Verification email sent successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Resend verification error: {e}")
+        return Response({
+            'success': False,
+            'error': 'Failed to resend verification email'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def forgot_password(request):
+    """Send password reset email"""
+    try:
+        email = request.data.get('email')
+        
+        if not email:
+            return Response({
+                'success': False,
+                'error': 'Email is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Don't reveal if user exists or not for security
+            return Response({
+                'success': True,
+                'message': 'If an account with this email exists, a password reset link has been sent'
+            })
+        
+        from .email_verification import PasswordResetToken
+        
+        # Create password reset token
+        reset_token = PasswordResetToken.create_reset_token(user)
+        reset_token.send_reset_email()
+        
+        return Response({
+            'success': True,
+            'message': 'If an account with this email exists, a password reset link has been sent'
+        })
+        
+    except Exception as e:
+        logger.error(f"Forgot password error: {e}")
+        return Response({
+            'success': False,
+            'error': 'Failed to send password reset email'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password(request):
+    """Reset password with token"""
+    try:
+        token = request.data.get('token')
+        new_password = request.data.get('new_password')
+        
+        if not all([token, new_password]):
+            return Response({
+                'success': False,
+                'error': 'Token and new password are required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        if len(new_password) < 8:
+            return Response({
+                'success': False,
+                'error': 'Password must be at least 8 characters long'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        from .email_verification import PasswordResetToken
+        
+        try:
+            reset_token = PasswordResetToken.objects.get(token=token)
+        except PasswordResetToken.DoesNotExist:
+            return Response({
+                'success': False,
+                'error': 'Invalid reset token'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not reset_token.is_valid():
+            return Response({
+                'success': False,
+                'error': 'Reset token is expired or already used'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Update user password
+        user = reset_token.user
+        user.set_password(new_password)
+        user.save()
+        
+        # Mark token as used
+        reset_token.is_used = True
+        reset_token.used_at = timezone.now()
+        reset_token.save()
+        
+        return Response({
+            'success': True,
+            'message': 'Password reset successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Reset password error: {e}")
+        return Response({
+            'success': False,
+            'error': 'Password reset failed'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
