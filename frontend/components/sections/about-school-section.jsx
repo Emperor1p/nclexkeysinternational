@@ -279,7 +279,7 @@ export function AboutSchoolSection() {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
           {/* Board Member 1 - Lawal Boluwatife Joseph */}
           <motion.div
             className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto"
@@ -301,7 +301,7 @@ export function AboutSchoolSection() {
               </div>
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
-                  <h3 className="text-3xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                     Lawal Boluwatife Joseph
                   </h3>
                   <p className="text-blue-600 font-semibold text-xl">
@@ -351,7 +351,7 @@ export function AboutSchoolSection() {
               </div>
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
-                  <h3 className="text-3xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
                     Rita Okoro
                   </h3>
                   <p className="text-green-600 font-semibold text-xl">
@@ -398,7 +398,7 @@ export function AboutSchoolSection() {
               </div>
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
-                  <h3 className="text-3xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
                     Oladimeji Ajayi
                   </h3>
                   <p className="text-purple-600 font-semibold text-xl">

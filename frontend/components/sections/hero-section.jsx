@@ -52,10 +52,10 @@ export function HeroSection() {
       <div className="container mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
         {/* Left Content Section */}
         <div className="space-y-6 text-center lg:text-left animate-fade-in">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 animate-slide-in-up">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 animate-slide-in-up">
             Master the <span className="text-[#4F46E5] animate-pulse">NCLEX</span> with Expert Guidance
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 animate-slide-in-up delay-100">
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 animate-slide-in-up delay-100">
             Join thousands of nursing students who have successfully passed their NCLEX exam with our comprehensive
             virtual tutoring program. <strong>Student registration only - payment required.</strong>
           </p>
@@ -74,7 +74,7 @@ export function HeroSection() {
               Watch Demo
             </Button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-8 text-gray-800 animate-slide-in-up delay-300">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-8 text-gray-800 animate-slide-in-up delay-300">
             <div className="flex flex-col items-center lg:items-start group hover:scale-105 transition-transform duration-300">
               <Users className="h-10 w-10 text-[#4F46E5] mb-2 animate-bounce" />
               <span className="text-3xl font-bold animate-count-up">10,000+</span>

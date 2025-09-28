@@ -55,15 +55,13 @@ export function Header() {
             <Link href="/about" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
               About
             </Link>
-            <Link href="#our-courses" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
+            <Link href="/programs" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
               Programs
             </Link>
-            <Link href="#our-services" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
-              {" "}
-              {/* Added Services link */}
+            <Link href="/services" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
               Services
             </Link>
-            <Link href="#contact-us" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
+            <Link href="/contact" className="text-gray-600 hover:text-[#4F46E5] transition-colors">
               Contact
             </Link>
             <Button
