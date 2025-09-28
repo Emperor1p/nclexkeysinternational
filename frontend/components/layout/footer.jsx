@@ -25,7 +25,7 @@ export function Footer() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="space-y-4">
+        <div className="space-y-4">
               <motion.div
                 className="flex items-center gap-3"
                 whileHover={{ scale: 1.05 }}
@@ -51,7 +51,7 @@ export function Footer() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Facebook className="h-6 w-6 text-blue-400" />
-                  <span className="sr-only">Facebook</span>
+              <span className="sr-only">Facebook</span>
                 </motion.a>
                 <motion.a 
                   href="https://x.com/nclexkeys?t=4GfZzurcLrtZ0fzY4oL3AA&s=08" 
@@ -62,7 +62,7 @@ export function Footer() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Twitter className="h-6 w-6 text-sky-400" />
-                  <span className="sr-only">Twitter</span>
+              <span className="sr-only">Twitter</span>
                 </motion.a>
                 <motion.a 
                   href="https://www.linkedin.com/groups/14597271" 
@@ -73,10 +73,10 @@ export function Footer() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Linkedin className="h-6 w-6 text-indigo-400" />
-                  <span className="sr-only">LinkedIn</span>
+              <span className="sr-only">LinkedIn</span>
                 </motion.a>
-              </div>
-            </div>
+          </div>
+        </div>
           </motion.div>
 
           {/* Quick Links */}
@@ -107,7 +107,7 @@ export function Footer() {
                   >
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     {link.label}
-                  </Link>
+              </Link>
                 </motion.li>
               ))}
             </ul>
@@ -140,10 +140,10 @@ export function Footer() {
                   >
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     {link.label}
-                  </Link>
+              </Link>
                 </motion.li>
               ))}
-            </ul>
+          </ul>
           </motion.div>
 
           {/* Contact Us */}
@@ -154,7 +154,7 @@ export function Footer() {
             viewport={{ once: true }}
           >
             <h3 className="text-xl font-bold text-white mb-6">Contact Us</h3>
-            <div className="space-y-4">
+        <div className="space-y-4">
               <motion.div
                 className="flex items-start space-x-3"
                 whileHover={{ scale: 1.05 }}
@@ -207,22 +207,8 @@ export function Footer() {
               <p className="text-gray-500 text-sm mt-1">
                 Empowering healthcare professionals worldwide
               </p>
-            </div>
-            <motion.div 
-              className="flex items-center space-x-2 text-gray-400"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-sm">Made with</span>
-              <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="text-red-500"
-              >
-                ❤️
-              </motion.span>
-              <span className="text-sm">for healthcare professionals</span>
-            </motion.div>
-          </div>
+        </div>
+      </div>
         </motion.div>
       </div>
     </footer>
