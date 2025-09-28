@@ -87,24 +87,54 @@ export default function RegisterPage() {
 
   const handlePayment = async () => {
     setIsLoading(true)
+    setError("")
     
     try {
-      // Simulate Paystack payment
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      // Import Paystack service
+      const paystackService = (await import('@/lib/paystack')).default
       
-      // Store payment info
-      localStorage.setItem('payment', JSON.stringify({
-        course: selectedCourse,
+      // Prepare payment data
+      const paymentData = {
         amount: selectedCourse.price,
         currency: selectedCourse.currency,
-        status: 'completed',
-        paymentTime: new Date().toISOString()
-      }))
+        userData: {
+          email: formData.email,
+          full_name: `${formData.firstName} ${formData.lastName}`,
+          phone_number: formData.phone,
+          first_name: formData.firstName,
+          last_name: formData.lastName
+        },
+        paymentMethod: 'card'
+      }
       
-      // Redirect to success page
-      router.push('/payment-success')
+      // Process payment with Paystack
+      const result = await paystackService.processPayment(paymentData)
+      
+      if (result.success) {
+        // Store payment info
+        localStorage.setItem('payment', JSON.stringify({
+          course: selectedCourse,
+          amount: selectedCourse.price,
+          currency: selectedCourse.currency,
+          reference: result.reference,
+          status: 'processing',
+          paymentTime: new Date().toISOString()
+        }))
+        
+        // Store user data
+        localStorage.setItem('user', JSON.stringify({
+          ...formData,
+          registrationTime: new Date().toISOString()
+        }))
+        
+        // Redirect to success page
+        router.push('/payment-success')
+      } else {
+        setError("Payment initialization failed. Please try again.")
+      }
     } catch (err) {
-      setError("Payment failed. Please try again.")
+      console.error('Payment error:', err)
+      setError(err.message || "Payment failed. Please try again.")
     } finally {
       setIsLoading(false)
     }

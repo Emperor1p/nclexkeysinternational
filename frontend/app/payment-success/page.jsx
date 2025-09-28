@@ -24,7 +24,32 @@ export default function PaymentSuccessPage() {
     if (user) {
       setUserData(JSON.parse(user))
     }
+    
+    // Verify payment with backend if we have a reference
+    if (payment && JSON.parse(payment).reference) {
+      verifyPaymentWithBackend(JSON.parse(payment).reference)
+    }
   }, [])
+
+  const verifyPaymentWithBackend = async (reference) => {
+    try {
+      const paystackService = (await import('@/lib/paystack')).default
+      const result = await paystackService.verifyPaymentStatus(reference)
+      
+      if (result.success) {
+        // Update payment status
+        const updatedPayment = {
+          ...paymentData,
+          status: 'completed',
+          verified: true
+        }
+        setPaymentData(updatedPayment)
+        localStorage.setItem('payment', JSON.stringify(updatedPayment))
+      }
+    } catch (error) {
+      console.error('Payment verification error:', error)
+    }
+  }
 
   const formatPrice = (price, currency) => {
     if (currency === "NGN") {
