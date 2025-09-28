@@ -205,7 +205,7 @@ export function OurCoursesSection() {
                 asChild
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href="/register">Enroll Now</Link>
+                <Link href="/login">Enroll Now</Link>
               </Button>
             </div>
           </div>
