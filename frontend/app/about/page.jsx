@@ -130,13 +130,13 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Board Member 2 - Placeholder */}
+              {/* Board Member 2 - Rita Okoro */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative">
                   <img
-                    src="/images/board/board-member-2.jpg"
-                    alt="Board Member 2"
-                    className="w-full h-64 object-cover bg-gray-200"
+                    src="/user2.jpg"
+                    alt="Rita Okoro - Board Member"
+                    className="w-full h-64 object-cover"
                   />
                   <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Director
@@ -144,24 +144,24 @@ export default function AboutPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Board Member 2
+                    Rita Okoro
                   </h3>
                   <p className="text-green-600 font-semibold mb-3">
-                    Position Title
+                    USRN, RN, RM, BNSc. | Coach & Educator
                   </p>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    Brief description of the board member's background, expertise, and contribution to the organization.
+                    Boasts over nine years of professional experience in nursing practice and education. At the Academy, she serves as a coach and educator, playing a pivotal role in developing high quality learning materials that have significantly enhanced students' learning experiences both online and in the classroom. Her teaching philosophy is guided by a learner centred approach, combining professional expertise with practical application, empowering students to build confidence and achieve mastery as they prepare for their licensure examinations.
                   </p>
                 </div>
               </div>
 
-              {/* Board Member 3 - Placeholder */}
+              {/* Board Member 3 - Oladimeji Ajayi */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative">
                   <img
-                    src="/images/board/board-member-3.jpg"
-                    alt="Board Member 3"
-                    className="w-full h-64 object-cover bg-gray-200"
+                    src="/user3.jpg"
+                    alt="Oladimeji Ajayi - Board Member"
+                    className="w-full h-64 object-cover"
                   />
                   <div className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Director
@@ -169,13 +169,13 @@ export default function AboutPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Board Member 3
+                    Oladimeji Ajayi
                   </h3>
                   <p className="text-purple-600 font-semibold mb-3">
-                    Position Title
+                    ND, BSc, MSc, NLA, AERM, PM, HRM | HR/Admin Manager
                   </p>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    Brief description of the board member's background, expertise, and contribution to the organization.
+                    A seasoned Human Resources Manager excelling in strategy, business development, team management, content development, and project management. Currently serves as HR/Admin at NCLEX Keys, leveraging his expertise to drive organizational success. Additionally works as a Management Services Manager at Paul Esther Consulting, overseeing office operations and conducting training sessions in leadership, management, and communication. He's a certified Project Manager and Enterprise Risk Management Specialist, known for meticulous planning, diligent work ethic, and effective teamwork.
                   </p>
                 </div>
               </div>

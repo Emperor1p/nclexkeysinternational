@@ -1,4 +1,4 @@
-name: Deploy Full Stack to AWS
+name: Deploy to Vercel
 
 on:
   push:
@@ -7,36 +7,63 @@ on:
     branches: [ main ]
 
 jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production-ready'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+        
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm run build
+        
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./frontend
+        vercel-args: '--prod'
+        
   deploy-backend:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production-ready'
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-    
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
+        
     - name: Install dependencies
       run: |
         cd backend
         pip install -r requirements.txt
-    
+        
     - name: Run tests
       run: |
         cd backend
         python manage.py check
-    
+        
     - name: Check EC2 deployment prerequisites
       run: |
         if [ -z "$EC2_HOST" ]; then
@@ -47,7 +74,7 @@ jobs:
         fi
       env:
         EC2_HOST: ${{ secrets.EC2_HOST }}
-    
+        
     - name: Deploy to EC2
       if: env.EC2_HOST != ''
       uses: appleboy/ssh-action@v1.0.0
@@ -70,51 +97,7 @@ jobs:
           python manage.py migrate
           echo "📁 Collecting static files..."
           python manage.py collectstatic --noinput
-          echo "Restarting services..."
+          echo "🔄 Restarting services..."
           sudo systemctl restart gunicorn
           sudo systemctl restart nginx
           echo "✅ Backend deployment completed successfully!"
-
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production-ready'
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
-    
-    - name: Install dependencies
-      run: |
-        cd frontend
-        npm ci --prefer-offline --no-audit
-    
-    - name: Build frontend
-      run: |
-        cd frontend
-        npm run build -- --no-lint
-    
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-north-1
-    
-    - name: Deploy to S3
-      run: |
-        cd frontend
-        aws s3 sync out/ s3://nclexkeysfrontend --delete
-        echo "Frontend deployed to S3 successfully!"
-        echo "🌐 Frontend is now live at: https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com"
-    
-    - name: Invalidate CloudFront Cache
-      run: |
-        echo "Invalidating CloudFront cache..."
-        aws cloudfront create-invalidation --distribution-id E378LQ3H4KFM78 --paths "/*"
-        echo "✅ CloudFront cache invalidated successfully!"

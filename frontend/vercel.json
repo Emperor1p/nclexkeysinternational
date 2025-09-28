@@ -1,27 +1,40 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "regions": ["iad1"],
   "env": {
-    "NEXT_PUBLIC_API_BASE_URL": "@api_base_url"
+    "NEXT_PUBLIC_API_BASE_URL": "http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_BASE_URL": "http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000"
+    }
   },
   "functions": {
     "app/api/**/*.js": {
-      "maxDuration": 30
+      "runtime": "nodejs18.x"
     }
-  }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
 }

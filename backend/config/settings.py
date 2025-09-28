@@ -124,6 +124,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.222.151:3000',
     'http://192.168.222.151:3001',
     'http://192.168.222.151:3002',
+    # Vercel domains (will be updated after deployment)
+    'https://nclexkeysinternational.vercel.app',
+    'https://nclexkeysinternational-git-main.vercel.app',
+    'https://nclexkeysinternational-git-production.vercel.app',
+    # Legacy S3 domains (keeping for backward compatibility)
     'https://nclexkeysfrontend.s3.eu-north-1.amazonaws.com',
     'https://nclexkeysfrontend.s3-website.eu-north-1.amazonaws.com',
 ]
