@@ -31,11 +31,15 @@ export function AuthProvider({ children }) {
       })
 
       if (response.success) {
-        const userData = response.data.user
+        const userData = response.data.user || response.data
         setUser(userData)
         localStorage.setItem('user', JSON.stringify(userData))
-        localStorage.setItem('access_token', response.data.access_token)
-        localStorage.setItem('refresh_token', response.data.refresh_token)
+        if (response.data.access_token) {
+          localStorage.setItem('access_token', response.data.access_token)
+        }
+        if (response.data.refresh_token) {
+          localStorage.setItem('refresh_token', response.data.refresh_token)
+        }
         return { success: true, user: userData }
       } else {
         return { success: false, error: response.error }
@@ -77,11 +81,15 @@ export function AuthProvider({ children }) {
       })
 
       if (response.success) {
-        const user = response.data.user
+        const user = response.data.user || response.data
         setUser(user)
         localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('access_token', response.data.access_token)
-        localStorage.setItem('refresh_token', response.data.refresh_token)
+        if (response.data.access_token) {
+          localStorage.setItem('access_token', response.data.access_token)
+        }
+        if (response.data.refresh_token) {
+          localStorage.setItem('refresh_token', response.data.refresh_token)
+        }
         return { success: true, user }
       } else {
         return { success: false, error: response.error }
