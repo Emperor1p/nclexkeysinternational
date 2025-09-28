@@ -260,6 +260,122 @@ export function AboutSchoolSection() {
         </div>
         </motion.div>
       </div>
+
+      {/* Board of Directors Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Board of Directors
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Meet our distinguished board members who guide our mission and vision.
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Board Member 1 - Lawal Boluwatife Joseph */}
+            <motion.div 
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative">
+                <img
+                  src="/User1.jpg"
+                  alt="Lawal Boluwatife Joseph - Board Member"
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Chairman
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Lawal Boluwatife Joseph
+                </h3>
+                <p className="text-blue-600 font-semibold mb-3">
+                  Registered Nurse (NGN RN, U.S. RN) | NCLEX Expert
+                </p>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  A compassionate, versatile, dynamic, and results-driven Registered Nurse with a strong foundation in nursing careers.
+                  Serves as a mentor, career coach, and relocation consultant, helping nurses excel in NCLEX preparation and achieve career growth.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Board Member 2 - Rita Okoro */}
+            <motion.div 
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative">
+                <img
+                  src="/user2.jpg"
+                  alt="Rita Okoro - Board Member"
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Director
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Rita Okoro
+                </h3>
+                <p className="text-green-600 font-semibold mb-3">
+                  USRN, RN, RM, BNSc. | Coach & Educator
+                </p>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Boasts over nine years of professional experience in nursing practice and education. At the Academy, she serves as a coach and educator, playing a pivotal role in developing high quality learning materials that have significantly enhanced students' learning experiences both online and in the classroom.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Board Member 3 - Oladimeji Ajayi */}
+            <motion.div 
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative">
+                <img
+                  src="/user3.jpg"
+                  alt="Oladimeji Ajayi - Board Member"
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Director
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Oladimeji Ajayi
+                </h3>
+                <p className="text-purple-600 font-semibold mb-3">
+                  ND, BSc, MSc, NLA, AERM, PM, HRM | HR/Admin Manager
+                </p>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  A seasoned Human Resources Manager excelling in strategy, business development, team management, content development, and project management. Currently serves as HR/Admin at NCLEX Keys, leveraging his expertise to drive organizational success.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
     </section>
   )
 }
