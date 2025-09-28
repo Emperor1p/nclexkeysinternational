@@ -280,99 +280,149 @@ export function AboutSchoolSection() {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Board Member 1 - Lawal Boluwatife Joseph */}
-            <motion.div 
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative">
-                <img
-                  src="/User1.jpg"
-                  alt="Lawal Boluwatife Joseph - Board Member"
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  Chairman
+          {/* Board Member 1 - Lawal Boluwatife Joseph */}
+          <motion.div
+            className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group"
+            initial={{ opacity: 0, y: 50, rotateY: -15 }}
+            whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+            transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -10 }}
+          >
+            <div className="relative overflow-hidden">
+              <img
+                src="/User1.jpg"
+                alt="Lawal Boluwatife Joseph - Chairman"
+                className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                Chairman & Founder
+              </div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                    Lawal Boluwatife Joseph
+                  </h3>
+                  <p className="text-blue-600 font-semibold mb-3 text-lg">
+                    Registered Nurse (NGN RN, U.S. RN) | NCLEX Expert
+                  </p>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Lawal Boluwatife Joseph
-                </h3>
-                <p className="text-blue-600 font-semibold mb-3">
-                  Registered Nurse (NGN RN, U.S. RN) | NCLEX Expert
+            </div>
+            <div className="p-8">
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed text-base">
+                  Meet Lawal Boluwatife Joseph, a compassionate, versatile, dynamic, and results-driven Registered Nurse with a strong foundation in nursing careers.
                 </p>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  A compassionate, versatile, dynamic, and results-driven Registered Nurse with a strong foundation in nursing careers.
-                  Serves as a mentor, career coach, and relocation consultant, helping nurses excel in NCLEX preparation and achieve career growth.
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  Beyond clinical expertise, I serve as a mentor, career coach, and relocation consultant, helping nurses excel in NCLEX preparation, achieve career growth, and navigate international transitions with confidence.
                 </p>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  Passionate about raising global nursing standards, I combine clinical knowledge, leadership, and coaching skills to empower nurses at every stage of their journey.
+                </p>
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-xl">
+                  <p className="text-sm font-semibold italic">
+                    "My mission is to inspire, guide, and support the next generation of healthcare professionals to thrive in diverse practice environments worldwide and also build men who transform nations and territories."
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Board Member 2 - Rita Okoro */}
-            <motion.div 
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative">
-                <img
-                  src="/user2.jpg"
-                  alt="Rita Okoro - Board Member"
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  Director
+          {/* Board Member 2 - Rita Okoro */}
+          <motion.div
+            className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group"
+            initial={{ opacity: 0, y: 50, rotateY: 15 }}
+            whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+            transition={{ duration: 0.8, type: "spring", bounce: 0.3, delay: 0.2 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -10 }}
+          >
+            <div className="relative overflow-hidden">
+              <img
+                src="/user2.jpg"
+                alt="Rita Okoro - Director"
+                className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute top-6 right-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                Director & Educator
+              </div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                    Rita Okoro
+                  </h3>
+                  <p className="text-green-600 font-semibold mb-3 text-lg">
+                    USRN, RN, RM, BNSc. | Coach & Educator
+                  </p>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Rita Okoro
-                </h3>
-                <p className="text-green-600 font-semibold mb-3">
-                  USRN, RN, RM, BNSc. | Coach & Educator
+            </div>
+            <div className="p-8">
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed text-base">
+                  Boasts over nine years of professional experience in nursing practice and education.
                 </p>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Boasts over nine years of professional experience in nursing practice and education. At the Academy, she serves as a coach and educator, playing a pivotal role in developing high quality learning materials that have significantly enhanced students' learning experiences both online and in the classroom.
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  At the Academy, she serves as a coach and educator, playing a pivotal role in developing high quality learning materials that have significantly enhanced students' learning experiences both online and in the classroom.
                 </p>
+                <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-4 rounded-xl">
+                  <p className="text-sm font-semibold italic">
+                    "Her teaching philosophy is guided by a learner-centred approach, combining professional expertise with practical application, empowering students to build confidence and achieve mastery."
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Board Member 3 - Oladimeji Ajayi */}
-            <motion.div 
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative">
-                <img
-                  src="/user3.jpg"
-                  alt="Oladimeji Ajayi - Board Member"
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  Director
+          {/* Board Member 3 - Oladimeji Ajayi */}
+          <motion.div
+            className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group"
+            initial={{ opacity: 0, y: 50, rotateY: -15 }}
+            whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+            transition={{ duration: 0.8, type: "spring", bounce: 0.3, delay: 0.4 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -10 }}
+          >
+            <div className="relative overflow-hidden">
+              <img
+                src="/user3.jpg"
+                alt="Oladimeji Ajayi - Director"
+                className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute top-6 right-6 bg-gradient-to-r from-purple-600 to-violet-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                Director & HR Manager
+              </div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                    Oladimeji Ajayi
+                  </h3>
+                  <p className="text-purple-600 font-semibold mb-3 text-lg">
+                    ND, BSc, MSc, NLA, AERM, PM, HRM | HR/Admin Manager
+                  </p>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Oladimeji Ajayi
-                </h3>
-                <p className="text-purple-600 font-semibold mb-3">
-                  ND, BSc, MSc, NLA, AERM, PM, HRM | HR/Admin Manager
+            </div>
+            <div className="p-8">
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed text-base">
+                  A seasoned Human Resources Manager excelling in strategy, business development, team management, content development, and project management.
                 </p>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  A seasoned Human Resources Manager excelling in strategy, business development, team management, content development, and project management. Currently serves as HR/Admin at NCLEX Keys, leveraging his expertise to drive organizational success.
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  Currently serves as HR/Admin at NCLEX Keys, leveraging his expertise to drive organizational success. Additionally, Oladimeji works as a Management Services Manager at Paul Esther Consulting, overseeing office operations and conducting training sessions in leadership, management, and communication.
                 </p>
+                <div className="bg-gradient-to-r from-purple-600 to-violet-600 text-white p-4 rounded-xl">
+                  <p className="text-sm font-semibold italic">
+                    "He's a certified Project Manager and Enterprise Risk Management Specialist, known for meticulous planning, diligent work ethic, and effective teamwork."
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
           </div>
         </div>
       </section>
