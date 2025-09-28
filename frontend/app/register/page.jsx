@@ -227,12 +227,12 @@ export default function RegisterPage() {
                   value={formData.paymentStatus} 
                   onValueChange={(value) => setFormData({...formData, paymentStatus: value})}
                 >
-                  <SelectTrigger className="h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+                  <SelectTrigger className="h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900">
                     <SelectValue placeholder="Select payment status" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">Yes, I have paid</SelectItem>
-                    <SelectItem value="no">No, I haven't paid</SelectItem>
+                  <SelectContent className="bg-white border-gray-200">
+                    <SelectItem value="yes" className="text-gray-900 hover:bg-blue-50">Yes, I have paid</SelectItem>
+                    <SelectItem value="no" className="text-gray-900 hover:bg-blue-50">No, I haven't paid</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
