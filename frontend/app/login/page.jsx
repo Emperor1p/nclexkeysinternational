@@ -42,7 +42,7 @@ export default function LoginPage() {
       
       if (result.success) {
         // Redirect based on user role
-        if (result.user.role === 'instructor') {
+        if (result.user.role === 'admin' || result.user.role === 'instructor') {
           router.push('/admin')
         } else {
           const selectedCourse = localStorage.getItem('selectedCourse')
@@ -214,9 +214,9 @@ export default function LoginPage() {
             >
               <h4 className="text-sm font-semibold text-blue-800 mb-2">🔐 Default Admin Access</h4>
               <div className="text-xs text-blue-700 space-y-1">
-                <p><strong>Admin:</strong> admin@nclexkeys.com / admin123456</p>
-                <p><strong>Instructor:</strong> instructor@nclexkeys.com / instructor123456</p>
-                <p className="text-blue-600 mt-2">💡 Use these credentials to access the admin dashboard</p>
+                <p><strong>Admin:</strong> admin@nclexkeys.com / admin123456 (Full system access)</p>
+                <p><strong>Instructor:</strong> instructor@nclexkeys.com / instructor123456 (Course management)</p>
+                <p className="text-blue-600 mt-2">💡 Admin has full access, Instructor manages courses only</p>
               </div>
             </motion.div>
 

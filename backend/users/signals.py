@@ -26,7 +26,7 @@ def create_default_admin_accounts(sender, **kwargs):
                 email=admin_email,
                 password=admin_password,
                 full_name=admin_name,
-                role='instructor'  # Set as instructor for admin dashboard access
+                role='admin'  # Set as admin for full system access
             )
             print(f"✅ Default admin account created: {admin_email}")
         except Exception as e:
@@ -43,7 +43,7 @@ def create_default_admin_accounts(sender, **kwargs):
                 email=instructor_email,
                 password=instructor_password,
                 full_name=instructor_name,
-                role='instructor',
+                role='instructor',  # Set as instructor for course management
                 username=instructor_email,
                 is_email_verified=True,
                 is_staff=True

@@ -10,6 +10,7 @@ class User(AbstractUser):
     Simple User model with default values for required fields
     """
     ROLE_CHOICES = [
+        ('admin', 'Admin'),
         ('instructor', 'Instructor'),
         ('student', 'Student'),
     ]

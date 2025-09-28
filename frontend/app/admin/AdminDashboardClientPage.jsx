@@ -24,6 +24,7 @@ export default function AdminDashboardClientPage() {
   const { user, loading: loadingAuth } = useAuth()
   const router = useRouter()
   const [isInstructor, setIsInstructor] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [activeTab, setActiveTab] = useState("overview")
   
   // Messaging state
@@ -65,8 +66,9 @@ export default function AdminDashboardClientPage() {
       if (loadingAuth) return
 
       if (user && (user.role === "instructor" || user.role === "admin")) {
-        console.log("User authenticated as instructor:", user)
-        setIsInstructor(true)
+        console.log("User authenticated as instructor/admin:", user)
+        setIsInstructor(user.role === "instructor")
+        setIsAdmin(user.role === "admin")
         setLoadingData(true)
         try {
           // Fetch instructor dashboard data using comprehensive API endpoints
@@ -153,6 +155,7 @@ export default function AdminDashboardClientPage() {
         }
       } else if (user && user.role !== "instructor" && user.role !== "admin") {
         setIsInstructor(false)
+        setIsAdmin(false)
         toast({
           title: "Access Denied",
           description: "You are not authorized to view this page.",
@@ -160,6 +163,7 @@ export default function AdminDashboardClientPage() {
         })
       } else if (!user && !loadingAuth) {
         setIsInstructor(false)
+        setIsAdmin(false)
         toast({
           title: "Access Denied",
           description: "Please log in to view this page.",
@@ -474,8 +478,15 @@ export default function AdminDashboardClientPage() {
       <header className="bg-white shadow-sm py-6 px-6 border-b border-gray-200">
         <div className="container mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Instructor Dashboard</h1>
-            <p className="text-gray-600 mt-1">Manage your courses and track student progress</p>
+            <h1 className="text-3xl font-bold text-gray-800">
+              {isAdmin ? 'Admin Dashboard' : 'Instructor Dashboard'}
+            </h1>
+            <p className="text-gray-600 mt-1">
+              {isAdmin 
+                ? 'Manage the entire platform, users, and system settings' 
+                : 'Manage your courses and track student progress'
+              }
+            </p>
           </div>
         <div className="flex items-center gap-4">
             <Button 

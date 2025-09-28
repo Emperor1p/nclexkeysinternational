@@ -38,7 +38,7 @@ class Command(BaseCommand):
                     email=admin_email,
                     password=admin_password,
                     full_name=admin_name,
-                    role='instructor'  # Set as instructor for admin dashboard access
+                    role='admin'  # Set as admin for full system access
                 )
                 
                 self.stdout.write(

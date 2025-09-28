@@ -7,14 +7,16 @@ This document contains the default admin and instructor accounts that are automa
 ### 🏢 Admin Account
 - **Email:** `admin@nclexkeys.com`
 - **Password:** `admin123456`
-- **Role:** Super Admin (Full system access)
+- **Role:** Admin (Full system access)
 - **Access:** Django Admin + Custom Admin Dashboard
+- **Permissions:** Manage users, courses, payments, system settings
 
 ### 👨‍🏫 Instructor Account
 - **Email:** `instructor@nclexkeys.com`
 - **Password:** `instructor123456`
 - **Role:** Instructor (Course management access)
 - **Access:** Custom Admin Dashboard
+- **Permissions:** Manage courses, students, content creation
 
 ## 🚀 How to Access
 
