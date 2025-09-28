@@ -68,6 +68,8 @@ jobs:
           pip install -r requirements.txt
           echo "📋 Running migrations..."
           python manage.py migrate
+          echo "👤 Creating default admin and instructor accounts..."
+          python manage.py create_default_accounts
           echo "📁 Collecting static files..."
           python manage.py collectstatic --noinput
           echo "Restarting services..."
