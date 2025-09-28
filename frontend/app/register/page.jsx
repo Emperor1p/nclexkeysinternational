@@ -27,21 +27,16 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const [step, setStep] = useState(1) // 1: Registration, 2: Course Selection, 3: Payment
+  const [step, setStep] = useState(1) // Always start with step 1
   const router = useRouter()
 
+  // Force start with step 1 and clear any existing data
   useEffect(() => {
-    // Always start with step 1 (registration form) when accessing register page directly
-    // Only skip to course selection if user came from programs page with a selected course
-    const course = localStorage.getItem('selectedCourse')
-    if (course) {
-      setSelectedCourse(JSON.parse(course))
-      setStep(2) // Skip to course selection step
-    } else {
-      // Clear any existing data and start fresh
-      localStorage.removeItem('tempUserData')
-      setStep(1) // Always start with registration form
-    }
+    console.log("Register page loaded - forcing step 1")
+    setStep(1)
+    setSelectedCourse(null)
+    localStorage.removeItem('selectedCourse')
+    localStorage.removeItem('tempUserData')
   }, [])
 
   const formatPrice = (price, currency) => {
@@ -81,6 +76,7 @@ export default function RegisterPage() {
         registrationTime: new Date().toISOString()
       }))
       
+      console.log("Moving to step 2")
       setStep(2)
     } catch (err) {
       setError("Registration failed. Please try again.")
@@ -90,6 +86,7 @@ export default function RegisterPage() {
   }
 
   const handleCourseSelection = (course) => {
+    console.log("Course selected:", course)
     setSelectedCourse(course)
     localStorage.setItem('selectedCourse', JSON.stringify(course))
     setStep(3)
@@ -171,6 +168,8 @@ export default function RegisterPage() {
     router.push('/programs')
   }
 
+  console.log("Current step:", step)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Animation */}
@@ -251,24 +250,12 @@ export default function RegisterPage() {
               </motion.div>
             )}
 
-            {/* Debug: Show current step */}
-            <div className="mb-4 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm">
-              <strong>Debug:</strong> Current step: {step} | Selected course: {selectedCourse ? selectedCourse.region : 'None'}
-              <Button 
-                onClick={() => {
-                  setStep(1)
-                  setSelectedCourse(null)
-                  localStorage.removeItem('selectedCourse')
-                  localStorage.removeItem('tempUserData')
-                }}
-                className="ml-4 text-xs"
-                variant="outline"
-              >
-                Reset to Step 1
-              </Button>
+            {/* Debug Info */}
+            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+              <strong>Debug Info:</strong> Step: {step} | Course: {selectedCourse ? selectedCourse.region : 'None'}
             </div>
 
-            {/* Step 1: Registration Form */}
+            {/* Step 1: Registration Form - ALWAYS SHOW THIS FIRST */}
             {step === 1 && (
               <motion.form
                 initial={{ opacity: 0, x: -20 }}
@@ -277,6 +264,15 @@ export default function RegisterPage() {
                 onSubmit={handleRegistration}
                 className="space-y-6"
               >
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    Create Your Account
+                  </h3>
+                  <p className="text-gray-600">
+                    Fill in your details to get started
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="text-gray-700 font-medium flex items-center">
