@@ -351,16 +351,15 @@ DEFAULT_FROM_EMAIL = 'NCLEX Keys International <nclexkeysintl.academy@gmail.com>
 # Frontend URL (for email links)
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://nclex-cx5hhtc91-peters-projects-db86b6fd.vercel.app')
 
-# Database Settings for Local SQLite
-# DATABASE (PostgreSQL on AWS RDS)
+# Database Settings - AWS RDS PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nclexkeysdb',
-        'USER': 'nclexkeysdb',
-        'PASSWORD': 'nclexkeysinternational',
-        'HOST': 'database-1.c9i8gmcwmltt.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'nclexkeysdb'),
+        'USER': os.getenv('DB_USER', 'nclexkeysdb'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'nclexkeysinternational'),
+        'HOST': os.getenv('DB_HOST', 'database-1.c9i8gmcwmltt.eu-north-1.rds.amazonaws.com'),
+        'PORT': os.getenv('DB_PORT', '5432'),
         'OPTIONS': {
             'sslmode': 'require',
         },
