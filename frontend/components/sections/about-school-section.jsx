@@ -282,24 +282,38 @@ export function AboutSchoolSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
           {/* Board Member 1 - Lawal Boluwatife Joseph */}
           <motion.div
-            className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto"
+            className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto cursor-pointer"
             initial={{ opacity: 0, y: 50, rotateY: -15 }}
             whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="relative overflow-hidden">
               <img
                 src="/User1.jpg"
                 alt="Lawal Boluwatife Joseph - Chairman"
                 className="w-full h-96 object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                onError={(e) => {
+                  e.target.src = 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face'
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg animate-pulse">
+              <motion.div 
+                className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 Chairman & Founder
-              </div>
-              <div className="absolute bottom-6 left-6 right-6">
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-6 left-6 right-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                     Lawal Boluwatife Joseph
@@ -308,7 +322,7 @@ export function AboutSchoolSection() {
                     Registered Nurse (NGN RN, U.S. RN) | NCLEX Expert
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
             <div className="p-10">
               <div className="space-y-6">
@@ -332,24 +346,38 @@ export function AboutSchoolSection() {
 
           {/* Board Member 2 - Rita Okoro */}
           <motion.div
-            className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto"
+            className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto cursor-pointer"
             initial={{ opacity: 0, y: 50, rotateY: 15 }}
             whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.3, delay: 0.2 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="relative overflow-hidden">
               <img
                 src="/user2.jpg"
                 alt="Rita Okoro - Director"
                 className="w-full h-96 object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                onError={(e) => {
+                  e.target.src = 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face'
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <div className="absolute top-6 right-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg animate-pulse">
+              <motion.div 
+                className="absolute top-6 right-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 Director & Educator
-              </div>
-              <div className="absolute bottom-6 left-6 right-6">
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-6 left-6 right-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
                     Rita Okoro
@@ -358,7 +386,7 @@ export function AboutSchoolSection() {
                     USRN, RN, RM, BNSc. | Coach & Educator
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
             <div className="p-10">
               <div className="space-y-6">
@@ -379,24 +407,38 @@ export function AboutSchoolSection() {
 
           {/* Board Member 3 - Oladimeji Ajayi */}
           <motion.div
-            className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto"
+            className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 hover:scale-105 group max-w-lg mx-auto cursor-pointer"
             initial={{ opacity: 0, y: 50, rotateY: -15 }}
             whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.3, delay: 0.4 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="relative overflow-hidden">
               <img
                 src="/user3.jpg"
                 alt="Oladimeji Ajayi - Director"
                 className="w-full h-96 object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                onError={(e) => {
+                  e.target.src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face'
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <div className="absolute top-6 right-6 bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg animate-pulse">
+              <motion.div 
+                className="absolute top-6 right-6 bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 Director & HR Manager
-              </div>
-              <div className="absolute bottom-6 left-6 right-6">
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-6 left-6 right-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                viewport={{ once: true }}
+              >
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6">
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
                     Oladimeji Ajayi
@@ -405,7 +447,7 @@ export function AboutSchoolSection() {
                     ND, BSc, MSc, NLA, AERM, PM, HRM | HR/Admin Manager
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
             <div className="p-10">
               <div className="space-y-6">

@@ -42,8 +42,8 @@ export function Header() {
       </div>
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="md:hidden bg-transparent">
-            <MenuIcon className="h-6 w-6" />
+          <Button variant="outline" size="icon" className="md:hidden bg-white border-gray-300 hover:bg-gray-50 shadow-md">
+            <MenuIcon className="h-6 w-6 text-gray-700" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>

@@ -118,15 +118,15 @@ export default function ContactPage() {
               Our team is here to support your nursing journey every step of the way.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-blue-100 text-blue-800 border-blue-200">
                 <Heart className="h-4 w-4 mr-2" />
                 24/7 Support
               </Badge>
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-green-100 text-green-800 border-green-200">
                 <Shield className="h-4 w-4 mr-2" />
                 Expert Guidance
               </Badge>
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-800 border-purple-200">
                 <Award className="h-4 w-4 mr-2" />
                 95% Pass Rate
               </Badge>

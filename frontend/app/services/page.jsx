@@ -184,15 +184,15 @@ export default function ServicesPage() {
               in your nursing career journey.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-green-100 text-green-800 border-green-200">
                 <Award className="h-4 w-4 mr-2" />
                 95% Pass Rate
               </Badge>
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-blue-100 text-blue-800 border-blue-200">
                 <Users className="h-4 w-4 mr-2" />
                 10,000+ Students
               </Badge>
-              <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-800 border-purple-200">
                 <Clock className="h-4 w-4 mr-2" />
                 24/7 Support
               </Badge>
