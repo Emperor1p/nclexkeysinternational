@@ -2,7 +2,7 @@
 
 // IMPORTANT: Ensure this URL points to your running backend API.
 // Production backend URL for deployed application
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000";
 console.log('🚀 Frontend connecting to backend at:', API_BASE_URL);
 console.log('🌐 Environment:', process.env.NODE_ENV);
 

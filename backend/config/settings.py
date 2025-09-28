@@ -60,12 +60,7 @@ DB_AUTH_SOURCE = 'admin'
 # JWT
 JWT_SECRET_KEY = 'm8Ef15a6jVmwV13gKxFpSu32t8EhCiegP6jzByMHGBrWJOYyvi7M3DpNB2MfxpKVDlxfHARMWgrYT_8ASh0fkg'
 
-# Email
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'drevianey@gmail.com'
-EMAIL_HOST_PASSWORD = 'hptfqujgeylblktr'
-DEFAULT_FROM_EMAIL = 'NCLEX <noreply@nclex.com>'
+# Email settings are configured below in the Email Settings section
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME = 'dvmse886w'
@@ -125,6 +120,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.222.151:3001',
     'http://192.168.222.151:3002',
     # Vercel domains (actual deployed URLs)
+    'https://nclex-cx5hhtc91-peters-projects-db86b6fd.vercel.app',
     'https://nclex-6h1515d1l-peters-projects-db86b6fd.vercel.app',
     'https://nclexkeysinternational.vercel.app',
     'https://nclexkeysinternational-git-main.vercel.app',
