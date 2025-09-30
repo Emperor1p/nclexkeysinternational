@@ -1,6 +1,7 @@
 {
   "framework": "nextjs",
   "regions": ["iad1"],
+  "version": 2,
   "rootDirectory": "frontend",
   "env": {
     "NEXT_PUBLIC_API_BASE_URL": "http://ec2-34-206-167-168.compute-1.amazonaws.com:8000"
