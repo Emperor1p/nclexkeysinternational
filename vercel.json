@@ -1,10 +1,7 @@
 {
-  "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/.next", 
   "framework": "nextjs",
-  "installCommand": "cd frontend && npm install",
-  "devCommand": "cd frontend && npm run dev",
   "regions": ["iad1"],
+  "rootDirectory": "frontend",
   "env": {
     "NEXT_PUBLIC_API_BASE_URL": "http://ec2-34-206-167-168.compute-1.amazonaws.com:8000"
   },
