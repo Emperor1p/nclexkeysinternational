@@ -6,7 +6,7 @@ const nextConfig = {
   
   // Environment variables for production
   env: {
-    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000',
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://ec2-34-206-167-168.compute-1.amazonaws.com:8000',
     NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: 'pk_live_9afe0ff4d8f81a67b5e799bd12a30551da1b0e19',
   },
   
@@ -16,7 +16,7 @@ const nextConfig = {
       'localhost', 
       'res.cloudinary.com', 
       'images.unsplash.com',
-      'ec2-13-50-116-201.eu-north-1.compute.amazonaws.com',
+      'ec2-34-206-167-168.compute-1.amazonaws.com',
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,

@@ -2,7 +2,7 @@
 
 // IMPORTANT: Ensure this URL points to your running backend API.
 // Production backend URL for deployed application
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://ec2-13-50-116-201.eu-north-1.compute.amazonaws.com:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://ec2-34-206-167-168.compute-1.amazonaws.com:8000";
 console.log('🚀 Frontend connecting to backend at:', API_BASE_URL);
 console.log('🌐 Environment:', process.env.NODE_ENV);
 
@@ -280,6 +280,42 @@ export async function getInstructors() {
   return apiRequest(`/api/auth/instructors/`, { method: "GET" })
 }
 
+// 8. Verify Email
+export async function verifyEmail(token) {
+  return apiRequest(`/api/auth/verify-email/`, {
+    method: "POST",
+    skipAuth: true,
+    body: JSON.stringify({ token }),
+  })
+}
+
+// 9. Resend Email Verification
+export async function resendVerification(email) {
+  return apiRequest(`/api/auth/resend-verification/`, {
+    method: "POST",
+    skipAuth: true,
+    body: JSON.stringify({ email }),
+  })
+}
+
+// 10. Forgot Password
+export async function forgotPassword(email) {
+  return apiRequest(`/api/auth/forgot-password/`, {
+    method: "POST",
+    skipAuth: true,
+    body: JSON.stringify({ email }),
+  })
+}
+
+// 11. Reset Password
+export async function resetPassword(token, newPassword) {
+  return apiRequest(`/api/auth/reset-password/`, {
+    method: "POST",
+    skipAuth: true,
+    body: JSON.stringify({ token, new_password: newPassword }),
+  })
+}
+
 // --- COURSE API ENDPOINTS ---
 
 // Course Discovery (Public)
@@ -437,6 +473,56 @@ export async function getUserDashboard() {
 
 export async function getStudentAnalytics() {
   return apiRequest(`/api/courses/student/analytics/`, { method: "GET" })
+}
+
+// --- REGISTRATION CODES API ENDPOINTS ---
+export const registrationCodeAPI = {
+  // Validate registration code
+  validateCode: async (code, programType = null) => {
+    return apiRequest(`/api/registration-codes/validate/`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        code, 
+        program_type: programType 
+      }),
+    })
+  },
+
+  // Use registration code
+  useCode: async (code, userId) => {
+    return apiRequest(`/api/registration-codes/use/`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        code, 
+        user_id: userId 
+      }),
+    })
+  },
+
+  // Get registration codes (admin only)
+  getCodes: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString()
+    return apiRequest(`/api/registration-codes/codes/${queryString ? `?${queryString}` : ""}`, { method: "GET" })
+  },
+
+  // Create registration codes (admin only)
+  createCodes: async (codeData) => {
+    return apiRequest(`/api/registration-codes/codes/`, {
+      method: "POST",
+      body: JSON.stringify(codeData),
+    })
+  },
+
+  // Generate codes (admin only)
+  generateCodes: async (programType, quantity) => {
+    return apiRequest(`/api/registration-codes/generate/`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        program_type: programType, 
+        quantity 
+      }),
+    })
+  },
 }
 
 // --- PAYMENT API ENDPOINTS ---
@@ -725,6 +811,10 @@ export default {
   getUserProfile,
   updateUserProfile,
   getInstructors,
+  verifyEmail,
+  resendVerification,
+  forgotPassword,
+  resetPassword,
   // Student APIs
   listAllCourses,
   getCourseDetailsPublic,
@@ -756,8 +846,16 @@ export default {
   getStudentAnalytics,
   // Payment APIs
   paymentAPI,
+  // Registration Codes APIs
+  registrationCodeAPI,
   // Chat/Messaging APIs
   chatAPI,
+  // Instructor APIs
+  instructorAPI: {
+    // Add instructor-specific API functions here
+    getInstructors,
+    // Add more instructor functions as needed
+  },
   // Nigerian Bank APIs
   nigerianBankAPI,
   // Video Streaming APIs
